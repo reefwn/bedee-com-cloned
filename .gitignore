@@ -1,0 +1,26 @@
+# Node / npm
+node_modules/
+npm-debug.log*
+
+# Next.js
+app/.next/
+app/out/
+app/next-env.d.ts
+*.tsbuildinfo
+
+# Payload generated types
+app/src/payload-types.ts
+
+# Env files — never commit secrets
+.env
+.env.*
+!.env.example
+
+# Vercel
+.vercel
+
+# Playwright MCP tool cache (screenshots/snapshots from browsing bedee.com)
+.playwright-mcp/
+
+# OS
+.DS_Store

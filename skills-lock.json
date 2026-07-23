@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "skills": {
+    "audit-dependencies": {
+      "source": "payloadcms/payload",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/audit-dependencies/SKILL.md",
+      "computedHash": "61db71b715beab9bcdc48afd810a3a8f6ff9a40d7ffd9aaf53322c6ed136955a"
+    },
+    "deploy-to-vercel": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/deploy-to-vercel/SKILL.md",
+      "computedHash": "03e0eaaa9bf13ba1e7ffa387f5893de6f324c0868c627001f179395a8feaa7c9"
+    },
+    "generate-translations": {
+      "source": "payloadcms/payload",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/generate-translations/SKILL.md",
+      "computedHash": "6c04a70ba0a5c765b984e6f4922144d0e126c616008b7d660bcc1ea92ae59a48"
+    },
+    "gh-stack": {
+      "source": "vercel/next.js",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/gh-stack/SKILL.md",
+      "computedHash": "2d9b869b5a728fb3378265d21eaee5068c676bf53fa17bcd05a1f7e554e1d202"
+    },
+    "next-cache-components-adoption": {
+      "source": "vercel/next.js",
+      "sourceType": "github",
+      "skillPath": "skills/next-cache-components-adoption/SKILL.md",
+      "computedHash": "3b755e6f21774dcd3fbf54736ed480c53d1c66e108c7a3f5e621f72ceee43ef8"
+    },
+    "next-cache-components-optimizer": {
+      "source": "vercel/next.js",
+      "sourceType": "github",
+      "skillPath": "skills/next-cache-components-optimizer/SKILL.md",
+      "computedHash": "2310ed428a6d4e8fcf00dd915cd394f5c2789167acd1a009759293fc248307e1"
+    },
+    "next-dev-loop": {
+      "source": "vercel/next.js",
+      "sourceType": "github",
+      "skillPath": "skills/next-dev-loop/SKILL.md",
+      "computedHash": "1fb1b47ed7186737df086aa198f86961f72691539f1c4507f60bbedf60a128be"
+    },
+    "next-partial-prefetching-adoption": {
+      "source": "vercel/next.js",
+      "sourceType": "github",
+      "skillPath": "skills/next-partial-prefetching-adoption/SKILL.md",
+      "computedHash": "205d9b85cc5ff13d791b1b4290fee41f61901d04fff54ede212c28d19622e2b4"
+    },
+    "payload": {
+      "source": "payloadcms/payload",
+      "sourceType": "github",
+      "skillPath": "tools/claude-plugin/skills/payload/SKILL.md",
+      "computedHash": "cee5f993197a8a35af896ccd94697f6ea0a051df01a5da7e435116d8c79d5740"
+    },
+    "supabase": {
+      "source": "supabase/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/supabase/SKILL.md",
+      "computedHash": "17a437f3de2371ec43ad8a17d3e858337695efb46ed4af5dd6426f330bb6d032"
+    },
+    "supabase-postgres-best-practices": {
+      "source": "supabase/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/supabase-postgres-best-practices/SKILL.md",
+      "computedHash": "ec56a54fba0e97bee52c7f244ba603bb284bf8d1b739c66a5cc84ec3df709d9d"
+    },
+    "triage-ci-flake": {
+      "source": "payloadcms/payload",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/triage-ci-flake/SKILL.md",
+      "computedHash": "68b8b5b50d22ad38fbdd0bcf70d024d2b60218ce95c63322270db543e756b66a"
+    },
+    "ui-cloner": {
+      "source": "ragnar-pwninskjold/tech-snacks",
+      "sourceType": "github",
+      "skillPath": "plugins/tech-snacks/skills/ui-cloner/SKILL.md",
+      "computedHash": "f07faa635cdb7edda20ec424f4e427ecc9d6a4131d4ddc772b84e41e8b0ef41d"
+    },
+    "ui4-convert-tests": {
+      "source": "payloadcms/payload",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/ui4-convert-tests/SKILL.md",
+      "computedHash": "b1ec6dfe295ff3b043d23adf38ee7dbfefa82ed8d953f966a8df7539e0fd516f"
+    },
+    "ui4-review": {
+      "source": "payloadcms/payload",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/ui4-review/SKILL.md",
+      "computedHash": "a02e6a465604561e4a28e43d99fa6b6068dd1ad3e6257444658a090e88fae1a8"
+    }
+  }
+}

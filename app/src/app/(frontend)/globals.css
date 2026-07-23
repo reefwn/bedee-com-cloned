@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Noto Sans Thai, weights 500 + 600 only — see plans/03-replication-prompt.md §2
+   Typography ⚑ Drama Ratio: do not add a second display typeface or italics. */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@500;600&display=swap');
+
+body {
+  font-family: 'Noto Sans Thai', sans-serif;
+  color: #222222;
+}
