@@ -14,10 +14,17 @@ export async function SiteHeader() {
   const navItems = (header?.navItems ?? []) as NavItem[]
 
   return (
-    <header className="flex h-20 items-center justify-between border-b px-8">
-      <Link href="/">
+    <header className="flex h-20 items-center justify-between border-b bg-white px-6 md:px-8">
+      <Link href="/" aria-label="BeDee home" className="shrink-0">
         {header?.logo && typeof header.logo === 'object' && header.logo.url ? (
-          <Image src={header.logo.url} alt="BeDee" width={120} height={40} />
+          <Image
+            src={header.logo.url}
+            alt={header.logo.alt || 'BeDee'}
+            width={140}
+            height={40}
+            priority
+            className="h-10 w-auto object-contain"
+          />
         ) : (
           <span className="text-xl font-bold text-primary">BeDee</span>
         )}

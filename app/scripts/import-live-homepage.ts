@@ -6,6 +6,7 @@ import { getPayload, type Payload } from 'payload'
 import config from '../src/payload.config'
 
 const HOME_URL = 'https://www.bedee.com/'
+const BRAND_LOGO = 'https://www.bedee.com/wp-content/uploads/2023/03/Logo-bedee.webp'
 const dryRun = process.argv.includes('--dry-run')
 
 const heroSlides = [
@@ -174,11 +175,19 @@ if (dryRun) {
     serviceItems: serviceItems.length,
     discoveryItems: discoveryItems.length,
     partners: partners.length,
+    brandLogo: BRAND_LOGO,
   })
   process.exit(0)
 }
 
 try {
+  const brandLogo = await upsertMedia(BRAND_LOGO, 'BeDee')
+  await cms().updateGlobal({
+    slug: 'header',
+    data: { logo: brandLogo.id },
+    overrideAccess: true,
+  })
+
   const slides = []
   for (const slide of heroSlides) {
     const media = await upsertMedia(slide.image, slide.headline.replace('\n', ' '))
@@ -292,7 +301,7 @@ try {
     action: existing.docs[0] ? 'updated' : 'created',
     pageId: page.id,
     blocks: data.layout.length,
-    media: heroSlides.length + serviceItems.length + discoveryItems.length + partners.length + 1,
+    media: heroSlides.length + serviceItems.length + discoveryItems.length + partners.length + 2,
   })
 } finally {
   if (payload) {

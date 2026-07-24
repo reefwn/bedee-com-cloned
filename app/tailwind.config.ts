@@ -3,7 +3,11 @@ import type { Config } from 'tailwindcss'
 // Palette + type scale transplanted verbatim from plans/03-replication-prompt.md §2 —
 // same-brand migration, no color reassignment.
 const config: Config = {
-  content: ['./src/app/(frontend)/**/*.{ts,tsx}', './src/blocks/**/*.{ts,tsx}'],
+  content: [
+    './src/app/(frontend)/**/*.{ts,tsx}',
+    './src/blocks/**/*.{ts,tsx}',
+    './src/components/**/*.{ts,tsx}',
+  ],
   theme: {
     extend: {
       colors: {
