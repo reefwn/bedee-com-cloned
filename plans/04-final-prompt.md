@@ -1,14 +1,14 @@
 # Final Prompt — BeDee on Payload CMS
 
-AUDIT_MODE: high-fidelity
-Quality checklist: PASSED (2026-07-23)
+AUDIT_MODE: standard
+Quality checklist: PASSED (2026-07-24)
 
 ---
 
 ## Delivery Notes
 
 - Core Checklist: all items ✓
-- HF Fidelity Domains: Layout ✓ (ASCII wireframe added for every section) /
+- Standard fidelity domains: Layout ✓ (ASCII wireframe added for every section) /
   Visual Composition ✓ (11-element hero composition map preserved) /
   Animation ✓ (t=Xms + easing added to every animated component, explicitly
   labeled where a value is a sane implementation default vs. a forensic

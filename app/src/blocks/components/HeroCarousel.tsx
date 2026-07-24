@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 type Slide = {
   headline: string
@@ -15,6 +15,14 @@ type Slide = {
 // cubic-bezier(0.25,0.1,0.25,1) — Swiper.js library default, not a bespoke value.
 export function HeroCarousel({ slides }: { slides: Slide[] }) {
   const [index, setIndex] = useState(0)
+  useEffect(() => {
+    if (slides.length < 2) return
+    const timer = window.setInterval(() => {
+      setIndex((current) => (current + 1) % slides.length)
+    }, 5_000)
+    return () => window.clearInterval(timer)
+  }, [slides.length])
+
   if (!slides?.length) return null
   const slide = slides[index]
 
@@ -23,14 +31,16 @@ export function HeroCarousel({ slides }: { slides: Slide[] }) {
   return (
     <section
       className="relative overflow-hidden bg-gradient-to-br from-primary to-secondary text-white"
-      style={{ minHeight: 810 }}
+      style={{ minHeight: 720 }}
     >
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-12 px-20 py-16 md:flex-row">
+      <div className="mx-auto flex min-h-[720px] max-w-6xl flex-col items-center justify-center gap-4 px-12 py-14 md:flex-row md:gap-12 md:px-20">
         <div
           className="flex-1 transition-opacity duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)]"
           key={index}
         >
-          <h1 className="text-[72px] font-semibold leading-[1.1]">{slide.headline}</h1>
+          <h1 className="whitespace-pre-line text-5xl font-semibold leading-[1.1] md:text-[72px]">
+            {slide.headline}
+          </h1>
           {slide.body && <p className="mt-4 text-lg font-medium leading-relaxed">{slide.body}</p>}
           {slide.ctaLabel && slide.ctaUrl && (
             <a
@@ -48,7 +58,7 @@ export function HeroCarousel({ slides }: { slides: Slide[] }) {
               alt={slide.image.alt || ''}
               width={640}
               height={654}
-              className="rounded-full object-cover"
+              className="max-h-[580px] w-full object-contain"
             />
           )}
         </div>

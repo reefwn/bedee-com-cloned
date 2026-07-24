@@ -9,7 +9,8 @@
     "start": "next start",
     "payload": "payload",
     "generate:types": "payload generate:types",
-    "import:poc": "node --env-file=.env --import tsx scripts/import-live-poc.ts"
+    "import:poc": "node --env-file=.env --import tsx scripts/import-live-poc.ts",
+    "import:homepage": "node --env-file=.env --import tsx scripts/import-live-homepage.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.86.0",

@@ -19,7 +19,14 @@ export async function RenderBlocks({ blocks }: { blocks: any[] }) {
         case 'heroCarousel':
           return <HeroCarousel key={i} slides={block.slides} />
         case 'iconGrid':
-          return <IconGrid key={i} items={block.items} />
+          return (
+            <IconGrid
+              key={i}
+              heading={block.heading}
+              items={block.items}
+              variant={block.variant}
+            />
+          )
         case 'logoStrip':
           return <LogoStrip key={i} heading={block.heading} partners={block.partners ?? []} />
         case 'expertTabs':
@@ -29,6 +36,8 @@ export async function RenderBlocks({ blocks }: { blocks: any[] }) {
             <PromoBanner
               key={i}
               heading={block.heading}
+              body={block.body}
+              image={block.image}
               badgeLabel={block.badgeLabel}
               ctaLabel={block.ctaLabel}
               ctaUrl={block.ctaUrl}

@@ -28,6 +28,16 @@ export const IconGridBlock: Block = {
   slug: 'iconGrid',
   labels: { singular: 'Icon Grid', plural: 'Icon Grids' },
   fields: [
+    { name: 'heading', type: 'text', localized: true },
+    {
+      name: 'variant',
+      type: 'select',
+      defaultValue: 'tinted',
+      options: [
+        { label: 'Tinted background', value: 'tinted' },
+        { label: 'White background', value: 'plain' },
+      ],
+    },
     {
       name: 'items',
       type: 'array',
@@ -65,6 +75,8 @@ export const PromoBannerBlock: Block = {
   labels: { singular: 'Promo Banner', plural: 'Promo Banners' },
   fields: [
     { name: 'heading', type: 'text', localized: true },
+    { name: 'body', type: 'textarea', localized: true },
+    { name: 'image', type: 'upload', relationTo: 'media' },
     { name: 'badgeLabel', type: 'text', localized: true },
     { name: 'ctaLabel', type: 'text', localized: true },
     { name: 'ctaUrl', type: 'text' },

@@ -1,8 +1,14 @@
 # Site DNA — BeDee (https://www.bedee.com)
 
-AUDIT_MODE: high-fidelity
+AUDIT_MODE: standard
 
-**Scope note:** bedee.com is a Thai-language WordPress + Elementor Pro (JetElements/JetEngine, Slick/Swiper) marketing + telehealth site, not a heavy custom-animation SPA. High-Fidelity structural artifacts (wireframes, token tables, property diffs) are provided at full rigor below. Where an effect is a stock Elementor/Swiper behavior with no bespoke easing curve exposed in computed styles (confirmed by direct DevTools inspection, not assumed), that is stated explicitly rather than fabricating false precision.
+**Scope note:** Standard Mode was revalidated against the live desktop homepage on
+2026-07-24. The current page still exposes eight top-level Elementor containers
+(including one desktop-hidden section) in the same order documented below.
+The existing structured artifacts are retained because they are more precise than
+the Standard Mode minimum. Where an effect is a stock Elementor/Swiper behavior
+with no bespoke easing curve exposed in computed styles, that is stated explicitly
+rather than fabricating false precision.
 
 ---
 
