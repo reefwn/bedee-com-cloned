@@ -17,6 +17,13 @@ export const Posts: CollectionConfig = {
     { name: 'author', type: 'relationship', relationTo: 'doctors' },
     { name: 'viewCount', type: 'number', defaultValue: 0, admin: { position: 'sidebar' } },
     { name: 'publishedAt', type: 'date', admin: { position: 'sidebar' } },
+    {
+      name: 'sourceUrl',
+      type: 'text',
+      unique: true,
+      index: true,
+      admin: { position: 'sidebar', readOnly: true },
+    },
     { name: 'relatedPosts', type: 'relationship', relationTo: 'posts', hasMany: true, maxRows: 4 },
     {
       name: 'seo',

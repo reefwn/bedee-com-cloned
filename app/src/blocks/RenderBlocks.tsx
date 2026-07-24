@@ -4,6 +4,7 @@ import { LogoStrip } from './components/LogoStrip'
 import { ExpertTabs } from './components/ExpertTabs'
 import { PromoBanner } from './components/PromoBanner'
 import { ArticleGrid } from './components/ArticleGrid'
+import { RichTextContent } from './components/RichTextContent'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
@@ -42,6 +43,8 @@ export async function RenderBlocks({ blocks }: { blocks: any[] }) {
           })
           return <ArticleGrid key={i} heading={block.heading} posts={result.docs as any} />
         }
+        case 'richTextContent':
+          return <RichTextContent key={i} heading={block.heading} content={block.content} />
         default:
           return null
       }

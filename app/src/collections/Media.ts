@@ -17,5 +17,12 @@ export const Media: CollectionConfig = {
     { name: 'alt', type: 'text', required: true, localized: true },
     { name: 'caption', type: 'text', localized: true },
     { name: 'wpAttachmentId', type: 'number', admin: { position: 'sidebar' } },
+    {
+      name: 'sourceUrl',
+      type: 'text',
+      unique: true,
+      index: true,
+      admin: { position: 'sidebar', readOnly: true },
+    },
   ],
 }

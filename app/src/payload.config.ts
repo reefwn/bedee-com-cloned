@@ -57,6 +57,11 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URI || '',
     },
+    push: false,
+    // `push` does not reliably work on Vercel's read-only serverless filesystem
+    // (drizzle-kit's introspection/write step fails silently) — schema is
+    // applied via real migration files instead. See app/ENV_SETUP.md for the
+    // one-time `payload migrate` command to run against the live database.
   }),
   plugins: [
     vercelBlobStorage({

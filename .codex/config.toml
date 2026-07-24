@@ -1,0 +1,10 @@
+# Project-scoped Codex configuration.
+# Codex loads this file only after the repository is marked as trusted.
+
+[mcp_servers.vercel]
+url = "https://mcp.vercel.com"
+enabled = true
+
+[mcp_servers.supabase]
+url = "https://mcp.supabase.com/mcp"
+enabled = true

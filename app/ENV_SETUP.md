@@ -26,3 +26,26 @@ connection, the direct one exhausts Postgres's connection limit fast).
 Set the same three vars (`DATABASE_URI`, `PAYLOAD_SECRET`, `BLOB_READ_WRITE_TOKEN`)
 in Vercel: Project Settings > Environment Variables, for both Production and
 Preview environments.
+
+## One-time: create the database schema
+
+Vercel's serverless filesystem is read-only, so Payload's `push` schema-sync
+does not work there. Run this once, locally, against the real database (use
+the exact same three env var values you set in Vercel):
+
+```bash
+cd app
+DATABASE_URI="<paste pooled connection string>" \
+PAYLOAD_SECRET="<same value as in Vercel>" \
+BLOB_READ_WRITE_TOKEN="<same value as in Vercel>" \
+npx payload migrate:create initial
+
+DATABASE_URI="<paste pooled connection string>" \
+PAYLOAD_SECRET="<same value as in Vercel>" \
+BLOB_READ_WRITE_TOKEN="<same value as in Vercel>" \
+npx payload migrate
+```
+
+Commit the generated `src/migrations/` files afterward — they're the schema
+history and let future deploys run `payload migrate` cleanly instead of
+guessing at schema state.

@@ -1,4 +1,5 @@
 import type { Block } from 'payload'
+import { lexicalEditor } from '@payloadcms/richtext-lexical'
 
 // One block per homepage section identified in plans/01-site-dna.md §1.1 and
 // specced in plans/03-replication-prompt.md §3. Lets editors rebuild/reorder the
@@ -79,6 +80,21 @@ export const ArticleGridBlock: Block = {
   ],
 }
 
+export const RichTextContentBlock: Block = {
+  slug: 'richTextContent',
+  labels: { singular: 'Rich Text Content', plural: 'Rich Text Content' },
+  fields: [
+    { name: 'heading', type: 'text', localized: true },
+    {
+      name: 'content',
+      type: 'richText',
+      editor: lexicalEditor(),
+      required: true,
+      localized: true,
+    },
+  ],
+}
+
 export const BlocksField = [
   HeroCarouselBlock,
   IconGridBlock,
@@ -86,4 +102,5 @@ export const BlocksField = [
   ExpertTabsBlock,
   PromoBannerBlock,
   ArticleGridBlock,
+  RichTextContentBlock,
 ]

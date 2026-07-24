@@ -10,6 +10,13 @@ export const Pages: CollectionConfig = {
   fields: [
     { name: 'title', type: 'text', required: true, localized: true },
     { name: 'slug', type: 'text', required: true, unique: true, index: true },
+    {
+      name: 'sourceUrl',
+      type: 'text',
+      unique: true,
+      index: true,
+      admin: { position: 'sidebar', readOnly: true },
+    },
     { name: 'layout', type: 'blocks', blocks: BlocksField, localized: true },
     {
       name: 'seo',
