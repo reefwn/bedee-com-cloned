@@ -14,7 +14,10 @@ export async function SiteHeader() {
   const navItems = (header?.navItems ?? []) as NavItem[]
 
   return (
-    <header className="flex h-20 items-center justify-between border-b bg-white px-6 md:px-8">
+    // relative z-50: without an explicit stacking context, the hero section's
+    // own position:relative (it's later in the DOM) paints over this header's
+    // absolutely-positioned nav dropdown.
+    <header className="relative z-50 flex h-20 items-center justify-between border-b bg-white px-6 md:px-8">
       <Link href="/" aria-label="BeDee home" className="shrink-0">
         {header?.logo && typeof header.logo === 'object' && header.logo.url ? (
           <Image
