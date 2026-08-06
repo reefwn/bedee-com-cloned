@@ -20,9 +20,12 @@ export function PromoBanner({
     <section className="bg-panel-2 py-16">
       <div className="mx-auto flex max-w-5xl flex-col items-center gap-10 px-6 text-center md:flex-row md:text-left">
         {image?.url && (
-          // flex-1 alone has no intrinsic height for object-contain to size
-          // against — pin the wrapper to the image's own max-height.
-          <div className="flex-1 max-h-[420px]">
+          // Root cause of the invisible image: `flex-1` on a flex-col parent
+          // (mobile) sets flex-basis:0% with no explicit container height to
+          // grow into, so the wrapper collapses to 0px. `md:flex-1` keeps the
+          // even split once flex-row kicks in; below that it's just a block
+          // sized by the image's own intrinsic aspect ratio.
+          <div className="w-full md:flex-1">
             <Image
               src={image.url}
               alt={image.alt || ''}
