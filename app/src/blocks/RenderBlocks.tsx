@@ -5,6 +5,7 @@ import { ExpertTabs } from './components/ExpertTabs'
 import { PromoBanner } from './components/PromoBanner'
 import { ArticleGrid } from './components/ArticleGrid'
 import { RichTextContent } from './components/RichTextContent'
+import { FAQ } from './components/FAQ'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
@@ -54,6 +55,8 @@ export async function RenderBlocks({ blocks }: { blocks: any[] }) {
         }
         case 'richTextContent':
           return <RichTextContent key={i} heading={block.heading} content={block.content} />
+        case 'faq':
+          return <FAQ key={i} heading={block.heading} items={block.items ?? []} />
         default:
           return null
       }

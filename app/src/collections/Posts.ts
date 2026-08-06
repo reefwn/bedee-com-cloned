@@ -25,6 +25,15 @@ export const Posts: CollectionConfig = {
       admin: { position: 'sidebar', readOnly: true },
     },
     { name: 'relatedPosts', type: 'relationship', relationTo: 'posts', hasMany: true, maxRows: 4 },
+    // AI SEO: self-contained Q&A pairs, rendered with FAQPage schema on the article page.
+    {
+      name: 'faqs',
+      type: 'array',
+      fields: [
+        { name: 'question', type: 'text', required: true, localized: true },
+        { name: 'answer', type: 'textarea', required: true, localized: true },
+      ],
+    },
     {
       name: 'seo',
       type: 'group',

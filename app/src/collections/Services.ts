@@ -45,5 +45,27 @@ export const Services: CollectionConfig = {
     { name: 'featuredDoctors', type: 'relationship', relationTo: 'doctors', hasMany: true },
     { name: 'relatedPromotions', type: 'relationship', relationTo: 'promotions', hasMany: true },
     { name: 'relatedPosts', type: 'relationship', relationTo: 'posts', hasMany: true },
+    // AI SEO: structured pricing so AI shopping agents can read tiers without
+    // parsing prose — feeds the /pricing.md route. See ai-seo skill.
+    {
+      name: 'pricing',
+      type: 'array',
+      fields: [
+        { name: 'tierLabel', type: 'text', required: true, localized: true },
+        { name: 'price', type: 'number', required: true },
+        { name: 'currency', type: 'text', defaultValue: 'THB' },
+        { name: 'durationMinutes', type: 'number' },
+        { name: 'notes', type: 'text', localized: true },
+      ],
+    },
+    // AI SEO: self-contained Q&A pairs, rendered with FAQPage schema.
+    {
+      name: 'faqs',
+      type: 'array',
+      fields: [
+        { name: 'question', type: 'text', required: true, localized: true },
+        { name: 'answer', type: 'textarea', required: true, localized: true },
+      ],
+    },
   ],
 }

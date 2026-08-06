@@ -5,6 +5,7 @@ import config from '@payload-config'
 
 import { SiteFooter } from '@/components/SiteFooter'
 import { SiteHeader } from '@/components/SiteHeader'
+import { FAQ } from '@/blocks/components/FAQ'
 
 export const dynamic = 'force-dynamic'
 
@@ -38,6 +39,10 @@ export default async function ArticlePage({
       <main className="mx-auto max-w-5xl px-6 py-12">
         <h1 className="text-4xl font-semibold leading-tight text-[#081F7C]">{post.title}</h1>
         {post.excerpt ? <p className="mt-4 text-lg text-[#666]">{post.excerpt}</p> : null}
+        {/* AI SEO: recency signal — AI systems weight freshness heavily */}
+        <p className="mt-2 text-sm text-[#999]">
+          Last updated: {new Date(post.updatedAt).toLocaleDateString('th-TH')}
+        </p>
         {image?.url ? (
           // The migrated source image dimensions vary, so preserve their natural ratio.
           // eslint-disable-next-line @next/next/no-img-element
@@ -50,6 +55,7 @@ export default async function ArticlePage({
           />
         ) : null}
       </main>
+      <FAQ heading={post.faqs?.length ? 'คำถามที่พบบ่อย' : undefined} items={post.faqs ?? []} />
       <SiteFooter />
     </>
   )

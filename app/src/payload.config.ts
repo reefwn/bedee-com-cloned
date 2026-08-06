@@ -19,6 +19,7 @@ import { Testimonials } from './collections/Testimonials'
 import { Pages } from './collections/Pages'
 import { Header } from './globals/Header'
 import { Footer } from './globals/Footer'
+import { SiteSettings } from './globals/SiteSettings'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -48,7 +49,7 @@ export default buildConfig({
     Testimonials,
     Pages,
   ],
-  globals: [Header, Footer],
+  globals: [Header, Footer, SiteSettings],
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),

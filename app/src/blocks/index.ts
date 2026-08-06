@@ -107,6 +107,26 @@ export const RichTextContentBlock: Block = {
   ],
 }
 
+// AI SEO: FAQPage-schema-eligible content — each item is a self-contained
+// 40-60 word answer block, extractable by AI search without surrounding
+// context. See plans/payload-content-model.md and app/src/blocks/components/FAQ.tsx.
+export const FAQBlock: Block = {
+  slug: 'faq',
+  labels: { singular: 'FAQ', plural: 'FAQs' },
+  fields: [
+    { name: 'heading', type: 'text', localized: true },
+    {
+      name: 'items',
+      type: 'array',
+      minRows: 1,
+      fields: [
+        { name: 'question', type: 'text', required: true, localized: true },
+        { name: 'answer', type: 'textarea', required: true, localized: true },
+      ],
+    },
+  ],
+}
+
 export const BlocksField = [
   HeroCarouselBlock,
   IconGridBlock,
@@ -115,4 +135,5 @@ export const BlocksField = [
   PromoBannerBlock,
   ArticleGridBlock,
   RichTextContentBlock,
+  FAQBlock,
 ]
