@@ -45,7 +45,7 @@ export function HeroCarousel({ slides }: { slides: Slide[] }) {
           {slide.ctaLabel && slide.ctaUrl && (
             <a
               href={slide.ctaUrl}
-              className="mt-6 inline-block rounded-pill bg-primary px-6 py-3 text-[15px] font-medium text-white transition-opacity hover:opacity-90"
+              className="mt-6 inline-block rounded-pill bg-primary px-6 py-3 text-[15px] font-medium text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
             >
               {slide.ctaLabel}
             </a>
@@ -68,14 +68,14 @@ export function HeroCarousel({ slides }: { slides: Slide[] }) {
           <button
             aria-label="Previous slide"
             onClick={() => go(-1)}
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-3xl"
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-3xl focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
           >
             ‹
           </button>
           <button
             aria-label="Next slide"
             onClick={() => go(1)}
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-3xl"
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-3xl focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
           >
             ›
           </button>

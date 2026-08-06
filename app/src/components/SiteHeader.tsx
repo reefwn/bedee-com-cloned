@@ -32,7 +32,10 @@ export async function SiteHeader() {
       <nav className="flex gap-8">
         {navItems.map((item, i) => (
           <div key={i} className="group relative">
-            <Link href={item.url || '#'} className="text-base font-medium text-ink hover:text-secondary">
+            <Link
+              href={item.url || '#'}
+              className="text-base font-medium text-ink hover:text-secondary focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
+            >
               {item.label}
             </Link>
             {item.children?.length ? (

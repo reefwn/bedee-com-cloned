@@ -24,17 +24,22 @@ export function ExpertTabs({ heading, doctors }: { heading?: string | null; doct
         <div className="mt-6 flex justify-center gap-8">
           <button
             onClick={() => setRole('doctor')}
-            className={role === 'doctor' ? 'font-semibold text-secondary' : 'text-ink'}
+            className={`focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)] ${role === 'doctor' ? 'font-semibold text-secondary' : 'text-ink'}`}
           >
             แพทย์ในเครือ
           </button>
           <button
             onClick={() => setRole('pharmacist')}
-            className={role === 'pharmacist' ? 'font-semibold text-secondary' : 'text-ink'}
+            className={`focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)] ${role === 'pharmacist' ? 'font-semibold text-secondary' : 'text-ink'}`}
           >
             เภสัชกรในเครือ
           </button>
         </div>
+        {visible.length === 0 ? (
+          <p className="mt-8 text-sm text-muted">
+            {role === 'doctor' ? 'กำลังปรับปรุงข้อมูลแพทย์ในเครือ' : 'กำลังปรับปรุงข้อมูลเภสัชกรในเครือ'}
+          </p>
+        ) : (
         <div className="mt-8 flex gap-6 overflow-x-auto">
           {visible.map((d) => (
             <div key={d.id} className="w-32 shrink-0 text-center">
@@ -52,9 +57,10 @@ export function ExpertTabs({ heading, doctors }: { heading?: string | null; doct
             </div>
           ))}
         </div>
+        )}
         <a
           href="#"
-          className="mt-8 inline-block rounded-pill bg-primary px-6 py-3 text-[15px] font-medium text-white"
+          className="mt-8 inline-block rounded-pill bg-primary px-6 py-3 text-[15px] font-medium text-white focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
         >
           ดูทั้งหมด ›
         </a>

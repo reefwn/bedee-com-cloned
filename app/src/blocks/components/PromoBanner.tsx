@@ -39,7 +39,10 @@ export function PromoBanner({
           </div>
           {body && <p className="max-w-xl text-base leading-7 text-ink">{body}</p>}
           {ctaLabel && ctaUrl && (
-            <a href={ctaUrl} className="rounded-pill bg-primary px-6 py-3 text-[15px] font-medium text-white">
+            <a
+              href={ctaUrl}
+              className="rounded-pill bg-primary px-6 py-3 text-[15px] font-medium text-white focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
+            >
               {ctaLabel}
             </a>
           )}

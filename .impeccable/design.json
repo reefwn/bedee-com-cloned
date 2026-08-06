@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-06T00:00:00Z",
+  "title": "Design System: BeDee",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Deep Blue",
+        "canonical": "#081F7C",
+        "tonalRamp": ["#051248", "#08207f", "#0c2db5", "#0f3bec", "#4366f3", "#7a93f6", "#b4c1f6", "#e9edfb"]
+      },
+      "secondary": {
+        "role": "secondary",
+        "displayName": "BeDee Blue",
+        "canonical": "#317DF5",
+        "tonalRamp": ["#041e49", "#063681", "#094db8", "#0c64f0", "#4086f6", "#78aaf8", "#b3cdf8", "#e9f0fc"]
+      },
+      "tertiary": {
+        "role": "tertiary",
+        "displayName": "Slate Blue",
+        "canonical": "#455FA5",
+        "tonalRamp": ["#171f36", "#28375f", "#394e88", "#4a66b1", "#7288c4", "#9babd5", "#c6cee5", "#eef0f7"]
+      },
+      "accent": {
+        "role": "accent",
+        "displayName": "Alert Coral",
+        "canonical": "#FF4C14",
+        "tonalRamp": ["#4c1200", "#872000", "#c12e00", "#fb3c00", "#ff6637", "#fe9372", "#fbc1af", "#fdede8"]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Body Black",
+        "canonical": "#222222",
+        "tonalRamp": ["#262626", "#434343", "#616161", "#7e7e7e", "#9b9b9b", "#b8b8b8", "#d5d5d5", "#f2f2f2"]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Meta Gray",
+        "canonical": "#666666",
+        "tonalRamp": ["#262626", "#434343", "#616161", "#7e7e7e", "#9b9b9b", "#b8b8b8", "#d5d5d5", "#f2f2f2"]
+      },
+      "base-white": { "role": "neutral", "displayName": "Base White", "canonical": "#FFFFFF" },
+      "panel-1": { "role": "neutral", "displayName": "Panel Blue", "canonical": "#F4F8FF" },
+      "panel-2": { "role": "neutral", "displayName": "Panel Blue 2", "canonical": "#F4F7FC" },
+      "footer-bg": { "role": "neutral", "displayName": "Footer Gray", "canonical": "#F0F0F0" },
+      "overlay-scrim": { "role": "neutral", "displayName": "Navy Scrim", "canonical": "rgba(0,36,88,0.8)" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero slide headlines only." },
+      "slide-heading": { "displayName": "Slide Heading", "purpose": "Carousel slide sub-headline." },
+      "headline": { "displayName": "Headline", "purpose": "Section H2s (service grid, network strip, expert tabs, article grid)." },
+      "body": { "displayName": "Body", "purpose": "Supporting paragraph copy, hero body text." },
+      "label": { "displayName": "Label", "purpose": "Nav links, form labels." },
+      "button": { "displayName": "Button", "purpose": "All CTA pill button text." }
+    },
+    "shadows": [
+      { "name": "overlay-standard", "value": "0 4px 12px rgba(0,0,0,0.15)", "purpose": "Standard (not custom) drop shadow for persistent floating overlays: chat bubble, scroll-to-top button." },
+      { "name": "dropdown-panel", "value": "0 8px 16px rgba(0,0,0,0.1)", "purpose": "Transient nav dropdown panels only — the one non-overlay exception to the flat-by-default rule." }
+    ],
+    "motion": [
+      { "name": "ease-button-hover", "value": "opacity 200ms ease", "purpose": "Primary button hover: opacity drop to ~90%, no color swap." },
+      { "name": "ease-nav-hover", "value": "color 150ms ease", "purpose": "Nav link hover: color shift only, no underline/background change." },
+      { "name": "ease-carousel", "value": "transform 500ms cubic-bezier(0.25,0.1,0.25,1)", "purpose": "Hero slide-to-slide translateX crossfade (Swiper.js library default)." },
+      { "name": "ease-app-bar-reveal", "value": "opacity 150ms ease-out", "purpose": "Post-scroll app-download bar mount transition, one-way toggle." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Pill CTA button, e.g. \"ดูทั้งหมด\" (See All) — the system's single button style.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">ดูทั้งหมด</a>",
+      "css": ".ds-btn-primary { display: inline-block; background: #081F7C; color: #fff; font-family: 'Noto Sans Thai', sans-serif; font-size: 15px; font-weight: 500; line-height: 1; padding: 12px 24px; border-radius: 50px; text-decoration: none; transition: opacity 200ms ease; } .ds-btn-primary:hover { opacity: 0.9; } .ds-btn-primary:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(49,125,245,0.4); }"
+    },
+    {
+      "name": "Nav Link",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Top navigation link — color-only hover, no underline.",
+      "html": "<a class=\"ds-nav-link\" href=\"#\">บริการของเรา</a>",
+      "css": ".ds-nav-link { color: #222222; font-family: 'Noto Sans Thai', sans-serif; font-size: 16px; font-weight: 500; line-height: 1.5; text-decoration: none; transition: color 150ms ease; } .ds-nav-link:hover, .ds-nav-link:focus-visible { color: #317DF5; }"
+    },
+    {
+      "name": "Article Card",
+      "kind": "card",
+      "refersTo": "card-article",
+      "description": "Square-cornered content card — the system's deliberate contrast against the pill/circle interactive language.",
+      "html": "<a class=\"ds-card-article\" href=\"#\"><img class=\"ds-card-article-img\" src=\"https://placehold.co/400x225\" alt=\"\" /><span class=\"ds-card-article-badge\">สุขภาพใจ</span><h3 class=\"ds-card-article-title\">อาการ \"เด็กติดเกม\" เป็นอย่างไร วิธีรับมือของพ่อแม่</h3></a>",
+      "css": ".ds-card-article { display: block; position: relative; background: #fff; border-radius: 0; text-decoration: none; } .ds-card-article-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 0; display: block; } .ds-card-article-badge { position: absolute; top: 12px; right: 12px; background: #317DF5; color: #fff; font-size: 12px; font-weight: 500; padding: 4px 12px; border-radius: 50px; } .ds-card-article-title { margin-top: 12px; color: #081F7C; font-family: 'Noto Sans Thai', sans-serif; font-size: 18px; font-weight: 600; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }"
+    },
+    {
+      "name": "Icon Badge Card",
+      "kind": "chip",
+      "refersTo": "icon-badge",
+      "description": "Circular icon + label card used in the service grid and secondary interest grid.",
+      "html": "<a class=\"ds-icon-badge\" href=\"#\"><span class=\"ds-icon-badge-circle\"><svg width=\"28\" height=\"28\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#081F7C\" stroke-width=\"1.5\"><path d=\"M12 2a5 5 0 0 1 5 5v3a5 5 0 0 1-10 0V7a5 5 0 0 1 5-5Z\"/><path d=\"M7 12v1a5 5 0 0 0 10 0v-1M12 18v3M9 21h6\"/></svg></span><span class=\"ds-icon-badge-label\">ปรึกษาหมอ</span></a>",
+      "css": ".ds-icon-badge { display: flex; flex-direction: column; align-items: center; gap: 12px; text-decoration: none; } .ds-icon-badge-circle { width: 64px; height: 64px; border-radius: 50%; background: #F4F8FF; display: flex; align-items: center; justify-content: center; } .ds-icon-badge-label { color: #222222; font-family: 'Noto Sans Thai', sans-serif; font-size: 16px; font-weight: 500; text-align: center; }"
+    },
+    {
+      "name": "Expert Avatar Card",
+      "kind": "custom",
+      "refersTo": "expert-avatar",
+      "description": "Signature component — circular doctor/pharmacist avatar with name + specialty, used in the two-tab expert directory.",
+      "html": "<div class=\"ds-expert-card\"><img class=\"ds-expert-avatar\" src=\"https://placehold.co/120x120\" alt=\"\" /><p class=\"ds-expert-name\">นพ. สมชาย ใจดี</p><p class=\"ds-expert-specialty\">อายุรศาสตร์</p></div>",
+      "css": ".ds-expert-card { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 128px; text-align: center; } .ds-expert-avatar { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; } .ds-expert-name { color: #222222; font-family: 'Noto Sans Thai', sans-serif; font-size: 14px; font-weight: 500; margin: 0; } .ds-expert-specialty { color: #666666; font-family: 'Noto Sans Thai', sans-serif; font-size: 12px; margin: 0; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Clinical Warmth / Hospital-Trust Digital Health",
+    "overview": "BeDee is the digital front door of BDMS, Thailand's largest private hospital network — not a startup-cool health app. Every surface should read as credentialed, warm, and unhurried, never \"disruptive\" or \"cutting-edge.\" The system carries hierarchy through scale and color blocking rather than typographic contrast: one Thai humanist sans typeface, flat color throughout, real human photography instead of illustration or stock abstraction, and motion that is functional (state changes, carousel advance) rather than expressive (no scroll reveals, no easing flourishes, no cinematic transitions). This is a same-brand migration — the palette, type scale, and component behavior are transplanted directly from the live bedee.com and confirmed as the reference, not proposed as a redesign. Confirmed rejections: no second display typeface, no serif, no italics, no drop shadows on cards or buttons, no GSAP/scroll-triggered animation library, no custom cursor, no pseudo-element hover tricks.",
+    "keyCharacteristics": [
+      "Single typeface (Noto Sans Thai), hierarchy carried entirely by size and weight (two weights only: 500, 600).",
+      "Flat color blocking — no shadows, no gradients except the hero's navy→blue background.",
+      "Real photography, circular-crop treatment, warm lighting — never stock-abstract.",
+      "Pill-shaped buttons and circular badges are the system's signature geometry; content cards stay deliberately square.",
+      "Motion is a state-change signal (tab swap, carousel advance, scroll-triggered app bar), never a spectacle."
+    ],
+    "rules": [
+      { "name": "The One Typeface Rule", "body": "There is no display/body typeface pairing. The entire visual hierarchy is carried by scale within a single Thai humanist sans — never introduce a second family, a serif, or italics to \"add\" hierarchy.", "section": "colors" },
+      { "name": "The Sparing Coral Rule", "body": "Alert Coral is a signal color, not a decoration. It appears on the logo mark, promo badges, and urgency accents only — never as a section background, a body-text color, or a decorative fill.", "section": "colors" },
+      { "name": "The Drama Ratio Rule", "body": "Hero display (72px/600) vs. body (18px/500) is a 4× size jump carried by only one weight step. Do not compress this ratio — the size jump is the brand's sense of authority.", "section": "typography" },
+      { "name": "The Static Sentinel Rule", "body": "The primary header never changes on scroll — no size, color, or shadow morph. Scroll-driven UI appears as a separate bar above the header, not a transformation of the header itself.", "section": "layout" },
+      { "name": "The Flat-By-Default Rule", "body": "Shadows are reserved for persistent floating overlays only (chat bubble, scroll-to-top). Cards, buttons, panels, and nav dropdowns stay flat or use a hairline border/background-tint instead of a shadow.", "section": "elevation" },
+      { "name": "The Two-Shape Rule", "body": "Round (pill or circle) means \"interactive or human\" — buttons, badges, avatars. Square means \"content\" — cards, article thumbnails. Don't blur the two.", "section": "typography" }
+    ],
+    "dos": [
+      "Do carry all hierarchy through type scale and color, never through a second typeface or italics (The One Typeface Rule).",
+      "Do keep cards and buttons flat (box-shadow: none); reserve shadow for persistent floating overlays and transient dropdown panels only (The Flat-By-Default Rule).",
+      "Do use pill/circle shapes for anything interactive or human (buttons, avatars, badges) and square corners for content cards (The Two-Shape Rule).",
+      "Do spend Alert Coral (#FF4C14) sparingly — logo, promo badges, urgency accents only (The Sparing Coral Rule).",
+      "Do use real migrated photography (circular-crop treatment, warm lighting) — never stock-abstract or illustrated imagery.",
+      "Do keep the header static on scroll; introduce scroll-driven elements as separate bars, not header transformations (The Static Sentinel Rule).",
+      "Do give every interactive element a visible focus ring even where the source site lacks one — this is a required accessibility floor, not optional polish."
+    ],
+    "donts": [
+      "Don't introduce a second display typeface, a serif, or italic accents — it misrepresents this brand's clinical restraint (The Drama Ratio Rule).",
+      "Don't add scroll-triggered reveals, GSAP/Framer-Motion timelines, custom cursors, or pseudo-element hover slide/reveal tricks.",
+      "Don't crossfade the doctor/pharmacist tab switch or the section-6→7 wave divider transition — the source uses instant swaps and static SVG dividers.",
+      "Don't round the corners of article/content cards, or square off a button — both break the round-means-interactive / square-means-content language.",
+      "Don't substitute Unsplash or stock imagery for real BeDee/BDMS photography, even as a placeholder."
+    ]
+  }
+}
