@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import { MobileNav } from './MobileNav'
 
 type NavChild = { label?: string | null; url?: string | null }
 type NavItem = { label?: string | null; url?: string | null; children?: NavChild[] | null }
@@ -32,7 +33,7 @@ export async function SiteHeader() {
           <span className="text-xl font-bold text-primary">BeDee</span>
         )}
       </Link>
-      <nav className="flex gap-8">
+      <nav className="hidden gap-8 md:flex">
         {navItems.map((item, i) => (
           <div key={i} className="group relative">
             <Link
@@ -57,6 +58,7 @@ export async function SiteHeader() {
           </div>
         ))}
       </nav>
+      <MobileNav navItems={navItems} />
     </header>
   )
 }
