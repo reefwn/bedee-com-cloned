@@ -58,8 +58,10 @@ export function ExpertTabs({ heading, doctors }: { heading?: string | null; doct
           ))}
         </div>
         )}
+        {/* "See all" has no dedicated doctor-directory page yet — route to
+            the matching service page, a real destination, instead of "#" */}
         <a
-          href="#"
+          href={role === 'doctor' ? '/teleconsultation' : '/telepharmacy'}
           className="mt-8 inline-block rounded-pill bg-primary px-6 py-3 text-[15px] font-medium text-white focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
         >
           ดูทั้งหมด ›

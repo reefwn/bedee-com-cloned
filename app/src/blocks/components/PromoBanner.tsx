@@ -20,7 +20,9 @@ export function PromoBanner({
     <section className="bg-panel-2 py-16">
       <div className="mx-auto flex max-w-5xl flex-col items-center gap-10 px-6 text-center md:flex-row md:text-left">
         {image?.url && (
-          <div className="flex-1">
+          // flex-1 alone has no intrinsic height for object-contain to size
+          // against — pin the wrapper to the image's own max-height.
+          <div className="flex-1 max-h-[420px]">
             <Image
               src={image.url}
               alt={image.alt || ''}

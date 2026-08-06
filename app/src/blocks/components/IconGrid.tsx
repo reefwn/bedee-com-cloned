@@ -18,8 +18,9 @@ export function IconGrid({
 }) {
   if (!items?.length) return null
   const cols = items.length >= 4 ? 'md:grid-cols-4' : 'md:grid-cols-3'
-  const background =
-    variant === 'plain' ? 'bg-white' : 'bg-gradient-to-tr from-[#F9F9F9] to-[#E5EDFF]'
+  // DESIGN.md: no gradients except the hero's navy→blue background — flat
+  // panel tints exist specifically to avoid this.
+  const background = variant === 'plain' ? 'bg-white' : 'bg-panel-1'
 
   return (
     <section className={`${background} py-12`}>
@@ -35,8 +36,8 @@ export function IconGrid({
                 <Image
                   src={item.icon.url}
                   alt={item.icon.alt || ''}
-                  width={64}
-                  height={64}
+                  width={96}
+                  height={96}
                   className="mx-auto h-24 w-24 object-contain"
                 />
               )}
@@ -44,7 +45,11 @@ export function IconGrid({
             </>
           )
           return item.url ? (
-            <a key={i} href={item.url}>
+            <a
+              key={i}
+              href={item.url}
+              className="focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
+            >
               {content}
             </a>
           ) : (

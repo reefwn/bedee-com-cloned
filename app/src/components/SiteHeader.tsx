@@ -39,9 +39,13 @@ export async function SiteHeader() {
               {item.label}
             </Link>
             {item.children?.length ? (
-              <div className="absolute left-0 top-full hidden min-w-[180px] flex-col gap-2 bg-white p-3 shadow group-hover:flex">
+              <div className="absolute left-0 top-full hidden min-w-[180px] flex-col gap-2 bg-white p-3 shadow group-hover:flex group-focus-within:flex">
                 {item.children.map((child: NavChild, j: number) => (
-                  <Link key={j} href={child.url || '#'} className="text-sm text-ink hover:text-secondary">
+                  <Link
+                    key={j}
+                    href={child.url || '#'}
+                    className="text-sm text-ink hover:text-secondary focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
+                  >
                     {child.label}
                   </Link>
                 ))}
