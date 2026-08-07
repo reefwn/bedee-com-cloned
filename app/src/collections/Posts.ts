@@ -41,7 +41,14 @@ export const Posts: CollectionConfig = {
       type: 'array',
       fields: [
         { name: 'text', type: 'text', required: true, localized: true },
-        { name: 'url', type: 'text' },
+        {
+          name: 'url',
+          type: 'text',
+          validate: (value: string | null | undefined) => {
+            if (!value) return true
+            return /^https?:\/\//i.test(value) || 'URL must start with http:// or https://'
+          },
+        },
       ],
     },
     {

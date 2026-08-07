@@ -14,6 +14,10 @@ export const dynamic = 'force-dynamic'
 
 type Params = { category: string; slug: string }
 
+// Posts.ts validates this shape on write, but a defense-in-depth check at
+// render/JSON-LD time costs nothing and guards against pre-existing rows.
+const isSafeUrl = (url: string | null | undefined): url is string => !!url && /^https?:\/\//i.test(url)
+
 // cache() dedupes this against the identical lookup generateMetadata makes
 // for the same request — Payload's `find` isn't fetch-based, so Next's
 // built-in fetch memoization doesn't cover it on its own.
@@ -94,7 +98,7 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
     publisher: { '@type': 'Organization', name: 'BeDee' },
     mainEntityOfPage: { '@type': 'WebPage', '@id': path },
     citation: post.references?.length
-      ? post.references.map((r) => r.url).filter(Boolean)
+      ? post.references.map((r) => r.url).filter(isSafeUrl)
       : undefined,
   }
 
@@ -151,7 +155,7 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
             <ol className="mt-3 space-y-2 text-sm leading-6 text-[#666]">
               {post.references.map((ref, i) => (
                 <li key={i}>
-                  {ref.url ? (
+                  {isSafeUrl(ref.url) ? (
                     <a href={ref.url} target="_blank" rel="noopener noreferrer" className="text-[#317DF5] underline">
                       {ref.text}
                     </a>
