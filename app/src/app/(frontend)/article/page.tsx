@@ -17,24 +17,27 @@ export default async function ArticleListPage({
   const page = Math.max(1, Number(pageParam) || 1)
   const payload = await getPayload({ config })
 
-  const categories = await payload.find({
-    collection: 'categories',
-    sort: 'name',
-    limit: 100,
-  })
-  const activeCategory = activeSlug ? categories.docs.find((c: any) => c.slug === activeSlug) : undefined
-
-  const [featured, result] = await Promise.all([
-    payload.find({ collection: 'posts', sort: '-publishedAt', depth: 2, limit: 5 }),
+  // Filtering posts by `category.slug` directly (a dot-path relationship
+  // query) instead of first resolving the category doc's id lets all three
+  // queries fire in one Promise.all instead of categories-then-posts.
+  // That matters a lot here: Vercel's functions run in iad1 (US East) but
+  // Supabase is ap-southeast-1 (Singapore), so every extra sequential round
+  // trip costs ~250-400ms of pure cross-Pacific latency. depth:1 (not 2) is
+  // also enough — only direct category/featuredImage relations are read,
+  // never their own nested relations.
+  const [categories, featured, result] = await Promise.all([
+    payload.find({ collection: 'categories', sort: 'name', limit: 100 }),
+    payload.find({ collection: 'posts', sort: '-publishedAt', depth: 1, limit: 5 }),
     payload.find({
       collection: 'posts',
       sort: '-publishedAt',
-      depth: 2,
+      depth: 1,
       limit: 24,
       page,
-      where: activeCategory ? { category: { equals: activeCategory.id } } : undefined,
+      where: activeSlug ? { 'category.slug': { equals: activeSlug } } : undefined,
     }),
   ])
+  const activeCategory = activeSlug ? categories.docs.find((c: any) => c.slug === activeSlug) : undefined
 
   const pageHref = (targetPage: number) => {
     const params = new URLSearchParams()
