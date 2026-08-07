@@ -25,7 +25,7 @@ const media = await payload.create({
   collection: 'media',
   data: { alt: ALT },
   file: {
-    data: new Uint8Array(buffer),
+    data: buffer,
     mimetype: response.headers.get('content-type') || 'image/jpeg',
     name: 'child-health-checkup-program.jpg',
     size: buffer.length,
