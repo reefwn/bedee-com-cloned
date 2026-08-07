@@ -34,6 +34,16 @@ export const Posts: CollectionConfig = {
         { name: 'answer', type: 'textarea', required: true, localized: true },
       ],
     },
+    // E-E-A-T / GEO: cited sources, rendered as a visible References list and
+    // folded into the article's JSON-LD `citation` field for AI answer engines.
+    {
+      name: 'references',
+      type: 'array',
+      fields: [
+        { name: 'text', type: 'text', required: true, localized: true },
+        { name: 'url', type: 'text' },
+      ],
+    },
     {
       name: 'seo',
       type: 'group',
