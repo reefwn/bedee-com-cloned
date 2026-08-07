@@ -30,6 +30,13 @@ function usePrefersReducedMotion() {
 // commented out in the source's own init script). Reimplemented here with
 // the same key-remount + @starting-style fade this codebase already uses
 // for the homepage hero carousel (HeroCarousel.tsx).
+//
+// No overlay caption: verified live, the source slides are pre-designed
+// marketing graphics with the headline baked into the image pixels — there
+// is no separate DOM title layered on top. An earlier version of this
+// component added one anyway, which duplicated the baked-in text and
+// visually collided with it once the 16:9 crop got short enough (mobile).
+// The post title is still the link's accessible name via ArticleImage's alt.
 export function ArticleBanner({ posts }: { posts: BannerPost[] }) {
   const [index, setIndex] = useState(0)
   const prefersReducedMotion = usePrefersReducedMotion()
@@ -53,25 +60,23 @@ export function ArticleBanner({ posts }: { posts: BannerPost[] }) {
         className="banner-slide absolute inset-0 block [transition:opacity_400ms_var(--ease-out)] [@starting-style]:opacity-0 focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
       >
         {post.featuredImage?.url && (
-          <ArticleImage src={post.featuredImage.url} alt={post.featuredImage.alt || ''} />
+          <ArticleImage src={post.featuredImage.url} alt={post.title} />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-[rgba(0,36,88,0.8)] via-transparent to-transparent" />
-        <span className="absolute inset-x-0 bottom-8 line-clamp-2 px-4 text-lg font-semibold text-white md:px-6 md:text-2xl">
-          {post.title}
-        </span>
       </Link>
       {posts.length > 1 && (
-        <div className="absolute inset-x-0 bottom-3 flex justify-center gap-2">
-          {posts.map((p, i) => (
-            <button
-              key={p.id}
-              aria-label={`ไปที่สไลด์ ${i + 1}`}
-              onClick={() => setIndex(i)}
-              className={`h-2 w-2 rounded-full transition-opacity focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)] ${
-                i === index ? 'bg-white' : 'bg-white/50'
-              }`}
-            />
-          ))}
+        <div className="absolute inset-x-0 bottom-3 flex justify-center">
+          <div className="flex gap-2 rounded-pill bg-[rgba(0,36,88,0.4)] px-3 py-1.5">
+            {posts.map((p, i) => (
+              <button
+                key={p.id}
+                aria-label={`ไปที่สไลด์ ${i + 1}`}
+                onClick={() => setIndex(i)}
+                className={`h-2 w-2 rounded-full transition-opacity focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)] ${
+                  i === index ? 'bg-white' : 'bg-white/50'
+                }`}
+              />
+            ))}
+          </div>
         </div>
       )}
     </div>

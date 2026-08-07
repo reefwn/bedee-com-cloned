@@ -11,9 +11,10 @@ export const dynamic = 'force-dynamic'
 export default async function ArticleListPage({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string }>
+  searchParams: Promise<{ category?: string; page?: string }>
 }) {
-  const { category: activeSlug } = await searchParams
+  const { category: activeSlug, page: pageParam } = await searchParams
+  const page = Math.max(1, Number(pageParam) || 1)
   const payload = await getPayload({ config })
 
   const categories = await payload.find({
@@ -30,9 +31,18 @@ export default async function ArticleListPage({
       sort: '-publishedAt',
       depth: 2,
       limit: 24,
+      page,
       where: activeCategory ? { category: { equals: activeCategory.id } } : undefined,
     }),
   ])
+
+  const pageHref = (targetPage: number) => {
+    const params = new URLSearchParams()
+    if (activeSlug) params.set('category', activeSlug)
+    if (targetPage > 1) params.set('page', String(targetPage))
+    const query = params.toString()
+    return query ? `/article?${query}` : '/article'
+  }
 
   return (
     <>
@@ -81,6 +91,34 @@ export default async function ArticleListPage({
             <p className="col-span-full text-muted">ไม่พบบทความในหมวดหมู่นี้</p>
           )}
         </div>
+
+        {result.totalPages > 1 && (
+          <nav aria-label="สลับหน้าบทความ" className="mt-10 flex items-center justify-center gap-3">
+            {result.hasPrevPage ? (
+              <Link
+                href={pageHref(page - 1)}
+                className="rounded-pill bg-panel-1 px-5 py-2 text-[15px] font-medium text-ink focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
+              >
+                ‹ ก่อนหน้า
+              </Link>
+            ) : (
+              <span className="rounded-pill px-5 py-2 text-[15px] font-medium text-muted opacity-50">‹ ก่อนหน้า</span>
+            )}
+            <span className="text-[15px] font-medium text-muted">
+              หน้า {result.page} จาก {result.totalPages}
+            </span>
+            {result.hasNextPage ? (
+              <Link
+                href={pageHref(page + 1)}
+                className="rounded-pill bg-primary px-5 py-2 text-[15px] font-medium text-white focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
+              >
+                หน้าถัดไป ›
+              </Link>
+            ) : (
+              <span className="rounded-pill px-5 py-2 text-[15px] font-medium text-muted opacity-50">หน้าถัดไป ›</span>
+            )}
+          </nav>
+        )}
       </main>
       <SiteFooter />
     </>
