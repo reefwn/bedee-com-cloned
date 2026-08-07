@@ -16,7 +16,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-slide {
+  .hero-slide,
+  .banner-slide {
     transition: opacity 200ms ease !important;
   }
 }

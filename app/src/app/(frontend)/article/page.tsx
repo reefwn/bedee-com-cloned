@@ -4,6 +4,7 @@ import config from '@payload-config'
 import { SiteHeader } from '@/components/SiteHeader'
 import { SiteFooter } from '@/components/SiteFooter'
 import { ArticleImage } from '@/blocks/components/ArticleImage'
+import { ArticleBanner } from '@/blocks/components/ArticleBanner'
 
 export const dynamic = 'force-dynamic'
 
@@ -39,24 +40,8 @@ export default async function ArticleListPage({
       <main className="mx-auto max-w-6xl px-6 py-16">
         <h1 className="text-[28px] font-semibold text-primary">บทความสุขภาพ</h1>
 
-        {/* Banner — latest articles as image tiles, Navy Scrim overlay per DESIGN.md's photo+text pattern */}
-        <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-5 md:gap-4">
-          {featured.docs.map((post: any) => (
-            <Link
-              key={post.id}
-              href={`/article/${post.category?.slug}/${post.slug}`}
-              className="group relative block aspect-square overflow-hidden bg-gray-100 focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
-            >
-              {post.featuredImage?.url && (
-                <ArticleImage src={post.featuredImage.url} alt={post.featuredImage.alt || ''} />
-              )}
-              <div className="absolute inset-0 bg-gradient-to-t from-[rgba(0,36,88,0.8)] via-transparent to-transparent" />
-              <span className="absolute inset-x-0 bottom-0 line-clamp-2 p-3 text-sm font-medium text-white">
-                {post.title}
-              </span>
-            </Link>
-          ))}
-        </div>
+        {/* Banner — auto-rotating carousel of the latest articles, mirroring bedee.com/article's Swiper widget */}
+        <ArticleBanner posts={featured.docs as any} />
 
         {/* Category filter — pill list, round = interactive per the Two-Shape Rule */}
         <div className="mt-10 flex gap-3 overflow-x-auto pb-2">
