@@ -44,13 +44,20 @@ export function ExpertTabs({ heading, doctors }: { heading?: string | null; doct
           {visible.map((d) => (
             <div key={d.id} className="w-32 shrink-0 text-center">
               {d.photo?.url && (
-                <Image
-                  src={d.photo.url}
-                  alt={d.name}
-                  width={120}
-                  height={120}
-                  className="mx-auto rounded-full object-cover"
-                />
+                // Fixed-size wrapper + overflow-hidden + fill is what actually
+                // guarantees a circle: width/height props on <Image> alone are
+                // only intrinsic-size hints — without a pinned box, height
+                // followed each source photo's own aspect ratio, so
+                // rounded-full rendered an ellipse for any non-square photo.
+                <div className="relative mx-auto h-[120px] w-[120px] overflow-hidden rounded-full">
+                  <Image
+                    src={d.photo.url}
+                    alt={d.name}
+                    fill
+                    sizes="120px"
+                    className="object-cover"
+                  />
+                </div>
               )}
               <p className="mt-2 text-sm font-medium">{d.name}</p>
               {d.specialty && <p className="text-xs text-muted">{d.specialty}</p>}
