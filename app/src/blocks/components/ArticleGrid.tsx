@@ -1,5 +1,5 @@
-import Image from 'next/image'
 import Link from 'next/link'
+import { ArticleImage } from './ArticleImage'
 
 type Post = {
   id: string
@@ -27,7 +27,7 @@ export function ArticleGrid({ heading, posts }: { heading?: string | null; posts
             >
               <div className="relative aspect-video overflow-hidden bg-gray-100">
                 {post.featuredImage?.url && (
-                  <Image src={post.featuredImage.url} alt={post.featuredImage.alt || ''} fill className="object-cover" />
+                  <ArticleImage src={post.featuredImage.url} alt={post.featuredImage.alt || ''} />
                 )}
                 {/* bg-primary, not bg-secondary — white-on-secondary measured 3.9:1, below WCAG AA's 4.5:1 */}
                 <span className="absolute right-2 top-2 rounded-pill bg-primary px-3 py-1 text-xs text-white">
