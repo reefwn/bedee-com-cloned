@@ -21,6 +21,17 @@
   }
 }
 
+/* animation-plans/004: Tailwind's JIT can't parse the compound arbitrary
+   variant `[@media(hover:hover)and(pointer:fine)]:hover:` — it silently
+   compiles to `@media not all { ... }` (a permanent no-op) instead of
+   erroring, so the hover-dim never applied. Plain CSS fallback per the
+   plan's own prescribed path. */
+@media (hover: hover) and (pointer: fine) {
+  .arrow-hover:hover {
+    opacity: 0.8;
+  }
+}
+
 body {
   font-family: 'Noto Sans Thai', sans-serif;
   color: #222222;
