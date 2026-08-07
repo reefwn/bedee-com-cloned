@@ -27,6 +27,10 @@ const config: Config = {
       borderRadius: {
         pill: '50px',
       },
+      transitionTimingFunction: {
+        'out-strong': 'cubic-bezier(0.23, 1, 0.32, 1)', // entrances/exits — starts fast, feels responsive
+        'in-out-strong': 'cubic-bezier(0.77, 0, 0.175, 1)', // on-screen movement/morphing
+      },
     },
   },
   plugins: [],
