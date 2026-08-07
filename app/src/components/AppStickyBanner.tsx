@@ -48,41 +48,44 @@ export function AppStickyBanner() {
 
   return (
     <div
-      className={`app-sticky-banner fixed inset-x-0 top-0 z-[60] flex min-h-16 items-center justify-between gap-2 border-b bg-white px-3 py-1.5 md:gap-4 md:px-8 ${
+      className={`app-sticky-banner fixed inset-x-0 top-0 z-[60] flex min-h-16 items-center justify-between gap-2 bg-[#214cbf] px-3 py-1.5 md:gap-4 md:px-8 ${
         prefersReducedMotion ? '' : '[transition:transform_250ms_var(--ease-out)]'
       } ${visible ? 'translate-y-0' : '-translate-y-full'}`}
       aria-hidden={!visible}
     >
       <div className="flex min-w-0 items-center gap-2 md:gap-3">
         <Image src="/app-badges/bedee-app.webp" alt="" width={36} height={36} className="h-9 w-9 shrink-0 rounded-full" />
-        <p className="min-w-0 text-sm font-medium leading-tight text-ink md:text-base">
+        <p className="min-w-0 text-sm font-medium leading-tight text-white md:text-base">
           ดาวน์โหลดแอป BeDee
           <span className="hidden md:inline"> ดูแลสุขภาพครบวงจรในที่เดียว</span>
         </p>
       </div>
       <div className="flex shrink-0 items-center">
+        {/* The badge SVGs are the full "Download on the App Store" / "Get it on
+        Google Play" pill art (~3.3:1 aspect ratio) — sized by height with width
+        auto so they render at their real proportions instead of a forced square. */}
         <a
           href={APPSTORE_URL}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="ดาวน์โหลดบน App Store"
-          className="flex h-11 w-11 shrink-0 items-center justify-center focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
+          className="flex h-11 shrink-0 items-center justify-center px-1 focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(255,255,255,0.6)]"
         >
-          <Image src="/app-badges/apple-icon.svg" alt="" width={28} height={28} className="h-7 w-7" />
+          <Image src="/app-badges/apple-icon.svg" alt="" width={207} height={62} className="h-7 w-auto" />
         </a>
         <a
           href={PLAYSTORE_URL}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="ดาวน์โหลดบน Google Play"
-          className="flex h-11 w-11 shrink-0 items-center justify-center focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
+          className="flex h-11 shrink-0 items-center justify-center px-1 focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(255,255,255,0.6)]"
         >
-          <Image src="/app-badges/google-icon.svg" alt="" width={28} height={28} className="h-7 w-7" />
+          <Image src="/app-badges/google-icon.svg" alt="" width={120} height={37} className="h-7 w-auto" />
         </a>
         <button
           onClick={dismiss}
           aria-label="ปิด"
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-lg text-muted focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-lg text-white/80 hover:text-white focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(255,255,255,0.6)]"
         >
           ×
         </button>
