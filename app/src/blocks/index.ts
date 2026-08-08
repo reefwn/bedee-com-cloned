@@ -96,6 +96,20 @@ export const ArticleGridBlock: Block = {
   ],
 }
 
+export const ImageCarouselBlock: Block = {
+  slug: 'imageCarousel',
+  labels: { singular: 'Image Carousel', plural: 'Image Carousels' },
+  fields: [
+    { name: 'heading', type: 'text', localized: true },
+    {
+      name: 'images',
+      type: 'array',
+      minRows: 1,
+      fields: [{ name: 'image', type: 'upload', relationTo: 'media', required: true }],
+    },
+  ],
+}
+
 export const RichTextContentBlock: Block = {
   slug: 'richTextContent',
   labels: { singular: 'Rich Text Content', plural: 'Rich Text Content' },
@@ -138,6 +152,7 @@ export const BlocksField = [
   ExpertTabsBlock,
   PromoBannerBlock,
   ArticleGridBlock,
+  ImageCarouselBlock,
   RichTextContentBlock,
   FAQBlock,
 ]

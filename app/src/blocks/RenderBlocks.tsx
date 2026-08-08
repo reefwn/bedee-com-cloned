@@ -6,6 +6,7 @@ import { PromoBanner } from './components/PromoBanner'
 import { ArticleGrid } from './components/ArticleGrid'
 import { RichTextContent } from './components/RichTextContent'
 import { FAQ } from './components/FAQ'
+import { ImageCarousel } from './components/ImageCarousel'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
@@ -55,6 +56,12 @@ export async function RenderBlocks({ blocks }: { blocks: any[] }) {
               : undefined,
           })
           return <ArticleGrid key={i} heading={block.heading} posts={result.docs as any} />
+        }
+        case 'imageCarousel': {
+          const images = (block.images ?? []).map((item: any) =>
+            typeof item.image === 'object' ? item.image : { url: null, alt: null },
+          )
+          return <ImageCarousel key={i} heading={block.heading} images={images} />
         }
         case 'richTextContent':
           return <RichTextContent key={i} heading={block.heading} content={block.content} />
