@@ -8,6 +8,7 @@ import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { ServiceDetail } from '@/components/ServiceDetail'
 import { SiteFooter } from '@/components/SiteFooter'
 import { SiteHeader } from '@/components/SiteHeader'
+import { extractHowToSchemas } from '@/lib/howToSchema'
 
 export const dynamic = 'force-dynamic'
 
@@ -78,6 +79,8 @@ export default async function ContentPage({ params }: { params: Promise<Params> 
     url: `/${slug}`,
     publisher: { '@type': 'Organization', name: 'BeDee' },
   }
+  const howToSchemas =
+    content.type === 'page' ? extractHowToSchemas((content.doc.layout ?? []) as any[]) : [] // eslint-disable-line @typescript-eslint/no-explicit-any
 
   return (
     <>
@@ -85,6 +88,13 @@ export default async function ContentPage({ params }: { params: Promise<Params> 
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
       />
+      {howToSchemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, '\\u003c') }}
+        />
+      ))}
       <SiteHeader />
       {content.type === 'page' ? (
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
