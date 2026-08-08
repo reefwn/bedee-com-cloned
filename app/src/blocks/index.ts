@@ -119,6 +119,18 @@ export const ImageCarouselBlock: Block = {
   ],
 }
 
+export const PromotionGridBlock: Block = {
+  slug: 'promotionGrid',
+  labels: { singular: 'Promotion Grid', plural: 'Promotion Grids' },
+  fields: [
+    { name: 'heading', type: 'text', localized: true },
+    // Explicit picks, not "latest N" — which promotions apply to a given
+    // page is curated per-page (e.g. only 5 of the 12 site-wide promotions
+    // are relevant to /teleconsultation), not simply chronological.
+    { name: 'promotions', type: 'relationship', relationTo: 'promotions', hasMany: true },
+  ],
+}
+
 export const RichTextContentBlock: Block = {
   slug: 'richTextContent',
   labels: { singular: 'Rich Text Content', plural: 'Rich Text Content' },
@@ -162,6 +174,7 @@ export const BlocksField = [
   PromoBannerBlock,
   ArticleGridBlock,
   ImageCarouselBlock,
+  PromotionGridBlock,
   RichTextContentBlock,
   FAQBlock,
 ]

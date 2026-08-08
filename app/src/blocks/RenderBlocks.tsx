@@ -7,6 +7,7 @@ import { ArticleGrid } from './components/ArticleGrid'
 import { RichTextContent } from './components/RichTextContent'
 import { FAQ } from './components/FAQ'
 import { ImageCarousel } from './components/ImageCarousel'
+import { PromotionGrid } from './components/PromotionGrid'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
@@ -62,6 +63,12 @@ export async function RenderBlocks({ blocks }: { blocks: any[] }) {
             typeof item.image === 'object' ? item.image : { url: null, alt: null },
           )
           return <ImageCarousel key={i} heading={block.heading} images={images} />
+        }
+        case 'promotionGrid': {
+          const promos = (block.promotions ?? []).filter(
+            (p: any): p is object => typeof p === 'object',
+          )
+          return <PromotionGrid key={i} heading={block.heading} promotions={promos as any} />
         }
         case 'richTextContent':
           return <RichTextContent key={i} heading={block.heading} content={block.content} />
