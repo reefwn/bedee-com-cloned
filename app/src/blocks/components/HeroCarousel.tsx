@@ -26,7 +26,18 @@ function usePrefersReducedMotion() {
 // Entrance on slide change: key={index} remounts the slide wrapper below, and
 // @starting-style + var(--ease-out) (globals.css) animate it in — 400ms fade
 // + 6px rise. See animation-plans/001-hero-crossfade-starting-style.md.
-export function HeroCarousel({ slides }: { slides: Slide[] }) {
+//
+// variant "light" mirrors service-page heroes (e.g. bedee.com/teleconsultation):
+// pale blue gradient, dark text, coral CTA — vs. the homepage's dark navy->blue
+// gradient with white text. Defaults to "dark" so every existing homepage slide
+// is visually unchanged.
+export function HeroCarousel({
+  slides,
+  variant = 'dark',
+}: {
+  slides: Slide[]
+  variant?: 'dark' | 'light' | null
+}) {
   const [index, setIndex] = useState(0)
   const prefersReducedMotion = usePrefersReducedMotion()
   useEffect(() => {
@@ -39,12 +50,15 @@ export function HeroCarousel({ slides }: { slides: Slide[] }) {
 
   if (!slides?.length) return null
   const slide = slides[index]
+  const isLight = variant === 'light'
 
   const go = (dir: 1 | -1) => setIndex((i) => (i + dir + slides.length) % slides.length)
 
   return (
     <section
-      className="relative overflow-hidden bg-gradient-to-br from-primary to-secondary text-white"
+      className={`relative overflow-hidden ${
+        isLight ? 'bg-gradient-to-br from-[#EAF4FF] to-[#CFE7FF] text-ink' : 'bg-gradient-to-br from-primary to-secondary text-white'
+      }`}
       style={{ minHeight: 720 }}
     >
       <div className="mx-auto flex min-h-[720px] max-w-6xl px-12 py-14 md:px-20">
@@ -53,16 +67,22 @@ export function HeroCarousel({ slides }: { slides: Slide[] }) {
           className="hero-slide flex flex-1 flex-col items-center gap-4 [transition:opacity_400ms_var(--ease-out),transform_400ms_var(--ease-out)] md:flex-row md:gap-12 [@starting-style]:opacity-0 [@starting-style]:[transform:translateY(6px)]"
         >
           <div className="flex-1 text-center md:text-left">
-            <h1 className="whitespace-pre-line text-5xl font-semibold leading-[1.1] md:text-[72px]">
+            <h1
+              className={`whitespace-pre-line text-5xl font-semibold leading-[1.1] md:text-[72px] ${isLight ? 'text-primary' : ''}`}
+            >
               {slide.headline}
             </h1>
             {slide.body && (
-              <p className="mt-4 text-lg font-medium leading-relaxed">{slide.body}</p>
+              <p className={`mt-4 text-lg font-medium leading-relaxed ${isLight ? 'text-ink' : ''}`}>
+                {slide.body}
+              </p>
             )}
             {slide.ctaLabel && slide.ctaUrl && (
               <a
                 href={slide.ctaUrl}
-                className="mt-6 inline-block rounded-pill bg-primary px-6 py-3 text-[15px] font-medium text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
+                className={`mt-6 inline-block rounded-pill px-6 py-3 text-[15px] font-medium text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)] ${
+                  isLight ? 'bg-accent' : 'bg-primary'
+                }`}
               >
                 {slide.ctaLabel}
               </a>
@@ -86,14 +106,14 @@ export function HeroCarousel({ slides }: { slides: Slide[] }) {
           <button
             aria-label="Previous slide"
             onClick={() => go(-1)}
-            className="arrow-hover absolute left-4 top-1/2 -translate-y-1/2 text-3xl transition-transform duration-[160ms] ease-out active:scale-[0.97] focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
+            className={`arrow-hover absolute left-4 top-1/2 -translate-y-1/2 text-3xl transition-transform duration-[160ms] ease-out active:scale-[0.97] focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)] ${isLight ? 'text-primary' : ''}`}
           >
             ‹
           </button>
           <button
             aria-label="Next slide"
             onClick={() => go(1)}
-            className="arrow-hover absolute right-4 top-1/2 -translate-y-1/2 text-3xl transition-transform duration-[160ms] ease-out active:scale-[0.97] focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
+            className={`arrow-hover absolute right-4 top-1/2 -translate-y-1/2 text-3xl transition-transform duration-[160ms] ease-out active:scale-[0.97] focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)] ${isLight ? 'text-primary' : ''}`}
           >
             ›
           </button>

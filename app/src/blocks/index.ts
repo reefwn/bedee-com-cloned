@@ -10,6 +10,15 @@ export const HeroCarouselBlock: Block = {
   labels: { singular: 'Hero Carousel', plural: 'Hero Carousels' },
   fields: [
     {
+      name: 'variant',
+      type: 'select',
+      defaultValue: 'dark',
+      options: [
+        { label: 'Dark (navy->blue gradient, white text) — homepage default', value: 'dark' },
+        { label: 'Light (pale blue gradient, dark text, coral CTA)', value: 'light' },
+      ],
+    },
+    {
       name: 'slides',
       type: 'array',
       minRows: 1,
