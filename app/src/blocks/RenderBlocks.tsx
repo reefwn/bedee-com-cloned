@@ -50,6 +50,9 @@ export async function RenderBlocks({ blocks }: { blocks: any[] }) {
             limit: block.postCount ?? 3,
             sort: '-publishedAt',
             depth: 2,
+            where: block.categorySlug
+              ? { 'category.slug': { equals: block.categorySlug } }
+              : undefined,
           })
           return <ArticleGrid key={i} heading={block.heading} posts={result.docs as any} />
         }

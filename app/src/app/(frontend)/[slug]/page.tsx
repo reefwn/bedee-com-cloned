@@ -1,3 +1,5 @@
+import { cache } from 'react'
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
@@ -9,8 +11,9 @@ import { SiteHeader } from '@/components/SiteHeader'
 
 export const dynamic = 'force-dynamic'
 
-export default async function ContentPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params
+type Params = { slug: string }
+
+const getContent = cache(async (slug: string) => {
   const payload = await getPayload({ config })
   const pageResult = await payload.find({
     collection: 'pages',
@@ -19,17 +22,7 @@ export default async function ContentPage({ params }: { params: Promise<{ slug: 
     limit: 1,
   })
   const page = pageResult.docs[0]
-
-  if (page) {
-    return (
-      <>
-        <SiteHeader />
-        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-        <RenderBlocks blocks={(page.layout ?? []) as any[]} />
-        <SiteFooter />
-      </>
-    )
-  }
+  if (page) return { type: 'page' as const, doc: page }
 
   // Live site serves service pages (teleconsultation, telepharmacy,
   // health-mall) at this same flat top-level slug — see
@@ -41,13 +34,64 @@ export default async function ContentPage({ params }: { params: Promise<{ slug: 
     limit: 1,
   })
   const service = serviceResult.docs[0]
+  if (service) return { type: 'service' as const, doc: service }
 
-  if (!service) notFound()
+  return null
+})
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<Params>
+}): Promise<Metadata> {
+  const { slug } = await params
+  const content = await getContent(slug)
+  if (!content) return {}
+
+  // Services has no `seo` group today (a separate, pre-existing gap) —
+  // only Pages docs get a real meta description until that's added.
+  const seo = content.type === 'page' ? content.doc.seo : undefined
+  const title = seo?.metaTitle || content.doc.title
+  const description = seo?.metaDescription || undefined
+  const path = `/${slug}`
+
+  return {
+    title,
+    description,
+    alternates: { canonical: path },
+    openGraph: { title, description, type: 'website', url: path },
+    twitter: { card: 'summary', title, description },
+  }
+}
+
+export default async function ContentPage({ params }: { params: Promise<Params> }) {
+  const { slug } = await params
+  const content = await getContent(slug)
+
+  if (!content) notFound()
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: content.doc.title,
+    description: content.type === 'page' ? content.doc.seo?.metaDescription ?? undefined : undefined,
+    url: `/${slug}`,
+    publisher: { '@type': 'Organization', name: 'BeDee' },
+  }
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
+      />
       <SiteHeader />
-      <ServiceDetail service={service} />
+      {content.type === 'page' ? (
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        <RenderBlocks blocks={(content.doc.layout ?? []) as any[]} />
+      ) : (
+        <ServiceDetail service={content.doc} />
+      )}
       <SiteFooter />
     </>
   )

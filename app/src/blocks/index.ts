@@ -89,6 +89,10 @@ export const ArticleGridBlock: Block = {
   fields: [
     { name: 'heading', type: 'text', localized: true },
     { name: 'postCount', type: 'number', defaultValue: 3 },
+    // Optional — omit to keep the existing "latest across the whole site"
+    // behavior. Set to pin a specific category's latest posts instead (e.g.
+    // a service page's "related articles" section).
+    { name: 'categorySlug', type: 'text' },
   ],
 }
 
