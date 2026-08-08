@@ -55,7 +55,10 @@ export function AppStickyBanner() {
     >
       <div className="flex min-w-0 items-center gap-2 md:gap-3">
         <Image src="/app-badges/bedee-app.webp" alt="" width={36} height={36} className="h-9 w-9 shrink-0 rounded-full" />
-        <p className="min-w-0 text-sm font-medium leading-tight text-white md:text-base">
+        {/* Hidden below sm: at that width the real (unsquished) badge pills
+        already take up most of the row, and "icon + badges" reads fine on
+        its own without the label wrapping to 3 cramped lines. */}
+        <p className="hidden min-w-0 text-sm font-medium leading-tight text-white sm:block md:text-base">
           ดาวน์โหลดแอป BeDee
           <span className="hidden md:inline"> ดูแลสุขภาพครบวงจรในที่เดียว</span>
         </p>
