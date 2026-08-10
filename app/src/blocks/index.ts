@@ -149,6 +149,18 @@ export const PromotionGridBlock: Block = {
   ],
 }
 
+export const ProductCarouselBlock: Block = {
+  slug: 'productCarousel',
+  labels: { singular: 'Product Carousel', plural: 'Product Carousels' },
+  fields: [
+    { name: 'heading', type: 'text', localized: true },
+    // Optional — the source pairs this heading with a small bag icon (e.g.
+    // health-mall's "สินค้าสุขภาพ" section); omit for a plain text heading.
+    { name: 'icon', type: 'upload', relationTo: 'media' },
+    { name: 'products', type: 'relationship', relationTo: 'products', hasMany: true },
+  ],
+}
+
 export const RichTextContentBlock: Block = {
   slug: 'richTextContent',
   labels: { singular: 'Rich Text Content', plural: 'Rich Text Content' },
@@ -193,6 +205,7 @@ export const BlocksField = [
   ArticleGridBlock,
   ImageCarouselBlock,
   PromotionGridBlock,
+  ProductCarouselBlock,
   RichTextContentBlock,
   FAQBlock,
 ]

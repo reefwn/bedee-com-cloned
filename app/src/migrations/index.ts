@@ -9,6 +9,8 @@ import * as migration_20260808_060625_add_hero_carousel_variant from './20260808
 import * as migration_20260808_145632_add_promotion_grid_block from './20260808_145632_add_promotion_grid_block';
 import * as migration_20260810_042634_add_hero_carousel_coral_variant from './20260810_042634_add_hero_carousel_coral_variant';
 import * as migration_20260810_073050_add_promo_banner_subheading_icons from './20260810_073050_add_promo_banner_subheading_icons';
+import * as migration_20260810_081744_add_product_carousel_block from './20260810_081744_add_product_carousel_block';
+import * as migration_20260810_082024_add_product_carousel_icon from './20260810_082024_add_product_carousel_icon';
 
 export const migrations = [
   {
@@ -64,6 +66,16 @@ export const migrations = [
   {
     up: migration_20260810_073050_add_promo_banner_subheading_icons.up,
     down: migration_20260810_073050_add_promo_banner_subheading_icons.down,
-    name: '20260810_073050_add_promo_banner_subheading_icons'
+    name: '20260810_073050_add_promo_banner_subheading_icons',
+  },
+  {
+    up: migration_20260810_081744_add_product_carousel_block.up,
+    down: migration_20260810_081744_add_product_carousel_block.down,
+    name: '20260810_081744_add_product_carousel_block',
+  },
+  {
+    up: migration_20260810_082024_add_product_carousel_icon.up,
+    down: migration_20260810_082024_add_product_carousel_icon.down,
+    name: '20260810_082024_add_product_carousel_icon'
   },
 ];

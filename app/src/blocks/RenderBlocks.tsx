@@ -8,6 +8,7 @@ import { RichTextContent } from './components/RichTextContent'
 import { FAQ } from './components/FAQ'
 import { ImageCarousel } from './components/ImageCarousel'
 import { PromotionGrid } from './components/PromotionGrid'
+import { ProductCarousel } from './components/ProductCarousel'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
@@ -81,6 +82,19 @@ export async function RenderBlocks({ blocks }: { blocks: any[] }) {
             (p: any): p is object => typeof p === 'object',
           )
           return <PromotionGrid key={i} heading={block.heading} promotions={promos as any} />
+        }
+        case 'productCarousel': {
+          const products = (block.products ?? []).filter(
+            (p: any): p is object => typeof p === 'object',
+          )
+          return (
+            <ProductCarousel
+              key={i}
+              heading={block.heading}
+              icon={typeof block.icon === 'object' ? block.icon : null}
+              products={products as any}
+            />
+          )
         }
         case 'richTextContent':
           return <RichTextContent key={i} heading={block.heading} content={block.content} />
