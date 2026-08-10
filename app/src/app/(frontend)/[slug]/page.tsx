@@ -9,6 +9,7 @@ import { ServiceDetail } from '@/components/ServiceDetail'
 import { SiteFooter } from '@/components/SiteFooter'
 import { SiteHeader } from '@/components/SiteHeader'
 import { extractHowToSchemas } from '@/lib/howToSchema'
+import { extractProductListSchemas } from '@/lib/productSchema'
 
 export const dynamic = 'force-dynamic'
 
@@ -81,6 +82,8 @@ export default async function ContentPage({ params }: { params: Promise<Params> 
   }
   const howToSchemas =
     content.type === 'page' ? extractHowToSchemas((content.doc.layout ?? []) as any[]) : [] // eslint-disable-line @typescript-eslint/no-explicit-any
+  const productListSchemas =
+    content.type === 'page' ? extractProductListSchemas((content.doc.layout ?? []) as any[]) : [] // eslint-disable-line @typescript-eslint/no-explicit-any
 
   return (
     <>
@@ -90,7 +93,14 @@ export default async function ContentPage({ params }: { params: Promise<Params> 
       />
       {howToSchemas.map((schema, i) => (
         <script
-          key={i}
+          key={`howto-${i}`}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, '\\u003c') }}
+        />
+      ))}
+      {productListSchemas.map((schema, i) => (
+        <script
+          key={`products-${i}`}
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, '\\u003c') }}
         />
