@@ -43,7 +43,7 @@ export function PromoBanner({
         )}
         <div className="flex flex-1 flex-col items-center gap-4 md:items-start">
           <div className="flex items-center gap-2 text-3xl font-semibold text-primary">
-          <span>{heading}</span>
+          <h2>{heading}</h2>
           {badgeLabel && (
             <span className="rounded-full bg-white px-2 py-1 text-xs">{badgeLabel}</span>
           )}
@@ -51,7 +51,7 @@ export function PromoBanner({
           {body && <p className="max-w-xl text-base leading-7 text-ink">{body}</p>}
           {subheading && <p className="text-lg font-semibold text-secondary">{subheading}</p>}
           {iconItems && iconItems.length > 0 && (
-            <div className="grid grid-cols-3 gap-6 text-center">
+            <div className="grid grid-cols-2 gap-6 text-center sm:grid-cols-3">
               {iconItems.map((item, i) => (
                 <div key={i}>
                   {item.icon?.url && (
