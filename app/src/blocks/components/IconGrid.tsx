@@ -17,7 +17,10 @@ export function IconGrid({
   variant?: 'tinted' | 'plain' | null
 }) {
   if (!items?.length) return null
-  const cols = items.length >= 4 ? 'md:grid-cols-4' : 'md:grid-cols-3'
+  // 6 items balances into a clean 3x2 grid (matches bedee.com's own 3-per-row
+  // convention for 6-item icon rows, e.g. health-mall's category icons) — a
+  // 4-column grid would leave an unbalanced dangling row of 2.
+  const cols = items.length === 6 ? 'md:grid-cols-3' : items.length >= 4 ? 'md:grid-cols-4' : 'md:grid-cols-3'
   // DESIGN.md: no gradients except the hero's navy→blue background — flat
   // panel tints exist specifically to avoid this.
   const background = variant === 'plain' ? 'bg-white' : 'bg-panel-1'
