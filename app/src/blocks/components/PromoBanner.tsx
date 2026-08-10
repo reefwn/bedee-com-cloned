@@ -1,6 +1,8 @@
 import Image from 'next/image'
 
 // Section 6 of plans/04-final-prompt.md §3 — background #F4F7FC, centered column.
+type IconItem = { icon: { url?: string | null; alt?: string | null }; label: string }
+
 export function PromoBanner({
   heading,
   body,
@@ -8,6 +10,8 @@ export function PromoBanner({
   badgeLabel,
   ctaLabel,
   ctaUrl,
+  subheading,
+  iconItems,
 }: {
   heading?: string | null
   body?: string | null
@@ -15,6 +19,8 @@ export function PromoBanner({
   badgeLabel?: string | null
   ctaLabel?: string | null
   ctaUrl?: string | null
+  subheading?: string | null
+  iconItems?: IconItem[] | null
 }) {
   return (
     <section className="bg-panel-2 py-16">
@@ -43,6 +49,25 @@ export function PromoBanner({
           )}
           </div>
           {body && <p className="max-w-xl text-base leading-7 text-ink">{body}</p>}
+          {subheading && <p className="text-lg font-semibold text-secondary">{subheading}</p>}
+          {iconItems && iconItems.length > 0 && (
+            <div className="grid grid-cols-3 gap-6 text-center">
+              {iconItems.map((item, i) => (
+                <div key={i}>
+                  {item.icon?.url && (
+                    <Image
+                      src={item.icon.url}
+                      alt={item.icon.alt || ''}
+                      width={56}
+                      height={56}
+                      className="mx-auto h-14 w-14 object-contain"
+                    />
+                  )}
+                  <p className="mt-2 text-sm font-medium text-ink">{item.label}</p>
+                </div>
+              ))}
+            </div>
+          )}
           {ctaLabel && ctaUrl && (
             <a
               href={ctaUrl}

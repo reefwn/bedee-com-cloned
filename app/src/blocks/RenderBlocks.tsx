@@ -51,6 +51,11 @@ export async function RenderBlocks({ blocks }: { blocks: any[] }) {
               badgeLabel={block.badgeLabel}
               ctaLabel={block.ctaLabel}
               ctaUrl={block.ctaUrl}
+              subheading={block.subheading}
+              iconItems={(block.iconItems ?? []).map((item: any) => ({
+                icon: typeof item.icon === 'object' ? item.icon : { url: null, alt: null },
+                label: item.label,
+              }))}
             />
           )
         case 'articleGrid': {

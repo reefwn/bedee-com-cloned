@@ -94,6 +94,19 @@ export const PromoBannerBlock: Block = {
     { name: 'badgeLabel', type: 'text', localized: true },
     { name: 'ctaLabel', type: 'text', localized: true },
     { name: 'ctaUrl', type: 'text' },
+    // Optional — e.g. health-mall's own version of this banner has a second
+    // "ช้อปอะไรได้บ้างใน Health Mall" line plus a compact category-icon row
+    // inside the same text column, not a full-width section of its own.
+    { name: 'subheading', type: 'text', localized: true },
+    {
+      name: 'iconItems',
+      type: 'array',
+      maxRows: 6,
+      fields: [
+        { name: 'icon', type: 'upload', relationTo: 'media', required: true },
+        { name: 'label', type: 'text', required: true, localized: true },
+      ],
+    },
   ],
 }
 
