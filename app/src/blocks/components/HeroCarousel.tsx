@@ -34,9 +34,11 @@ function usePrefersReducedMotion() {
 export function HeroCarousel({
   slides,
   variant = 'dark',
+  backgroundImage,
 }: {
   slides: Slide[]
-  variant?: 'dark' | 'light' | null
+  variant?: 'dark' | 'light' | 'coral' | null
+  backgroundImage?: { url?: string | null } | null
 }) {
   const [index, setIndex] = useState(0)
   const prefersReducedMotion = usePrefersReducedMotion()
@@ -50,16 +52,25 @@ export function HeroCarousel({
 
   if (!slides?.length) return null
   const slide = slides[index]
-  const isLight = variant === 'light'
+  const isLight = variant === 'light' || variant === 'coral'
+  const hasBackgroundImage = variant === 'coral' && backgroundImage?.url
 
   const go = (dir: 1 | -1) => setIndex((i) => (i + dir + slides.length) % slides.length)
 
   return (
     <section
       className={`relative overflow-hidden ${
-        isLight ? 'bg-gradient-to-br from-[#EAF4FF] to-[#CFE7FF] text-ink' : 'bg-gradient-to-br from-primary to-secondary text-white'
+        hasBackgroundImage
+          ? 'text-ink'
+          : isLight
+            ? 'bg-gradient-to-br from-[#EAF4FF] to-[#CFE7FF] text-ink'
+            : 'bg-gradient-to-br from-primary to-secondary text-white'
       }`}
-      style={{ minHeight: 720 }}
+      style={
+        hasBackgroundImage
+          ? { minHeight: 720, backgroundImage: `url(${backgroundImage.url})`, backgroundSize: 'cover', backgroundPosition: 'center' }
+          : { minHeight: 720 }
+      }
     >
       <div className="mx-auto flex min-h-[720px] max-w-6xl px-12 py-14 md:px-20">
         <div

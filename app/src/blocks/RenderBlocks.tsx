@@ -20,7 +20,14 @@ export async function RenderBlocks({ blocks }: { blocks: any[] }) {
     blocks.map(async (block, i) => {
       switch (block.blockType) {
         case 'heroCarousel':
-          return <HeroCarousel key={i} slides={block.slides} variant={block.variant} />
+          return (
+            <HeroCarousel
+              key={i}
+              slides={block.slides}
+              variant={block.variant}
+              backgroundImage={typeof block.backgroundImage === 'object' ? block.backgroundImage : null}
+            />
+          )
         case 'iconGrid':
           return (
             <IconGrid
