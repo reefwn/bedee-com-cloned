@@ -40,7 +40,7 @@ export function ExpertTabs({ heading, doctors }: { heading?: string | null; doct
             {role === 'doctor' ? 'กำลังปรับปรุงข้อมูลแพทย์ในเครือ' : 'กำลังปรับปรุงข้อมูลเภสัชกรในเครือ'}
           </p>
         ) : (
-        <div className="mt-8 flex gap-6 overflow-x-auto">
+        <div className="mt-8 flex gap-6 overflow-x-auto overflow-y-hidden">
           {visible.map((d) => (
             <div key={d.id} className="w-32 shrink-0 text-center">
               {d.photo?.url && (
