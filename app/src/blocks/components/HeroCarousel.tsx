@@ -37,7 +37,7 @@ export function HeroCarousel({
   backgroundImage,
 }: {
   slides: Slide[]
-  variant?: 'dark' | 'light' | 'coral' | null
+  variant?: 'dark' | 'light' | 'coral' | 'teal' | null
   backgroundImage?: { url?: string | null } | null
 }) {
   const [index, setIndex] = useState(0)
@@ -52,8 +52,13 @@ export function HeroCarousel({
 
   if (!slides?.length) return null
   const slide = slides[index]
-  const isLight = variant === 'light' || variant === 'coral'
-  const hasBackgroundImage = variant === 'coral' && backgroundImage?.url
+  // Any non-"dark" variant with a real backgroundImage renders it as a photo
+  // background instead of a flat gradient — decoupled from the specific
+  // variant name so a new photo-hero (e.g. a different service page's own
+  // brand color) never needs a code change, only a new enum label + upload.
+  const isLight = variant !== 'dark'
+  const bgImageUrl = backgroundImage?.url
+  const hasBackgroundImage = Boolean(bgImageUrl)
 
   const go = (dir: 1 | -1) => setIndex((i) => (i + dir + slides.length) % slides.length)
 
@@ -68,7 +73,7 @@ export function HeroCarousel({
       }`}
       style={
         hasBackgroundImage
-          ? { minHeight: 720, backgroundImage: `url(${backgroundImage.url})`, backgroundSize: 'cover', backgroundPosition: 'center' }
+          ? { minHeight: 720, backgroundImage: `url(${bgImageUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' }
           : { minHeight: 720 }
       }
     >

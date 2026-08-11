@@ -11,6 +11,7 @@ import * as migration_20260810_042634_add_hero_carousel_coral_variant from './20
 import * as migration_20260810_073050_add_promo_banner_subheading_icons from './20260810_073050_add_promo_banner_subheading_icons';
 import * as migration_20260810_081744_add_product_carousel_block from './20260810_081744_add_product_carousel_block';
 import * as migration_20260810_082024_add_product_carousel_icon from './20260810_082024_add_product_carousel_icon';
+import * as migration_20260811_030719_add_hero_carousel_teal_variant from './20260811_030719_add_hero_carousel_teal_variant';
 
 export const migrations = [
   {
@@ -76,6 +77,11 @@ export const migrations = [
   {
     up: migration_20260810_082024_add_product_carousel_icon.up,
     down: migration_20260810_082024_add_product_carousel_icon.down,
-    name: '20260810_082024_add_product_carousel_icon'
+    name: '20260810_082024_add_product_carousel_icon',
+  },
+  {
+    up: migration_20260811_030719_add_hero_carousel_teal_variant.up,
+    down: migration_20260811_030719_add_hero_carousel_teal_variant.down,
+    name: '20260811_030719_add_hero_carousel_teal_variant'
   },
 ];

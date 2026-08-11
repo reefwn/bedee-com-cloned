@@ -17,11 +17,13 @@ export const HeroCarouselBlock: Block = {
         { label: 'Dark (navy->blue gradient, white text) — homepage default', value: 'dark' },
         { label: 'Light (pale blue gradient, dark text, coral CTA)', value: 'light' },
         { label: 'Coral (real source background photo, dark text)', value: 'coral' },
+        { label: 'Teal (real source background photo, dark text)', value: 'teal' },
       ],
     },
-    // Only used when variant is "coral" — the source page's hero band is a real
-    // background photo (e.g. bedee.com/health-mall's coral wavy-line texture),
-    // not a flat CSS gradient like the dark/light variants.
+    // Set alongside a "photo" variant (coral, teal, ...) — the source page's
+    // hero band is a real background photo (e.g. health-mall's coral
+    // wavy-line texture, telepharmacy's teal one), not a flat CSS gradient
+    // like the dark/light variants.
     { name: 'backgroundImage', type: 'upload', relationTo: 'media' },
     {
       name: 'slides',
