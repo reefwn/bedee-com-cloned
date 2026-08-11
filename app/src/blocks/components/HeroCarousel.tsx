@@ -64,12 +64,8 @@ export function HeroCarousel({
 
   return (
     <section
-      className={`relative overflow-hidden ${
-        hasBackgroundImage
-          ? 'text-ink'
-          : isLight
-            ? 'bg-gradient-to-br from-[#EAF4FF] to-[#CFE7FF] text-ink'
-            : 'bg-gradient-to-br from-primary to-secondary text-white'
+      className={`relative overflow-hidden ${isLight ? 'text-ink' : 'text-white'} ${
+        hasBackgroundImage ? '' : isLight ? 'bg-gradient-to-br from-[#EAF4FF] to-[#CFE7FF]' : 'bg-gradient-to-br from-primary to-secondary'
       }`}
       style={
         hasBackgroundImage
