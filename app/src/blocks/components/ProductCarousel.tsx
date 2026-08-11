@@ -8,6 +8,7 @@ type Product = {
   title: string
   image: { url?: string | null; alt?: string | null }
   price?: number | null
+  originalPrice?: number | null
   externalUrl: string
 }
 
@@ -103,7 +104,14 @@ export function ProductCarousel({
               </div>
               <p className="mt-3 line-clamp-2 text-sm font-medium text-ink">{product.title}</p>
               {typeof product.price === 'number' && (
-                <p className="mt-1 font-semibold text-primary">฿{product.price.toLocaleString('th-TH')}</p>
+                <p className="mt-1 flex items-baseline gap-2">
+                  <span className="font-semibold text-primary">฿{product.price.toLocaleString('th-TH')}</span>
+                  {typeof product.originalPrice === 'number' && (
+                    <span className="text-sm text-muted line-through">
+                      ฿{product.originalPrice.toLocaleString('th-TH')}
+                    </span>
+                  )}
+                </p>
               )}
             </a>
           ))}
