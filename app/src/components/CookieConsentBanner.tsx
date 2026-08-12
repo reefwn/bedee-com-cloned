@@ -1,9 +1,10 @@
 'use client'
 
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 const CONSENT_KEY = 'bedee-cookie-consent'
-const PRIVACY_POLICY_URL = 'https://www.bedee.com/privacy-policy'
+const PRIVACY_POLICY_URL = '/privacy-policy'
 
 function usePrefersReducedMotion() {
   const [reduced, setReduced] = useState(false)
@@ -45,20 +46,18 @@ export function CookieConsentBanner() {
       <div className="flex flex-col items-center gap-4 bg-white px-6 py-5 md:flex-row md:justify-between md:px-8">
         <p className="max-w-2xl text-center text-sm leading-relaxed text-ink md:text-left">
           เราใช้คุกกี้เพื่อพัฒนาประสิทธิภาพ และประสบการณ์ที่ดีในการใช้เว็บไซต์ของคุณ คุณสามารถศึกษารายละเอียดได้ที่{' '}
-          <a href={PRIVACY_POLICY_URL} target="_blank" rel="noopener noreferrer" className="text-secondary underline-offset-2 hover:underline">
+          <Link href={PRIVACY_POLICY_URL} className="text-secondary underline-offset-2 hover:underline">
             นโยบายความเป็นส่วนตัว
-          </a>{' '}
+          </Link>{' '}
           และสามารถจัดการความเป็นส่วนตัวของคุณได้เองโดยคลิกที่ ตั้งค่า
         </p>
         <div className="flex shrink-0 items-center gap-6">
-          <a
+          <Link
             href={PRIVACY_POLICY_URL}
-            target="_blank"
-            rel="noopener noreferrer"
             className="text-sm font-medium text-ink hover:text-secondary focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
           >
             ตั้งค่า
-          </a>
+          </Link>
           <button
             onClick={() => choose('rejected')}
             className="text-sm font-medium text-ink hover:text-secondary focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
