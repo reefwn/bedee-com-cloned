@@ -1,0 +1,66 @@
+'use client'
+
+import Image from 'next/image'
+import { useState } from 'react'
+
+type GalleryImage = { url?: string | null; alt?: string | null }
+
+// Same prev/next useState pattern as ImageCarousel.tsx, minus autoplay — a
+// product photo set has no reason to auto-advance while someone is reading.
+export function ProductGallery({ images, title }: { images: GalleryImage[]; title: string }) {
+  const [index, setIndex] = useState(0)
+  if (!images.length) return null
+
+  const goTo = (i: number) => setIndex((i + images.length) % images.length)
+  const active = images[index]
+
+  return (
+    <div>
+      <div className="relative aspect-square overflow-hidden bg-panel-1">
+        {active.url && (
+          <Image
+            key={active.url}
+            src={active.url}
+            alt={active.alt || title}
+            fill
+            sizes="(min-width: 1024px) 500px, 100vw"
+            className="object-contain p-6"
+            priority
+          />
+        )}
+        {images.length > 1 && (
+          <>
+            <button
+              aria-label="ก่อนหน้า"
+              onClick={() => goTo(index - 1)}
+              className="arrow-hover absolute left-2 top-1/2 -translate-y-1/2 text-3xl text-primary transition-transform duration-[160ms] ease-out active:scale-[0.97] focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
+            >
+              ‹
+            </button>
+            <button
+              aria-label="ถัดไป"
+              onClick={() => goTo(index + 1)}
+              className="arrow-hover absolute right-2 top-1/2 -translate-y-1/2 text-3xl text-primary transition-transform duration-[160ms] ease-out active:scale-[0.97] focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
+            >
+              ›
+            </button>
+          </>
+        )}
+      </div>
+      {images.length > 1 && (
+        <div className="mt-4 flex justify-center gap-2">
+          {images.map((_, i) => (
+            <button
+              key={i}
+              aria-label={`ไปที่รูปที่ ${i + 1}`}
+              onClick={() => goTo(i)}
+              className={`h-2 w-2 rounded-full transition-opacity focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)] ${
+                i === index ? 'bg-primary' : 'bg-panel-2'
+              }`}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}

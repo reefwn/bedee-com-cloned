@@ -13,6 +13,7 @@ import * as migration_20260810_081744_add_product_carousel_block from './2026081
 import * as migration_20260810_082024_add_product_carousel_icon from './20260810_082024_add_product_carousel_icon';
 import * as migration_20260811_030719_add_hero_carousel_teal_variant from './20260811_030719_add_hero_carousel_teal_variant';
 import * as migration_20260811_050140_add_products_original_price from './20260811_050140_add_products_original_price';
+import * as migration_20260812_034851_add_products_pdp_fields from './20260812_034851_add_products_pdp_fields';
 
 export const migrations = [
   {
@@ -88,6 +89,11 @@ export const migrations = [
   {
     up: migration_20260811_050140_add_products_original_price.up,
     down: migration_20260811_050140_add_products_original_price.down,
-    name: '20260811_050140_add_products_original_price'
+    name: '20260811_050140_add_products_original_price',
+  },
+  {
+    up: migration_20260812_034851_add_products_pdp_fields.up,
+    down: migration_20260812_034851_add_products_pdp_fields.down,
+    name: '20260812_034851_add_products_pdp_fields'
   },
 ];

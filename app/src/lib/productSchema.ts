@@ -34,20 +34,23 @@ export function extractProductListSchemas(layout: any[]): ProductListSchema[] {
       '@context': 'https://schema.org',
       '@type': 'ItemList',
       name: block.heading || 'Products',
-      itemListElement: products.map((p: any, i: number) => ({
-        '@type': 'ListItem',
-        position: i + 1,
-        item: {
-          '@type': 'Product',
-          name: p.title,
-          image: p.image?.url ? `${SITE_URL}${p.image.url}` : undefined,
-          url: p.externalUrl,
-          offers:
-            typeof p.price === 'number'
-              ? { '@type': 'Offer', price: p.price, priceCurrency: 'THB', url: p.externalUrl }
-              : undefined,
-        },
-      })),
+      itemListElement: products.map((p: any, i: number) => {
+        const url = p.slug ? `${SITE_URL}/health-mall/${p.slug}` : p.externalUrl
+        return {
+          '@type': 'ListItem',
+          position: i + 1,
+          item: {
+            '@type': 'Product',
+            name: p.title,
+            image: p.image?.url ? `${SITE_URL}${p.image.url}` : undefined,
+            url,
+            offers:
+              typeof p.price === 'number'
+                ? { '@type': 'Offer', price: p.price, priceCurrency: 'THB', url: p.externalUrl }
+                : undefined,
+          },
+        }
+      }),
     })
   }
 

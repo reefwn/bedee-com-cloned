@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 
 type Product = {
@@ -10,6 +11,7 @@ type Product = {
   price?: number | null
   originalPrice?: number | null
   externalUrl: string
+  slug?: string | null
 }
 
 function usePrefersReducedMotion() {
@@ -82,39 +84,56 @@ export function ProductCarousel({
           ref={trackRef}
           className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
-          {products.map((product) => (
-            <a
-              key={product.id}
-              data-card
-              href={product.externalUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-[46%] shrink-0 snap-start focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)] sm:w-[31%] lg:w-[23%]"
-            >
-              <div className="relative aspect-square overflow-hidden bg-panel-1">
-                {product.image?.url && (
-                  <Image
-                    src={product.image.url}
-                    alt={product.image.alt || product.title}
-                    fill
-                    sizes="(min-width: 1024px) 23vw, (min-width: 640px) 31vw, 46vw"
-                    className="object-contain p-4"
-                  />
-                )}
-              </div>
-              <p className="mt-3 line-clamp-2 text-sm font-medium text-ink">{product.title}</p>
-              {typeof product.price === 'number' && (
-                <p className="mt-1 flex items-baseline gap-2">
-                  <span className="font-semibold text-primary">฿{product.price.toLocaleString('th-TH')}</span>
-                  {typeof product.originalPrice === 'number' && (
-                    <span className="text-sm text-muted line-through">
-                      ฿{product.originalPrice.toLocaleString('th-TH')}
-                    </span>
+          {products.map((product) => {
+            const cardClassName =
+              'w-[46%] shrink-0 snap-start focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)] sm:w-[31%] lg:w-[23%]'
+            const cardContent = (
+              <>
+                <div className="relative aspect-square overflow-hidden bg-panel-1">
+                  {product.image?.url && (
+                    <Image
+                      src={product.image.url}
+                      alt={product.image.alt || product.title}
+                      fill
+                      sizes="(min-width: 1024px) 23vw, (min-width: 640px) 31vw, 46vw"
+                      className="object-contain p-4"
+                    />
                   )}
-                </p>
-              )}
-            </a>
-          ))}
+                </div>
+                <p className="mt-3 line-clamp-2 text-sm font-medium text-ink">{product.title}</p>
+                {typeof product.price === 'number' && (
+                  <p className="mt-1 flex items-baseline gap-2">
+                    <span className="font-semibold text-primary">฿{product.price.toLocaleString('th-TH')}</span>
+                    {typeof product.originalPrice === 'number' && (
+                      <span className="text-sm text-muted line-through">
+                        ฿{product.originalPrice.toLocaleString('th-TH')}
+                      </span>
+                    )}
+                  </p>
+                )}
+              </>
+            )
+
+            // Health-mall products get a real in-house detail page; other
+            // uses of this block (e.g. health-plaza's packages) have no
+            // `slug` and keep linking straight out to the source page.
+            return product.slug ? (
+              <Link key={product.id} data-card href={`/health-mall/${product.slug}`} className={cardClassName}>
+                {cardContent}
+              </Link>
+            ) : (
+              <a
+                key={product.id}
+                data-card
+                href={product.externalUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cardClassName}
+              >
+                {cardContent}
+              </a>
+            )
+          })}
         </div>
         <button
           aria-label="ก่อนหน้า"
