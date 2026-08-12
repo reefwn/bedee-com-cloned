@@ -4,6 +4,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { MobileNav } from './MobileNav'
 import { AppStickyBanner } from './AppStickyBanner'
+import { CookieConsentBanner } from './CookieConsentBanner'
 
 type NavChild = { label?: string | null; url?: string | null }
 type NavItem = { label?: string | null; url?: string | null; children?: NavChild[] | null }
@@ -18,6 +19,7 @@ export async function SiteHeader() {
   return (
     <>
       <AppStickyBanner />
+      <CookieConsentBanner />
       {/* relative z-50: without an explicit stacking context, the hero section's
       own position:relative (it's later in the DOM) paints over this header's
       absolutely-positioned nav dropdown. */}
