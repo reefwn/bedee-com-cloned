@@ -9,10 +9,11 @@ export const dynamic = 'force-dynamic'
 export async function GET() {
   const payload = await getPayload({ config })
 
-  const [settings, services, posts] = await Promise.all([
+  const [settings, services, posts, news] = await Promise.all([
     payload.findGlobal({ slug: 'site-settings' }),
     payload.find({ collection: 'services', limit: 20 }),
     payload.find({ collection: 'posts', limit: 10, sort: '-publishedAt', depth: 1 }),
+    payload.find({ collection: 'news-and-activities', limit: 10, sort: '-publishedAt' }),
   ])
 
   const lines: string[] = []
@@ -42,6 +43,13 @@ export async function GET() {
       lines.push(
         category ? `- [${post.title}](/article/${category}/${post.slug})` : `- ${post.title}`,
       )
+    }
+  }
+
+  if (news.docs.length) {
+    lines.push('\n## Recent news & activities')
+    for (const item of news.docs) {
+      lines.push(`- [${item.title}](/news-activities/${item.slug})`)
     }
   }
 

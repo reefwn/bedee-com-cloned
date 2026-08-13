@@ -1,3 +1,5 @@
+import { cache } from 'react'
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getPayload } from 'payload'
 import config from '@payload-config'
@@ -6,6 +8,44 @@ import { SiteFooter } from '@/components/SiteFooter'
 import { ArticleImage } from '@/blocks/components/ArticleImage'
 
 export const dynamic = 'force-dynamic'
+
+const SITE_URL = 'https://bedee-payload.vercel.app'
+
+// cache() dedupes this against generateMetadata's identical lookup for the
+// same request — same reasoning as the [slug] pages' getItem/getPost.
+const getPageResult = cache(async (page: number) => {
+  const payload = await getPayload({ config })
+  return payload.find({
+    collection: 'news-and-activities',
+    sort: '-publishedAt',
+    depth: 1,
+    limit: 12,
+    page,
+  })
+})
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>
+}): Promise<Metadata> {
+  const { page: pageParam } = await searchParams
+  const page = Math.max(1, Number(pageParam) || 1)
+  const result = await getPageResult(page)
+
+  const title =
+    page > 1 ? `ข่าวสารและกิจกรรม (หน้า ${page}/${result.totalPages}) - BeDee` : 'ข่าวสารและกิจกรรม - BeDee'
+  const description = 'ข่าวประชาสัมพันธ์และกิจกรรมล่าสุดจาก BeDee by BDMS'
+  const path = page > 1 ? `/news-activities?page=${page}` : '/news-activities'
+
+  return {
+    title,
+    description,
+    alternates: { canonical: path },
+    openGraph: { title, description, type: 'website', url: path },
+    twitter: { card: 'summary', title, description },
+  }
+}
 
 // Mirrors /article/page.tsx's real pagination pattern (Payload's own
 // page/limit, not client-side slicing) — minus the category filter and
@@ -18,20 +58,28 @@ export default async function NewsActivitiesListPage({
 }) {
   const { page: pageParam } = await searchParams
   const page = Math.max(1, Number(pageParam) || 1)
-  const payload = await getPayload({ config })
-
-  const result = await payload.find({
-    collection: 'news-and-activities',
-    sort: '-publishedAt',
-    depth: 1,
-    limit: 12,
-    page,
-  })
+  const result = await getPageResult(page)
 
   const pageHref = (targetPage: number) => (targetPage > 1 ? `/news-activities?page=${targetPage}` : '/news-activities')
 
+  const itemListJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'ข่าวสารและกิจกรรม',
+    itemListElement: result.docs.map((item, i) => ({
+      '@type': 'ListItem',
+      position: (page - 1) * 12 + i + 1,
+      url: `${SITE_URL}/news-activities/${item.slug}`,
+      name: item.title,
+    })),
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd).replace(/</g, '\\u003c') }}
+      />
       <SiteHeader />
       <main className="mx-auto max-w-6xl px-6 py-16">
         <h1 className="text-[28px] font-semibold text-primary">ข่าวสารและกิจกรรม</h1>
