@@ -13,7 +13,13 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function RenderBlocks({ blocks }: { blocks: any[] }) {
+export async function RenderBlocks({
+  blocks,
+  heroHeadingLevel = 'h1',
+}: {
+  blocks: any[]
+  heroHeadingLevel?: 'h1' | 'h2'
+}) {
   if (!blocks?.length) return null
   const payload = await getPayload({ config })
 
@@ -27,6 +33,7 @@ export async function RenderBlocks({ blocks }: { blocks: any[] }) {
               slides={block.slides}
               variant={block.variant}
               backgroundImage={typeof block.backgroundImage === 'object' ? block.backgroundImage : null}
+              headingLevel={heroHeadingLevel}
             />
           )
         case 'iconGrid':

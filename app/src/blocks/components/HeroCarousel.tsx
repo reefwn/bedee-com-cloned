@@ -35,10 +35,12 @@ export function HeroCarousel({
   slides,
   variant = 'dark',
   backgroundImage,
+  headingLevel = 'h1',
 }: {
   slides: Slide[]
   variant?: 'dark' | 'light' | 'coral' | 'teal' | null
   backgroundImage?: { url?: string | null } | null
+  headingLevel?: 'h1' | 'h2'
 }) {
   const [index, setIndex] = useState(0)
   const prefersReducedMotion = usePrefersReducedMotion()
@@ -79,11 +81,19 @@ export function HeroCarousel({
           className="hero-slide flex flex-1 flex-col items-center gap-4 [transition:opacity_400ms_var(--ease-out),transform_400ms_var(--ease-out)] md:flex-row md:gap-12 [@starting-style]:opacity-0 [@starting-style]:[transform:translateY(6px)]"
         >
           <div className="flex-1 text-center md:text-left">
-            <h1
-              className={`whitespace-pre-line text-5xl font-semibold leading-[1.1] md:text-[72px] ${isLight ? 'text-primary' : ''}`}
-            >
-              {slide.headline}
-            </h1>
+            {headingLevel === 'h2' ? (
+              <h2
+                className={`whitespace-pre-line text-5xl font-semibold leading-[1.1] md:text-[72px] ${isLight ? 'text-primary' : ''}`}
+              >
+                {slide.headline}
+              </h2>
+            ) : (
+              <h1
+                className={`whitespace-pre-line text-5xl font-semibold leading-[1.1] md:text-[72px] ${isLight ? 'text-primary' : ''}`}
+              >
+                {slide.headline}
+              </h1>
+            )}
             {slide.body && (
               <p className={`mt-4 text-lg font-medium leading-relaxed ${isLight ? 'text-ink' : ''}`}>
                 {slide.body}

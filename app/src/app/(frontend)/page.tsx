@@ -86,8 +86,14 @@ export default async function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd).replace(/</g, '\\u003c') }}
       />
       <SiteHeader />
+      {/* Real, stable H1 — decoupled from the hero carousel's rotating slide
+      headline (finding #5: H1 was slides[0].headline, so reordering slides
+      in the CMS silently changed the page's H1). sr-only since the
+      carousel's own headline is the visible design; this exists for
+      SEO/a11y only. */}
+      <h1 className="sr-only">BeDee — แพลตฟอร์มดูแลสุขภาพครบวงจร</h1>
       {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-      {home?.layout ? <RenderBlocks blocks={home.layout as any[]} /> : (
+      {home?.layout ? <RenderBlocks blocks={home.layout as any[]} heroHeadingLevel="h2" /> : (
         <main className="p-16 text-center text-muted">
           No <code>home</code> page document found yet — create one in{' '}
           <a className="underline" href="/admin/collections/pages">
