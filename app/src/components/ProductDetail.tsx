@@ -9,10 +9,15 @@ function BulletSection({ title, items }: { title: string; items?: { text?: strin
   if (!visible.length) return null
   return (
     <div className="mt-8">
-      <h2 className="text-xl font-semibold text-primary">{title}</h2>
-      <ul className="mt-3 list-disc space-y-2 pl-5 text-ink">
+      {/* Matches RichTextContent's h3 treatment (text-xl/semibold, ink) — the
+          page's one h2-equivalent heading is "รายละเอียดสินค้า" above; these
+          are its subsections, not peers of it. */}
+      <h2 className="text-xl font-semibold text-ink">{title}</h2>
+      <ul className="mt-3 ml-6 list-disc text-ink">
         {visible.map((item, i) => (
-          <li key={i}>{item.text}</li>
+          <li key={i} className="mb-2 pl-1">
+            {item.text}
+          </li>
         ))}
       </ul>
     </div>
@@ -41,14 +46,17 @@ export function ProductDetail({ product }: { product: Product }) {
         › <span className="text-ink">{product.title}</span>
       </nav>
 
-      <div className="grid gap-10 md:grid-cols-2">
+      <div className="grid gap-8 md:grid-cols-2">
         <ProductGallery images={gallery} title={product.title} />
 
         <div>
-          <h1 className="text-2xl font-semibold text-ink">{product.title}</h1>
+          {/* text-3xl/semibold/primary matches RichTextContent's h1 — every
+              other page's title carries this weight; the product name is
+              this page's title. */}
+          <h1 className="text-3xl font-semibold text-primary">{product.title}</h1>
           {typeof product.price === 'number' && (
             <p className="mt-2 flex items-baseline gap-3">
-              <span className="text-2xl font-bold text-primary">฿{product.price.toLocaleString('th-TH')}</span>
+              <span className="text-2xl font-semibold text-primary">฿{product.price.toLocaleString('th-TH')}</span>
               {typeof product.originalPrice === 'number' && (
                 <span className="text-lg text-muted line-through">
                   ฿{product.originalPrice.toLocaleString('th-TH')}
@@ -81,7 +89,7 @@ export function ProductDetail({ product }: { product: Product }) {
       </div>
 
       {hasDetails ? (
-        <div className="mt-14 border-t border-panel-2 pt-10">
+        <div className="mt-12 border-t border-panel-2 pt-12">
           <h2 className="text-center text-2xl font-semibold text-primary">รายละเอียดสินค้า</h2>
           <div className="mx-auto mt-6 max-w-3xl">
             <BulletSection title="คุณสมบัติ" items={product.highlights} />
