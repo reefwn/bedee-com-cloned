@@ -9,11 +9,12 @@ const SITE_URL = 'https://bedee-payload.vercel.app'
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const payload = await getPayload({ config })
 
-  const [pages, services, posts, products] = await Promise.all([
+  const [pages, services, posts, products, newsAndActivities] = await Promise.all([
     payload.find({ collection: 'pages', limit: 200, depth: 0 }),
     payload.find({ collection: 'services', limit: 200, depth: 0 }),
     payload.find({ collection: 'posts', limit: 1000, depth: 1, sort: '-publishedAt' }),
     payload.find({ collection: 'products', limit: 200, depth: 0 }),
+    payload.find({ collection: 'news-and-activities', limit: 200, depth: 0 }),
   ])
 
   const pageEntries = pages.docs.map((page) => ({
@@ -47,11 +48,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: product.updatedAt,
     }))
 
+  const newsEntries = newsAndActivities.docs.map((item) => ({
+    url: `${SITE_URL}/news-activities/${item.slug}`,
+    lastModified: item.updatedAt,
+  }))
+
   return [
     { url: SITE_URL, lastModified: new Date().toISOString() },
     ...pageEntries,
     ...serviceEntries,
     ...postEntries,
     ...productEntries,
+    ...newsEntries,
   ]
 }

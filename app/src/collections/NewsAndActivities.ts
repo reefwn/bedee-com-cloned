@@ -13,6 +13,7 @@ export const NewsAndActivities: CollectionConfig = {
     { name: 'title', type: 'text', required: true, localized: true },
     { name: 'slug', type: 'text', required: true, unique: true, index: true },
     { name: 'featuredImage', type: 'upload', relationTo: 'media', required: true },
+    { name: 'excerpt', type: 'textarea', localized: true },
     { name: 'content', type: 'richText', editor: lexicalEditor(), localized: true },
     { name: 'publishedAt', type: 'date' },
   ],
