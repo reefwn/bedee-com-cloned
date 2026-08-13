@@ -9,9 +9,14 @@ export const dynamic = 'force-dynamic'
 export async function GET() {
   const payload = await getPayload({ config })
 
-  const [settings, services, posts, news] = await Promise.all([
+  // The site's real service pages (teleconsultation, telepharmacy,
+  // health-mall, health-plaza) live in `pages`, not a separate `services`
+  // collection (that one's unused/empty) — query by their known slugs so
+  // this section reflects the actual live routes, titles pulled from the CMS.
+  const SERVICE_SLUGS = ['teleconsultation', 'telepharmacy', 'health-mall', 'health-plaza']
+  const [settings, servicePages, posts, news] = await Promise.all([
     payload.findGlobal({ slug: 'site-settings' }),
-    payload.find({ collection: 'services', limit: 20 }),
+    payload.find({ collection: 'pages', where: { slug: { in: SERVICE_SLUGS } }, limit: 20 }),
     payload.find({ collection: 'posts', limit: 10, sort: '-publishedAt', depth: 1 }),
     payload.find({ collection: 'news-and-activities', limit: 10, sort: '-publishedAt' }),
   ])
@@ -29,10 +34,14 @@ export async function GET() {
     }
   }
 
-  if (services.docs.length) {
+  if (servicePages.docs.length) {
     lines.push('\n## Services')
-    for (const service of services.docs) {
-      lines.push(`- [${service.title}](/${service.slug})`)
+    // Preserve the intended nav order rather than whatever order Postgres
+    // happens to return an `in` query in.
+    const bySlug = new Map(servicePages.docs.map((p) => [p.slug, p]))
+    for (const slug of SERVICE_SLUGS) {
+      const page = bySlug.get(slug)
+      if (page) lines.push(`- [${page.title}](/${slug})`)
     }
   }
 
