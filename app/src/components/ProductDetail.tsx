@@ -95,13 +95,14 @@ export function ProductDetail({ product }: { product: Product }) {
               <ShopIcon />
               ช้อปเลย!
             </a>
-            {/* LINE's own brand green (#06C755) — same real-world convention
-                as any "Continue with LINE" button; not the site's own accent. */}
+            {/* LINE's own brand green (#06C755) as an outline/secondary
+                treatment — same real-world convention as any "Continue with
+                LINE" button; not the site's own accent. */}
             <a
               href={LINE_CONSULT_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 rounded-pill bg-[#06C755] px-6 py-3 text-[15px] font-medium text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(6,199,85,0.4)]"
+              className="flex items-center justify-center gap-2 rounded-pill border border-[#06C755] bg-white px-6 py-3 text-[15px] font-medium text-[#06C755] transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(6,199,85,0.4)]"
             >
               <LineIcon />
               ปรึกษาผ่านไลน์
