@@ -106,8 +106,10 @@ export default async function NewsActivityPage({ params }: { params: Promise<Par
           <p className="mt-2 text-sm text-muted">{new Date(item.publishedAt).toLocaleDateString('th-TH')}</p>
         ) : null}
         {image?.url ? (
+          // Square corners per the Two-Shape Rule — content imagery, not a
+          // rounded interactive element.
           // eslint-disable-next-line @next/next/no-img-element
-          <img className="my-8 w-full rounded-2xl" src={image.url} alt={image.alt ?? item.title} />
+          <img className="my-8 w-full" src={image.url} alt={image.alt ?? item.title} />
         ) : null}
         {item.content ? (
           <RichText

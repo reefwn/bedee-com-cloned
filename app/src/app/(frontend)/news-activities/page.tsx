@@ -40,11 +40,18 @@ export default async function NewsActivitiesListPage({
           {result.docs.map((item) => {
             const image = typeof item.featuredImage === 'object' ? item.featuredImage : null
             return (
-              <Link key={item.id} href={`/news-activities/${item.slug}`} className="block">
+              <Link
+                key={item.id}
+                href={`/news-activities/${item.slug}`}
+                className="block focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
+              >
                 <div className="relative aspect-video overflow-hidden bg-panel-1">
                   {image?.url && <ArticleImage src={image.url} alt={image.alt || item.title} />}
                 </div>
-                <h2 className="mt-3 line-clamp-2 font-bold text-primary">{item.title}</h2>
+                <h2 className="mt-3 line-clamp-2 font-semibold text-primary">{item.title}</h2>
+                {item.publishedAt && (
+                  <p className="mt-1 text-sm text-muted">{new Date(item.publishedAt).toLocaleDateString('th-TH')}</p>
+                )}
                 {item.excerpt && <p className="mt-1 line-clamp-2 text-sm text-muted">{item.excerpt}</p>}
               </Link>
             )
