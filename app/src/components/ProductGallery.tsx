@@ -1,33 +1,55 @@
 'use client'
 
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 type GalleryImage = { url?: string | null; alt?: string | null }
 
-// Same prev/next useState pattern as ImageCarousel.tsx, minus autoplay — a
-// product photo set has no reason to auto-advance while someone is reading.
+function usePrefersReducedMotion() {
+  const [reduced, setReduced] = useState(false)
+  useEffect(() => {
+    const query = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setReduced(query.matches)
+    const listener = (e: MediaQueryListEvent) => setReduced(e.matches)
+    query.addEventListener('change', listener)
+    return () => query.removeEventListener('change', listener)
+  }, [])
+  return reduced
+}
+
+// Same track-transform slide as ImageCarousel.tsx (the site's one other image
+// carousel) — a product photo set deserves the same real slide, not a hard
+// cut. No autoplay: a product photo set has no reason to auto-advance while
+// someone is reading.
 export function ProductGallery({ images, title }: { images: GalleryImage[]; title: string }) {
   const [index, setIndex] = useState(0)
+  const prefersReducedMotion = usePrefersReducedMotion()
   if (!images.length) return null
 
   const goTo = (i: number) => setIndex((i + images.length) % images.length)
-  const active = images[index]
 
   return (
     <div>
       <div className="relative aspect-square overflow-hidden bg-panel-1">
-        {active.url && (
-          <Image
-            key={active.url}
-            src={active.url}
-            alt={active.alt || title}
-            fill
-            sizes="(min-width: 1024px) 500px, 100vw"
-            className="object-contain p-6"
-            priority
-          />
-        )}
+        <div
+          className={`flex h-full ${prefersReducedMotion ? '' : '[transition:transform_500ms_var(--ease-out)]'}`}
+          style={{ transform: `translateX(-${index * 100}%)` }}
+        >
+          {images.map((img, i) => (
+            <div key={i} className="relative h-full w-full shrink-0">
+              {img.url && (
+                <Image
+                  src={img.url}
+                  alt={img.alt || title}
+                  fill
+                  sizes="(min-width: 1024px) 500px, 100vw"
+                  className="object-contain p-6"
+                  priority={i === 0}
+                />
+              )}
+            </div>
+          ))}
+        </div>
         {images.length > 1 && (
           <>
             <button
