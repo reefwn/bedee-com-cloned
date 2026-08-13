@@ -9,7 +9,10 @@ const SITE_URL = 'https://bedee-payload.vercel.app'
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
-      { userAgent: '*', allow: '/' },
+      // Not /api — real image bytes (og:image, product/article photos) are
+      // served from /api/media/file/*, and blocking /api would also block
+      // Google Images from indexing them.
+      { userAgent: '*', allow: '/', disallow: ['/admin'] },
       { userAgent: 'GPTBot', allow: '/' },
       { userAgent: 'ChatGPT-User', allow: '/' },
       { userAgent: 'PerplexityBot', allow: '/' },

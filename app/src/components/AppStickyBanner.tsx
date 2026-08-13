@@ -54,7 +54,7 @@ export function AppStickyBanner() {
       aria-hidden={!visible}
     >
       <div className="flex min-w-0 items-center gap-2 md:gap-3">
-        <Image src="/app-badges/bedee-app.webp" alt="" width={36} height={36} className="h-9 w-9 shrink-0 rounded-full" />
+        <Image src="/app-badges/bedee-app.webp" alt="BeDee" width={36} height={36} className="h-9 w-9 shrink-0 rounded-full" />
         {/* Hidden below sm: at that width the real (unsquished) badge pills
         already take up most of the row, and "icon + badges" reads fine on
         its own without the label wrapping to 3 cramped lines. */}

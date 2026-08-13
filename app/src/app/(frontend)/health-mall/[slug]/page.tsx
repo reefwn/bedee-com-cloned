@@ -32,13 +32,25 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const title = `${product.title} - BeDee`
   const description = product.shortDescription || product.description || undefined
   const path = `/health-mall/${slug}`
+  const image = typeof product.image === 'object' ? product.image : null
 
   return {
     title,
     description,
     alternates: { canonical: path },
-    openGraph: { title, description, type: 'website', url: path },
-    twitter: { card: 'summary', title, description },
+    openGraph: {
+      title,
+      description,
+      type: 'website',
+      url: path,
+      images: image?.url ? [{ url: image.url, alt: product.title }] : undefined,
+    },
+    twitter: {
+      card: image?.url ? 'summary_large_image' : 'summary',
+      title,
+      description,
+      images: image?.url ? [image.url] : undefined,
+    },
   }
 }
 

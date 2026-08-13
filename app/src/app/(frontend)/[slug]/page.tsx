@@ -56,14 +56,35 @@ export async function generateMetadata({
   const title = seo?.metaTitle || content.doc.title
   const description = seo?.metaDescription || undefined
   const path = `/${slug}`
+  const imageUrl = getImageUrl(content)
 
   return {
     title,
     description,
     alternates: { canonical: path },
-    openGraph: { title, description, type: 'website', url: path },
-    twitter: { card: 'summary', title, description },
+    openGraph: {
+      title,
+      description,
+      type: 'website',
+      url: path,
+      images: imageUrl ? [{ url: imageUrl, alt: title }] : undefined,
+    },
+    twitter: {
+      card: imageUrl ? 'summary_large_image' : 'summary',
+      title,
+      description,
+      images: imageUrl ? [imageUrl] : undefined,
+    },
   }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function getImageUrl(content: { type: 'page' | 'service'; doc: any }): string | undefined {
+  if (content.type === 'service') {
+    return content.doc.heroImage?.url ?? undefined
+  }
+  const hero = (content.doc.layout ?? []).find((b: any) => b.blockType === 'heroCarousel') // eslint-disable-line @typescript-eslint/no-explicit-any
+  return hero?.slides?.[0]?.image?.url ?? hero?.backgroundImage?.url ?? undefined
 }
 
 export default async function ContentPage({ params }: { params: Promise<Params> }) {

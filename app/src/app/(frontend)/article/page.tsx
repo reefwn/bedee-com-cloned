@@ -1,3 +1,5 @@
+import { cache } from 'react'
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getPayload } from 'payload'
 import config from '@payload-config'
@@ -8,10 +10,52 @@ import { ArticleBanner } from '@/blocks/components/ArticleBanner'
 
 export const dynamic = 'force-dynamic'
 
+type SearchParams = { category?: string; page?: string }
+
+// cache() dedupes this against generateMetadata's identical lookup for the
+// same request — same reasoning as every other page's getItem/getProduct.
+const getCategories = cache(async () => {
+  const payload = await getPayload({ config })
+  return payload.find({ collection: 'categories', sort: 'name', limit: 100 })
+})
+
+function buildPath(activeSlug: string | undefined, page: number) {
+  const params = new URLSearchParams()
+  if (activeSlug) params.set('category', activeSlug)
+  if (page > 1) params.set('page', String(page))
+  const query = params.toString()
+  return query ? `/article?${query}` : '/article'
+}
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>
+}): Promise<Metadata> {
+  const { category: activeSlug, page: pageParam } = await searchParams
+  const page = Math.max(1, Number(pageParam) || 1)
+  const categories = await getCategories()
+  const activeCategory = activeSlug ? categories.docs.find((c) => c.slug === activeSlug) : undefined
+
+  const title = activeCategory ? `บทความสุขภาพ: ${activeCategory.name} - BeDee` : 'บทความสุขภาพ - BeDee'
+  const description = activeCategory
+    ? `บทความสุขภาพหมวด ${activeCategory.name} จาก BeDee by BDMS`
+    : 'บทความสุขภาพจาก BeDee by BDMS ครอบคลุมทุกหมวดหมู่สุขภาพ'
+  const path = buildPath(activeSlug, page)
+
+  return {
+    title,
+    description,
+    alternates: { canonical: path },
+    openGraph: { title, description, type: 'website', url: path },
+    twitter: { card: 'summary', title, description },
+  }
+}
+
 export default async function ArticleListPage({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string; page?: string }>
+  searchParams: Promise<SearchParams>
 }) {
   const { category: activeSlug, page: pageParam } = await searchParams
   const page = Math.max(1, Number(pageParam) || 1)
@@ -26,7 +70,7 @@ export default async function ArticleListPage({
   // also enough — only direct category/featuredImage relations are read,
   // never their own nested relations.
   const [categories, featured, result] = await Promise.all([
-    payload.find({ collection: 'categories', sort: 'name', limit: 100 }),
+    getCategories(),
     payload.find({ collection: 'posts', sort: '-publishedAt', depth: 1, limit: 5 }),
     payload.find({
       collection: 'posts',
@@ -38,14 +82,7 @@ export default async function ArticleListPage({
     }),
   ])
   const activeCategory = activeSlug ? categories.docs.find((c: any) => c.slug === activeSlug) : undefined
-
-  const pageHref = (targetPage: number) => {
-    const params = new URLSearchParams()
-    if (activeSlug) params.set('category', activeSlug)
-    if (targetPage > 1) params.set('page', String(targetPage))
-    const query = params.toString()
-    return query ? `/article?${query}` : '/article'
-  }
+  const pageHref = (targetPage: number) => buildPath(activeSlug, targetPage)
 
   return (
     <>
