@@ -36,6 +36,9 @@ export async function GET() {
     }
   }
 
+  lines.push('\n## For businesses')
+  lines.push('- [สำหรับองค์กร (corporate employee health benefits)](/corporate)')
+
   if (posts.docs.length) {
     lines.push('\n## Recent articles')
     for (const post of posts.docs) {

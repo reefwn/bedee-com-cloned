@@ -1,3 +1,4 @@
+import { cache } from 'react'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { getPayload } from 'payload'
@@ -10,10 +11,54 @@ import { CorporateInquiryForm } from '@/components/CorporateInquiryForm'
 
 export const dynamic = 'force-dynamic'
 
-export const metadata: Metadata = {
-  title: 'สำหรับองค์กร - BeDee',
-  description: 'ดูแลสุขภาพพนักงานอย่างมืออาชีพ ด้วยโปรแกรมประเมินสุขภาพ, Mental Health, Health Checkup และ Staff Clinic จาก BeDee by BDMS',
-  alternates: { canonical: '/corporate' },
+const SITE_URL = 'https://bedee-payload.vercel.app'
+
+const MEDIA_FILENAMES = [
+  'corporate-hero.png',
+  'corporate-ecosystem.png',
+  'corporate-mental-health-phones.png',
+  'corporate-icon-checkup.png',
+  'corporate-icon-network.png',
+  'corporate-team.png',
+  'corporate-icon-persona.png',
+  'corporate-icon-hr.png',
+  'corporate-staff-clinic.png',
+  'corporate-partners-frame.png',
+]
+
+// cache() dedupes this against generateMetadata's identical lookup for the
+// same request — same reasoning as the PDP/news [slug] pages' getItem.
+const getMedia = cache(async () => {
+  const payload = await getPayload({ config })
+  return payload.find({ collection: 'media', where: { filename: { in: MEDIA_FILENAMES } }, limit: 20 })
+})
+
+const TITLE = 'สำหรับองค์กร - BeDee'
+const DESCRIPTION =
+  'ดูแลสุขภาพพนักงานอย่างมืออาชีพ ด้วยโปรแกรมประเมินสุขภาพ, Mental Health, Health Checkup และ Staff Clinic จาก BeDee by BDMS'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const media = await getMedia()
+  const heroUrl = media.docs.find((m) => m.filename === 'corporate-hero.png')?.url
+
+  return {
+    title: TITLE,
+    description: DESCRIPTION,
+    alternates: { canonical: '/corporate' },
+    openGraph: {
+      title: TITLE,
+      description: DESCRIPTION,
+      type: 'website',
+      url: '/corporate',
+      images: heroUrl ? [{ url: heroUrl, alt: 'สุขภาพพนักงาน คือหัวใจขององค์กร' }] : undefined,
+    },
+    twitter: {
+      card: heroUrl ? 'summary_large_image' : 'summary',
+      title: TITLE,
+      description: DESCRIPTION,
+      images: heroUrl ? [heroUrl] : undefined,
+    },
+  }
 }
 
 const HEALTH_ACTIVITIES = [
@@ -40,30 +85,28 @@ const STATS = [
 export default async function CorporatePage() {
   const payload = await getPayload({ config })
 
-  const [media, partners] = await Promise.all([
-    payload.find({
-      collection: 'media',
-      where: {
-        filename: {
-          in: [
-            'corporate-hero.png',
-            'corporate-ecosystem.png',
-            'corporate-mental-health-phones.png',
-            'corporate-icon-checkup.png',
-            'corporate-icon-network.png',
-            'corporate-team.png',
-            'corporate-icon-persona.png',
-            'corporate-icon-hr.png',
-            'corporate-staff-clinic.png',
-            'corporate-partners-frame.png',
-          ],
-        },
-      },
-      limit: 20,
-    }),
-    payload.find({ collection: 'partners', limit: 20 }),
-  ])
+  const [media, partners] = await Promise.all([getMedia(), payload.find({ collection: 'partners', limit: 20 })])
   const img = (filename: string) => media.docs.find((m) => m.filename === filename)
+
+  const serviceJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    serviceType: 'Corporate employee health benefits',
+    name: 'BeDee for Corporate',
+    description: DESCRIPTION,
+    provider: { '@type': 'Organization', name: 'BeDee', url: SITE_URL },
+    areaServed: 'TH',
+    url: `${SITE_URL}/corporate`,
+  }
+
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'หน้าแรก', item: SITE_URL },
+      { '@type': 'ListItem', position: 2, name: 'สำหรับองค์กร', item: `${SITE_URL}/corporate` },
+    ],
+  }
 
   const healthCheckupCards = [
     {
@@ -90,6 +133,14 @@ export default async function CorporatePage() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd).replace(/</g, '\\u003c') }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd).replace(/</g, '\\u003c') }}
+      />
       <SiteHeader />
 
       <HeroCarousel

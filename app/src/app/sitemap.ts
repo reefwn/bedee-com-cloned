@@ -53,8 +53,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: item.updatedAt,
   }))
 
+  // Static routes with no backing `pages` doc (they were converted from a
+  // flat richTextContent dump to a real bespoke route — see contact-us,
+  // corporate, and news-activities' git history) — list them by hand so
+  // dropping the pages doc doesn't silently drop them from the sitemap too.
+  const staticEntries = ['/contact-us', '/corporate', '/news-activities', '/article'].map((path) => ({
+    url: `${SITE_URL}${path}`,
+    lastModified: new Date().toISOString(),
+  }))
+
   return [
     { url: SITE_URL, lastModified: new Date().toISOString() },
+    ...staticEntries,
     ...pageEntries,
     ...serviceEntries,
     ...postEntries,
