@@ -35,6 +35,18 @@ export const Products: CollectionConfig = {
     bulletList('keyIngredients'),
     bulletList('usage'),
     bulletList('warnings'),
+    // Real pharmacist Q&A from the source page's own "คำถามที่พบบ่อย" section
+    // (17 of 39 products have it) — renders as an FAQ block and backs
+    // FAQPage schema on the product detail page.
+    {
+      name: 'faqs',
+      type: 'array',
+      localized: true,
+      fields: [
+        { name: 'question', type: 'text', required: true },
+        { name: 'answer', type: 'textarea', required: true },
+      ],
+    },
     { name: 'price', type: 'number', admin: { description: 'Display-only — checkout happens on shop.bedee.com' } },
     // Optional — set alongside `price` when the source shows a discount
     // (e.g. health-plaza's "Hot Deal" packages: struck-through list price

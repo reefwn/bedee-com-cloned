@@ -7,7 +7,7 @@ import config from '@payload-config'
 import { ProductDetail } from '@/components/ProductDetail'
 import { SiteFooter } from '@/components/SiteFooter'
 import { SiteHeader } from '@/components/SiteHeader'
-import { buildProductPageSchema } from '@/lib/productPageSchema'
+import { buildProductBreadcrumbSchema, buildProductFaqSchema, buildProductPageSchema } from '@/lib/productPageSchema'
 
 export const dynamic = 'force-dynamic'
 
@@ -49,6 +49,8 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
   if (!product) notFound()
 
   const jsonLd = buildProductPageSchema(product)
+  const breadcrumbJsonLd = buildProductBreadcrumbSchema(product)
+  const faqJsonLd = buildProductFaqSchema(product)
 
   return (
     <>
@@ -56,6 +58,16 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd).replace(/</g, '\\u003c') }}
+      />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, '\\u003c') }}
+        />
+      )}
       <SiteHeader />
       <ProductDetail product={product} />
       <SiteFooter />

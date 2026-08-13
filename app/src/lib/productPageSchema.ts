@@ -17,3 +17,31 @@ export function buildProductPageSchema(product: Product) {
         : undefined,
   }
 }
+
+// Real pharmacist Q&A from the source page (see backfill-product-faqs.ts) —
+// only emitted when the product actually has scraped FAQs, never fabricated.
+export function buildProductFaqSchema(product: Product) {
+  const faqs = (product.faqs ?? []).filter((f) => f.question && f.answer)
+  if (!faqs.length) return null
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.question,
+      acceptedAnswer: { '@type': 'Answer', text: f.answer },
+    })),
+  }
+}
+
+export function buildProductBreadcrumbSchema(product: Product) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'หน้าแรก', item: SITE_URL },
+      { '@type': 'ListItem', position: 2, name: 'ช้อปสินค้าสุขภาพ', item: `${SITE_URL}/health-mall` },
+      { '@type': 'ListItem', position: 3, name: product.title, item: `${SITE_URL}/health-mall/${product.slug}` },
+    ],
+  }
+}

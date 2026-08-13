@@ -22,6 +22,24 @@ function LineIcon() {
   )
 }
 
+function FaqSection({ faqs }: { faqs?: Product['faqs'] }) {
+  const visible = (faqs ?? []).filter((f) => f.question && f.answer)
+  if (!visible.length) return null
+  return (
+    <div className="mt-8">
+      <h2 className="text-xl font-semibold text-ink">คำถามที่พบบ่อย</h2>
+      <div className="mt-3 space-y-4">
+        {visible.map((faq, i) => (
+          <div key={i}>
+            <p className="font-medium text-ink">{faq.question}</p>
+            <p className="mt-1 text-muted">{faq.answer}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 function BulletSection({ title, items }: { title: string; items?: { text?: string | null }[] | null }) {
   const visible = (items ?? []).filter((i) => i.text)
   if (!visible.length) return null
@@ -53,7 +71,11 @@ export function ProductDetail({ product }: { product: Product }) {
   ]
 
   const hasDetails =
-    product.highlights?.length || product.keyIngredients?.length || product.usage?.length || product.warnings?.length
+    product.highlights?.length ||
+    product.keyIngredients?.length ||
+    product.usage?.length ||
+    product.warnings?.length ||
+    product.faqs?.length
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-12">
@@ -119,6 +141,7 @@ export function ProductDetail({ product }: { product: Product }) {
             <BulletSection title="ส่วนประกอบสำคัญ" items={product.keyIngredients} />
             <BulletSection title="ขนาดรับประทาน" items={product.usage} />
             <BulletSection title="คำเตือน" items={product.warnings} />
+            <FaqSection faqs={product.faqs} />
           </div>
         </div>
       ) : null}
