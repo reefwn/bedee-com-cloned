@@ -16,6 +16,7 @@ import * as migration_20260811_050140_add_products_original_price from './202608
 import * as migration_20260812_034851_add_products_pdp_fields from './20260812_034851_add_products_pdp_fields';
 import * as migration_20260813_052447_add_products_faqs from './20260813_052447_add_products_faqs';
 import * as migration_20260813_054751_add_news_excerpt from './20260813_054751_add_news_excerpt';
+import * as migration_20260813_083505_add_contact_submissions from './20260813_083505_add_contact_submissions';
 
 export const migrations = [
   {
@@ -106,6 +107,11 @@ export const migrations = [
   {
     up: migration_20260813_054751_add_news_excerpt.up,
     down: migration_20260813_054751_add_news_excerpt.down,
-    name: '20260813_054751_add_news_excerpt'
+    name: '20260813_054751_add_news_excerpt',
+  },
+  {
+    up: migration_20260813_083505_add_contact_submissions.up,
+    down: migration_20260813_083505_add_contact_submissions.down,
+    name: '20260813_083505_add_contact_submissions'
   },
 ];

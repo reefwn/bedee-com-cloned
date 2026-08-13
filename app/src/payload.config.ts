@@ -17,6 +17,7 @@ import { Promotions } from './collections/Promotions'
 import { Products } from './collections/Products'
 import { Testimonials } from './collections/Testimonials'
 import { Pages } from './collections/Pages'
+import { ContactSubmissions } from './collections/ContactSubmissions'
 import { Header } from './globals/Header'
 import { Footer } from './globals/Footer'
 import { SiteSettings } from './globals/SiteSettings'
@@ -48,6 +49,7 @@ export default buildConfig({
     Products,
     Testimonials,
     Pages,
+    ContactSubmissions,
   ],
   globals: [Header, Footer, SiteSettings],
   secret: process.env.PAYLOAD_SECRET || '',
