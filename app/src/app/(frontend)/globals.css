@@ -1,11 +1,9 @@
 /* Noto Sans Thai, weights 500 + 600 only — see plans/03-replication-prompt.md §2
    Typography ⚑ Drama Ratio: do not add a second display typeface or italics.
-   @import MUST precede @tailwind — Tailwind's directives expand to real CSS
-   at build time, and a CSS @import after any other rule is invalid per spec
-   and silently ignored by browsers. This was previously below @tailwind and
-   never actually loaded; every page has been rendering in the fallback
-   system sans-serif the whole time. */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@500;600&display=swap');
+   Loaded via next/font/google in (frontend)/layout.tsx (self-hosted at build
+   time, exposed as --font-noto-sans-thai below) — not a CSS @import, which
+   depends on fonts.googleapis.com/fonts.gstatic.com at runtime and is subject
+   to Google's per-User-Agent content negotiation occasionally 404ing. */
 
 @tailwind base;
 @tailwind components;
@@ -34,6 +32,6 @@
 }
 
 body {
-  font-family: 'Noto Sans Thai', sans-serif;
+  font-family: var(--font-noto-sans-thai), 'Noto Sans Thai', sans-serif;
   color: #222222;
 }
