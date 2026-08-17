@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { isEditorOrAdmin } from '../access/isEditorOrAdmin'
+import { rateLimitCreate } from '../hooks/rateLimitCreate'
 
 // Public write, admin-only read — anyone can submit the contact form, only
 // staff can see submissions. No email adapter is configured in this project
@@ -39,6 +40,10 @@ export const ContactSubmissions: CollectionConfig = {
     // Hidden form field — real submissions leave this empty; naive bots
     // that auto-fill every input don't. Rejected in beforeValidate below.
     { name: 'honeypot', type: 'text', admin: { hidden: true } },
+    // Server-set in the rate-limit hook below — same pattern as sourceUrl
+    // elsewhere (sidebar, readOnly, no field-level access gate since the
+    // hook itself always overwrites it with the real detected IP).
+    { name: 'ipAddress', type: 'text', admin: { position: 'sidebar', readOnly: true } },
   ],
   hooks: {
     beforeValidate: [
@@ -46,6 +51,7 @@ export const ContactSubmissions: CollectionConfig = {
         if (data?.honeypot) throw new Error('Submission rejected')
         return data
       },
+      rateLimitCreate('contact-submissions'),
     ],
   },
 }

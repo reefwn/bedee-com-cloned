@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { isEditorOrAdmin } from '../access/isEditorOrAdmin'
+import { rateLimitCreate } from '../hooks/rateLimitCreate'
 
 // Exported so the frontend form (CorporateInquiryForm.tsx) renders the exact
 // same option lists — one source of truth for what's a valid value.
@@ -80,6 +81,10 @@ export const CorporateInquiries: CollectionConfig = {
       access: { create: isEditorOrAdmin, update: isEditorOrAdmin },
     },
     { name: 'honeypot', type: 'text', admin: { hidden: true } },
+    // Server-set in the rate-limit hook below — same pattern as sourceUrl
+    // elsewhere (sidebar, readOnly, no field-level access gate since the
+    // hook itself always overwrites it with the real detected IP).
+    { name: 'ipAddress', type: 'text', admin: { position: 'sidebar', readOnly: true } },
   ],
   hooks: {
     beforeValidate: [
@@ -87,6 +92,7 @@ export const CorporateInquiries: CollectionConfig = {
         if (data?.honeypot) throw new Error('Submission rejected')
         return data
       },
+      rateLimitCreate('corporate-inquiries'),
     ],
   },
 }
