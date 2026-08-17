@@ -18,7 +18,7 @@ const bulletList = (name: string): Field => ({
 // shop-now / source-of-truth link even once a product has a detail page.
 export const Products: CollectionConfig = {
   slug: 'products',
-  admin: { useAsTitle: 'title', group: 'Content' },
+  admin: { useAsTitle: 'title', group: 'Content', defaultColumns: ['title', 'price', 'originalPrice', 'slug'] },
   access: { read: () => true, create: isEditorOrAdmin, update: isEditorOrAdmin, delete: isEditorOrAdmin },
   fields: [
     { name: 'title', type: 'text', required: true, localized: true },

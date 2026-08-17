@@ -1,5 +1,6 @@
 import { cache } from 'react'
 import type { Metadata } from 'next'
+import { draftMode } from 'next/headers'
 import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
@@ -8,6 +9,7 @@ import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { ServiceDetail } from '@/components/ServiceDetail'
 import { SiteFooter } from '@/components/SiteFooter'
 import { SiteHeader } from '@/components/SiteHeader'
+import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { extractHowToSchemas } from '@/lib/howToSchema'
 import { extractProductListSchemas } from '@/lib/productSchema'
 
@@ -16,12 +18,14 @@ export const dynamic = 'force-dynamic'
 type Params = { slug: string }
 
 const getContent = cache(async (slug: string) => {
+  const { isEnabled: draft } = await draftMode()
   const payload = await getPayload({ config })
   const pageResult = await payload.find({
     collection: 'pages',
     where: { slug: { equals: slug } },
     depth: 2,
     limit: 1,
+    draft,
   })
   const page = pageResult.docs[0]
   if (page) return { type: 'page' as const, doc: page }
@@ -34,6 +38,7 @@ const getContent = cache(async (slug: string) => {
     where: { slug: { equals: slug } },
     depth: 2,
     limit: 1,
+    draft,
   })
   const service = serviceResult.docs[0]
   if (service) return { type: 'service' as const, doc: service }
@@ -90,6 +95,7 @@ function getImageUrl(content: { type: 'page' | 'service'; doc: any }): string | 
 export default async function ContentPage({ params }: { params: Promise<Params> }) {
   const { slug } = await params
   const content = await getContent(slug)
+  const { isEnabled: draft } = await draftMode()
 
   if (!content) notFound()
 
@@ -108,6 +114,7 @@ export default async function ContentPage({ params }: { params: Promise<Params> 
 
   return (
     <>
+      {draft && <LivePreviewListener />}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}

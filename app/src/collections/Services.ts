@@ -7,7 +7,12 @@ import { isEditorOrAdmin } from '../access/isEditorOrAdmin'
 // featured doctors, suitable symptoms, related promotions/posts.
 export const Services: CollectionConfig = {
   slug: 'services',
-  admin: { useAsTitle: 'title', group: 'Content' },
+  admin: {
+    useAsTitle: 'title',
+    group: 'Content',
+    defaultColumns: ['title', 'slug', 'updatedAt'],
+    preview: (doc) => `/next/preview?path=${encodeURIComponent(`/${doc.slug}`)}`,
+  },
   access: { read: () => true, create: isEditorOrAdmin, update: isEditorOrAdmin, delete: isEditorOrAdmin },
   versions: { drafts: true },
   fields: [

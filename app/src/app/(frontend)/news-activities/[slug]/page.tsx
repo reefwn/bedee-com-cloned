@@ -1,12 +1,14 @@
 import { cache } from 'react'
 import type { Metadata } from 'next'
 import { RichText } from '@payloadcms/richtext-lexical/react'
+import { draftMode } from 'next/headers'
 import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
 import { SiteFooter } from '@/components/SiteFooter'
 import { SiteHeader } from '@/components/SiteHeader'
+import { LivePreviewListener } from '@/components/LivePreviewListener'
 
 export const dynamic = 'force-dynamic'
 
@@ -16,12 +18,14 @@ type Params = { slug: string }
 // arrives as the raw percent-encoded string, but the `slug` field stores the
 // decoded Thai text (see backfill-news-and-activities.ts's slugFromUrl).
 const getItem = cache(async (rawSlug: string) => {
+  const { isEnabled: draft } = await draftMode()
   const payload = await getPayload({ config })
   const result = await payload.find({
     collection: 'news-and-activities',
     where: { slug: { equals: decodeURIComponent(rawSlug) } },
     depth: 1,
     limit: 1,
+    draft,
   })
   return result.docs[0] ?? null
 })
@@ -59,6 +63,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
 export default async function NewsActivityPage({ params }: { params: Promise<Params> }) {
   const { slug } = await params
   const item = await getItem(slug)
+  const { isEnabled: draft } = await draftMode()
 
   if (!item) notFound()
 
@@ -90,6 +95,7 @@ export default async function NewsActivityPage({ params }: { params: Promise<Par
 
   return (
     <>
+      {draft && <LivePreviewListener />}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd).replace(/</g, '\\u003c') }}

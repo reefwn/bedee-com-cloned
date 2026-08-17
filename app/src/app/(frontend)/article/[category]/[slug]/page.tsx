@@ -1,12 +1,14 @@
 import { cache } from 'react'
 import type { Metadata } from 'next'
 import { RichText } from '@payloadcms/richtext-lexical/react'
+import { draftMode } from 'next/headers'
 import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
 import { SiteFooter } from '@/components/SiteFooter'
 import { SiteHeader } from '@/components/SiteHeader'
+import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { FAQ } from '@/blocks/components/FAQ'
 import { ArticleGrid } from '@/blocks/components/ArticleGrid'
 
@@ -22,6 +24,7 @@ const isSafeUrl = (url: string | null | undefined): url is string => !!url && /^
 // for the same request — Payload's `find` isn't fetch-based, so Next's
 // built-in fetch memoization doesn't cover it on its own.
 const getPost = cache(async (category: string, slug: string) => {
+  const { isEnabled: draft } = await draftMode()
   const payload = await getPayload({ config })
   const result = await payload.find({
     collection: 'posts',
@@ -30,6 +33,7 @@ const getPost = cache(async (category: string, slug: string) => {
     },
     depth: 2,
     limit: 1,
+    draft,
   })
   return result.docs[0] ?? null
 })
@@ -73,6 +77,7 @@ export async function generateMetadata({
 export default async function ArticlePage({ params }: { params: Promise<Params> }) {
   const { category, slug } = await params
   const post = await getPost(category, slug)
+  const { isEnabled: draft } = await draftMode()
 
   if (!post) notFound()
 
@@ -122,6 +127,7 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
 
   return (
     <>
+      {draft && <LivePreviewListener />}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd).replace(/</g, '\\u003c') }}

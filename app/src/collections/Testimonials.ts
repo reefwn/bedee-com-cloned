@@ -6,7 +6,7 @@ import { isEditorOrAdmin } from '../access/isEditorOrAdmin'
 // plans/02-brand-interview.md §12 for the flag. Recommended placement: service pages.
 export const Testimonials: CollectionConfig = {
   slug: 'testimonials',
-  admin: { useAsTitle: 'authorName', group: 'Content' },
+  admin: { useAsTitle: 'authorName', group: 'Content', defaultColumns: ['authorName', 'relatedService'] },
   access: { read: () => true, create: isEditorOrAdmin, update: isEditorOrAdmin, delete: isEditorOrAdmin },
   fields: [
     { name: 'authorName', type: 'text', required: true, localized: true },

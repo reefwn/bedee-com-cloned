@@ -3,7 +3,7 @@ import { isEditorOrAdmin } from '../access/isEditorOrAdmin'
 
 export const Doctors: CollectionConfig = {
   slug: 'doctors',
-  admin: { useAsTitle: 'name', group: 'Content' },
+  admin: { useAsTitle: 'name', group: 'Content', defaultColumns: ['name', 'role', 'specialty', 'hospital'] },
   access: { read: () => true, create: isEditorOrAdmin, update: isEditorOrAdmin, delete: isEditorOrAdmin },
   fields: [
     { name: 'name', type: 'text', required: true, localized: true },

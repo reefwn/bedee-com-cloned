@@ -41,9 +41,19 @@ export const INTEREST_OPTIONS = [
 // Same public-write/admin-read model as ContactSubmissions — real fields
 // migrated from the source's Corp Contact form (a FluentForm on bedee.com),
 // no email adapter configured so this collection IS the delivery mechanism.
+const STATUS_OPTIONS = [
+  { label: 'New', value: 'new' },
+  { label: 'Contacted', value: 'contacted' },
+  { label: 'Resolved', value: 'resolved' },
+]
+
 export const CorporateInquiries: CollectionConfig = {
   slug: 'corporate-inquiries',
-  admin: { useAsTitle: 'companyName', group: 'Content' },
+  admin: {
+    useAsTitle: 'companyName',
+    group: 'Content',
+    defaultColumns: ['companyName', 'fullName', 'email', 'industry', 'status', 'createdAt'],
+  },
   access: { create: () => true, read: isEditorOrAdmin, update: isEditorOrAdmin, delete: isEditorOrAdmin },
   fields: [
     { name: 'fullName', type: 'text', required: true },
@@ -58,6 +68,17 @@ export const CorporateInquiries: CollectionConfig = {
     // The dropdown UI lives in our own frontend form either way.
     { name: 'interests', type: 'text', required: true, hasMany: true },
     { name: 'message', type: 'textarea' },
+    // Field-level access, not just collection-level — create is public (the
+    // form itself), so without this a submitter could POST status:"resolved"
+    // directly. defaultValue applies once the create-time value is blocked.
+    {
+      name: 'status',
+      type: 'select',
+      options: STATUS_OPTIONS,
+      defaultValue: 'new',
+      admin: { position: 'sidebar' },
+      access: { create: isEditorOrAdmin, update: isEditorOrAdmin },
+    },
     { name: 'honeypot', type: 'text', admin: { hidden: true } },
   ],
   hooks: {

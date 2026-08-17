@@ -3,7 +3,7 @@ import type { CollectionConfig } from 'payload'
 export const Users: CollectionConfig = {
   slug: 'users',
   auth: true,
-  admin: { useAsTitle: 'email', group: 'Admin' },
+  admin: { useAsTitle: 'email', group: 'Admin', defaultColumns: ['email', 'role'] },
   access: {
     read: ({ req: { user } }) => !!user,
     // Bootstrap case: allow creating a user with zero existing users (first admin),

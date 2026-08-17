@@ -4,7 +4,20 @@ import { isEditorOrAdmin } from '../access/isEditorOrAdmin'
 
 export const Posts: CollectionConfig = {
   slug: 'posts',
-  admin: { useAsTitle: 'title', defaultColumns: ['title', 'category', 'publishedAt'], group: 'Content' },
+  admin: {
+    useAsTitle: 'title',
+    defaultColumns: ['title', 'category', 'publishedAt'],
+    group: 'Content',
+    preview: async (doc, { req }) => {
+      const categoryField = doc.category as { id?: number; slug?: string } | number | undefined
+      const categoryId = typeof categoryField === 'object' ? categoryField?.id : categoryField
+      if (!categoryId) return null
+      const category = await req.payload.findByID({ collection: 'categories', id: categoryId })
+      if (!category?.slug) return null
+      const path = `/article/${category.slug}/${doc.slug}`
+      return `/next/preview?path=${encodeURIComponent(path)}`
+    },
+  },
   access: { read: () => true, create: isEditorOrAdmin, update: isEditorOrAdmin, delete: isEditorOrAdmin },
   versions: { drafts: true },
   fields: [

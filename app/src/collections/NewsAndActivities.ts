@@ -6,7 +6,12 @@ import { isEditorOrAdmin } from '../access/isEditorOrAdmin'
 // URL on the source site (/news-and-activities). Do not merge into Posts.
 export const NewsAndActivities: CollectionConfig = {
   slug: 'news-and-activities',
-  admin: { useAsTitle: 'title', group: 'Content' },
+  admin: {
+    useAsTitle: 'title',
+    group: 'Content',
+    defaultColumns: ['title', 'publishedAt', 'updatedAt'],
+    preview: (doc) => `/next/preview?path=${encodeURIComponent(`/news-activities/${doc.slug}`)}`,
+  },
   access: { read: () => true, create: isEditorOrAdmin, update: isEditorOrAdmin, delete: isEditorOrAdmin },
   versions: { drafts: true },
   fields: [

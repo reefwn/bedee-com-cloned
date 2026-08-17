@@ -3,7 +3,7 @@ import { isEditorOrAdmin } from '../access/isEditorOrAdmin'
 
 export const Promotions: CollectionConfig = {
   slug: 'promotions',
-  admin: { useAsTitle: 'title', group: 'Content' },
+  admin: { useAsTitle: 'title', group: 'Content', defaultColumns: ['title', 'validFrom', 'validUntil'] },
   access: { read: () => true, create: isEditorOrAdmin, update: isEditorOrAdmin, delete: isEditorOrAdmin },
   versions: { drafts: true },
   fields: [

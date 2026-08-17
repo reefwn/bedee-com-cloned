@@ -3,7 +3,7 @@ import { isEditorOrAdmin } from '../access/isEditorOrAdmin'
 
 export const Media: CollectionConfig = {
   slug: 'media',
-  admin: { group: 'Content' },
+  admin: { group: 'Content', defaultColumns: ['filename', 'alt', 'caption'] },
   access: { read: () => true, create: isEditorOrAdmin, update: isEditorOrAdmin, delete: isEditorOrAdmin },
   upload: {
     imageSizes: [

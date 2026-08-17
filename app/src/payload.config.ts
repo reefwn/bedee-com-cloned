@@ -29,6 +29,42 @@ const dirname = path.dirname(filename)
 export default buildConfig({
   admin: {
     user: Users.slug,
+    meta: {
+      titleSuffix: ' - BeDee Admin',
+      // Same real BeDee capsule mark used site-wide (src/app/icon.png,
+      // Next's file-based favicon convention) — no second asset to manage.
+      icons: [{ url: '/icon.png' }],
+    },
+    // Same-origin app (admin + frontend share one Next.js deployment), so
+    // relative paths work as the iframe src. Route shape differs per
+    // collection (Posts nests under its category slug; Pages' "home" doc
+    // maps to "/"), so this switches on collectionConfig.slug rather than
+    // a single naive `/${data.slug}` guess.
+    livePreview: {
+      collections: ['pages', 'services', 'posts', 'news-and-activities'],
+      breakpoints: [
+        { name: 'mobile', label: 'Mobile', width: 375, height: 667 },
+        { name: 'desktop', label: 'Desktop', width: 1440, height: 900 },
+      ],
+      url: async ({ data, collectionConfig, req }) => {
+        switch (collectionConfig?.slug) {
+          case 'pages':
+            return data.slug === 'home' ? '/' : `/${data.slug}`
+          case 'services':
+            return `/${data.slug}`
+          case 'news-and-activities':
+            return `/news-activities/${data.slug}`
+          case 'posts': {
+            const categoryId = typeof data.category === 'object' ? data.category?.id : data.category
+            if (!categoryId) return null
+            const category = await req.payload.findByID({ collection: 'categories', id: categoryId })
+            return category?.slug ? `/article/${category.slug}/${data.slug}` : null
+          }
+          default:
+            return null
+        }
+      },
+    },
   },
   editor: lexicalEditor(),
   localization: {

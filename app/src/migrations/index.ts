@@ -18,6 +18,7 @@ import * as migration_20260813_052447_add_products_faqs from './20260813_052447_
 import * as migration_20260813_054751_add_news_excerpt from './20260813_054751_add_news_excerpt';
 import * as migration_20260813_083505_add_contact_submissions from './20260813_083505_add_contact_submissions';
 import * as migration_20260813_093812_add_corporate_inquiries from './20260813_093812_add_corporate_inquiries';
+import * as migration_20260813_151607_add_lead_status_fields from './20260813_151607_add_lead_status_fields';
 
 export const migrations = [
   {
@@ -118,6 +119,11 @@ export const migrations = [
   {
     up: migration_20260813_093812_add_corporate_inquiries.up,
     down: migration_20260813_093812_add_corporate_inquiries.down,
-    name: '20260813_093812_add_corporate_inquiries'
+    name: '20260813_093812_add_corporate_inquiries',
+  },
+  {
+    up: migration_20260813_151607_add_lead_status_fields.up,
+    down: migration_20260813_151607_add_lead_status_fields.down,
+    name: '20260813_151607_add_lead_status_fields'
   },
 ];

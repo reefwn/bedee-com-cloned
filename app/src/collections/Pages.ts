@@ -4,7 +4,15 @@ import { isEditorOrAdmin } from '../access/isEditorOrAdmin'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
-  admin: { useAsTitle: 'title', group: 'Content' },
+  admin: {
+    useAsTitle: 'title',
+    group: 'Content',
+    defaultColumns: ['title', 'slug', 'updatedAt'],
+    preview: (doc) => {
+      const path = doc.slug === 'home' ? '/' : `/${doc.slug}`
+      return `/next/preview?path=${encodeURIComponent(path)}`
+    },
+  },
   access: { read: () => true, create: isEditorOrAdmin, update: isEditorOrAdmin, delete: isEditorOrAdmin },
   versions: { drafts: true },
   fields: [
