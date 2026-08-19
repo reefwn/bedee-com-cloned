@@ -64,6 +64,15 @@ export function HeroCarousel({
 
   const go = (dir: 1 | -1) => setIndex((i) => (i + dir + slides.length) % slides.length)
 
+  // Homepage-only treatment (dark variant, flat gradient, no real bg photo —
+  // every other hero use either has its own background photo already covering
+  // the section, or is a different variant): the slide image bleeds full-
+  // height to the section's right edge and fades into the gradient on the
+  // edge nearest the text, instead of sitting in a separate boxed thumbnail.
+  const useBleedImage = variant === 'dark' && !hasBackgroundImage && Boolean(slide.image?.url)
+  const fadeToRight = { maskImage: 'linear-gradient(to right, transparent 0%, black 35%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 35%)' }
+  const fadeToBottom = { maskImage: 'linear-gradient(to bottom, transparent 0%, black 25%)', WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 25%)' }
+
   return (
     <section
       className={`relative overflow-hidden ${isLight ? 'text-ink' : 'text-white'} ${
@@ -75,12 +84,24 @@ export function HeroCarousel({
           : { minHeight: 720 }
       }
     >
-      <div className="mx-auto flex min-h-[720px] max-w-6xl px-12 py-14 md:px-20">
+      {useBleedImage && (
+        <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[58%] md:block" style={fadeToRight}>
+          <Image
+            src={slide.image.url as string}
+            alt={slide.image.alt || ''}
+            fill
+            priority
+            sizes="58vw"
+            className="object-cover object-[68%_30%]"
+          />
+        </div>
+      )}
+      <div className="relative z-10 mx-auto flex min-h-[720px] max-w-6xl px-12 py-14 md:px-20">
         <div
           key={index}
           className="hero-slide flex flex-1 flex-col items-center gap-4 [transition:opacity_400ms_var(--ease-out),transform_400ms_var(--ease-out)] md:flex-row md:gap-12 [@starting-style]:opacity-0 [@starting-style]:[transform:translateY(6px)]"
         >
-          <div className="flex-1 text-center md:text-left">
+          <div className={`flex-1 text-center md:text-left ${useBleedImage ? 'md:max-w-[560px] md:flex-none' : 'md:flex-[3]'}`}>
             {headingLevel === 'h2' ? (
               <h2
                 className={`whitespace-pre-line text-5xl font-semibold leading-[1.1] md:text-[72px] ${isLight ? 'text-primary' : ''}`}
@@ -110,17 +131,30 @@ export function HeroCarousel({
               </a>
             )}
           </div>
-          <div className="relative flex-1">
-            {slide.image?.url && (
+          {useBleedImage ? (
+            <div className="relative h-64 w-full overflow-hidden rounded-[28px] md:hidden" style={fadeToBottom}>
               <Image
-                src={slide.image.url}
+                src={slide.image.url as string}
                 alt={slide.image.alt || ''}
-                width={640}
-                height={654}
-                className="max-h-[580px] w-full object-contain"
+                fill
+                priority
+                sizes="90vw"
+                className="object-cover object-[68%_30%]"
               />
-            )}
-          </div>
+            </div>
+          ) : (
+            <div className="relative flex-1 md:flex-[2]">
+              {slide.image?.url && (
+                <Image
+                  src={slide.image.url}
+                  alt={slide.image.alt || ''}
+                  width={640}
+                  height={654}
+                  className="max-h-[580px] w-full object-contain"
+                />
+              )}
+            </div>
+          )}
         </div>
       </div>
       {slides.length > 1 && (
