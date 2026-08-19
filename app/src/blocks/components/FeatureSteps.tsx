@@ -22,6 +22,9 @@ export function FeatureSteps({
 }) {
   if (!items?.length) return null
 
+  const safeUrl = (url?: string | null) =>
+    url && /^(https?:|mailto:|tel:|\/)/i.test(url) ? url : undefined
+
   return (
     <section className="bg-white py-16">
       <div className="mx-auto max-w-6xl px-6 md:px-12">
@@ -58,9 +61,9 @@ export function FeatureSteps({
                   {item.description}
                 </p>
               )}
-              {item.linkLabel && item.linkUrl && (
+              {item.linkLabel && safeUrl(item.linkUrl) && (
                 <a
-                  href={item.linkUrl}
+                  href={safeUrl(item.linkUrl)}
                   className="relative mt-4 inline-block text-sm font-medium text-primary hover:opacity-80 focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
                 >
                   {item.linkLabel} ↗
