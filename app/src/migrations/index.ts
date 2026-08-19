@@ -21,6 +21,7 @@ import * as migration_20260813_093812_add_corporate_inquiries from './20260813_0
 import * as migration_20260813_151607_add_lead_status_fields from './20260813_151607_add_lead_status_fields';
 import * as migration_20260817_060123_add_lead_ip_address from './20260817_060123_add_lead_ip_address';
 import * as migration_20260819_172840_add_feature_steps_block from './20260819_172840_add_feature_steps_block';
+import * as migration_20260819_174700_feature_steps_icon_no_cta from './20260819_174700_feature_steps_icon_no_cta';
 
 export const migrations = [
   {
@@ -136,6 +137,11 @@ export const migrations = [
   {
     up: migration_20260819_172840_add_feature_steps_block.up,
     down: migration_20260819_172840_add_feature_steps_block.down,
-    name: '20260819_172840_add_feature_steps_block'
+    name: '20260819_172840_add_feature_steps_block',
+  },
+  {
+    up: migration_20260819_174700_feature_steps_icon_no_cta.up,
+    down: migration_20260819_174700_feature_steps_icon_no_cta.down,
+    name: '20260819_174700_feature_steps_icon_no_cta',
   },
 ];

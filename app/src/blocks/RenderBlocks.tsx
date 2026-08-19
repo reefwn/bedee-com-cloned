@@ -115,7 +115,11 @@ export async function RenderBlocks({
               kicker={block.kicker}
               heading={block.heading}
               description={block.description}
-              items={block.items ?? []}
+              items={(block.items ?? []).map((item: any) => ({
+                icon: typeof item.icon === 'object' ? item.icon : { url: null, alt: null },
+                title: item.title,
+                description: item.description,
+              }))}
             />
           )
         default:

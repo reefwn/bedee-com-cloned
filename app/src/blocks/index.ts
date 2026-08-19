@@ -200,8 +200,8 @@ export const FAQBlock: Block = {
 
 // From revise-website.pptx slide 1 (image4.png, full-res) — "ONE APP,
 // COMPLETE CARE" section: kicker + 2-line heading + intro copy, then a row
-// of numbered feature cards. Card number is derived from array index at
-// render time, not stored, so editors never have to keep it in sync.
+// of feature cards. View/hover only — no CTA — so each card needs its own
+// icon (asset-homepage) rather than a derived step number to carry meaning.
 export const FeatureStepsBlock: Block = {
   slug: 'featureSteps',
   labels: { singular: 'Feature Steps', plural: 'Feature Steps' },
@@ -214,10 +214,9 @@ export const FeatureStepsBlock: Block = {
       type: 'array',
       minRows: 1,
       fields: [
+        { name: 'icon', type: 'upload', relationTo: 'media', required: true },
         { name: 'title', type: 'text', required: true, localized: true },
         { name: 'description', type: 'textarea', localized: true },
-        { name: 'linkLabel', type: 'text', localized: true },
-        { name: 'linkUrl', type: 'text' },
       ],
     },
   ],

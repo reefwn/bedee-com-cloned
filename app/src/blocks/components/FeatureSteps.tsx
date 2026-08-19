@@ -1,14 +1,14 @@
+import Image from 'next/image'
+
 type Item = {
+  icon: { url?: string | null; alt?: string | null }
   title: string
   description?: string | null
-  linkLabel?: string | null
-  linkUrl?: string | null
 }
 
 // From revise-website.pptx slide 1 (image4.png) — "ONE APP, COMPLETE CARE".
-// Number badges are flat solid circles (DESIGN.md: no gradients outside the
-// hero, round = interactive/human) rather than the source's gradient
-// squircles — same numbered-step idea, this system's own shape vocabulary.
+// View/hover only, no CTA — each card carries its own real icon
+// (asset-homepage) instead of a step number or a link.
 export function FeatureSteps({
   kicker,
   heading,
@@ -21,9 +21,6 @@ export function FeatureSteps({
   items: Item[]
 }) {
   if (!items?.length) return null
-
-  const safeUrl = (url?: string | null) =>
-    url && /^(https?:|mailto:|tel:|\/)/i.test(url) ? url : undefined
 
   return (
     <section className="bg-white py-16">
@@ -45,14 +42,23 @@ export function FeatureSteps({
         </div>
         <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
           {items.map((item, i) => (
-            <div key={i} className="relative overflow-hidden bg-panel-1 p-6">
+            <div
+              key={i}
+              className="group relative overflow-hidden bg-panel-1 p-6 transition-colors duration-200 ease-out hover:bg-[#EAF1FF]"
+            >
               <div
                 aria-hidden
                 className="pointer-events-none absolute -bottom-6 -right-6 h-24 w-24 rounded-full bg-secondary/10"
               />
-              <span className="relative flex h-11 w-11 items-center justify-center rounded-full bg-primary text-[15px] font-semibold text-white">
-                {String(i + 1).padStart(2, '0')}
-              </span>
+              {item.icon?.url && (
+                <Image
+                  src={item.icon.url}
+                  alt={item.icon.alt || ''}
+                  width={56}
+                  height={56}
+                  className="relative h-14 w-14 object-contain transition-transform duration-200 ease-out group-hover:scale-105"
+                />
+              )}
               <h3 className="relative mt-4 text-lg font-semibold leading-snug text-primary">
                 {item.title}
               </h3>
@@ -60,14 +66,6 @@ export function FeatureSteps({
                 <p className="relative mt-2 text-sm leading-relaxed text-muted">
                   {item.description}
                 </p>
-              )}
-              {item.linkLabel && safeUrl(item.linkUrl) && (
-                <a
-                  href={safeUrl(item.linkUrl)}
-                  className="relative mt-4 inline-block text-sm font-medium text-primary hover:opacity-80 focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
-                >
-                  {item.linkLabel} ↗
-                </a>
               )}
             </div>
           ))}
