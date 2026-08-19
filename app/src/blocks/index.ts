@@ -198,6 +198,31 @@ export const FAQBlock: Block = {
   ],
 }
 
+// From revise-website.pptx slide 1 (image4.png, full-res) — "ONE APP,
+// COMPLETE CARE" section: kicker + 2-line heading + intro copy, then a row
+// of numbered feature cards. Card number is derived from array index at
+// render time, not stored, so editors never have to keep it in sync.
+export const FeatureStepsBlock: Block = {
+  slug: 'featureSteps',
+  labels: { singular: 'Feature Steps', plural: 'Feature Steps' },
+  fields: [
+    { name: 'kicker', type: 'text', localized: true },
+    { name: 'heading', type: 'text', required: true, localized: true },
+    { name: 'description', type: 'textarea', localized: true },
+    {
+      name: 'items',
+      type: 'array',
+      minRows: 1,
+      fields: [
+        { name: 'title', type: 'text', required: true, localized: true },
+        { name: 'description', type: 'textarea', localized: true },
+        { name: 'linkLabel', type: 'text', localized: true },
+        { name: 'linkUrl', type: 'text' },
+      ],
+    },
+  ],
+}
+
 export const BlocksField = [
   HeroCarouselBlock,
   IconGridBlock,
@@ -210,4 +235,5 @@ export const BlocksField = [
   ProductCarouselBlock,
   RichTextContentBlock,
   FAQBlock,
+  FeatureStepsBlock,
 ]

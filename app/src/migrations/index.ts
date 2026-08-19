@@ -20,6 +20,7 @@ import * as migration_20260813_083505_add_contact_submissions from './20260813_0
 import * as migration_20260813_093812_add_corporate_inquiries from './20260813_093812_add_corporate_inquiries';
 import * as migration_20260813_151607_add_lead_status_fields from './20260813_151607_add_lead_status_fields';
 import * as migration_20260817_060123_add_lead_ip_address from './20260817_060123_add_lead_ip_address';
+import * as migration_20260819_172840_add_feature_steps_block from './20260819_172840_add_feature_steps_block';
 
 export const migrations = [
   {
@@ -130,6 +131,11 @@ export const migrations = [
   {
     up: migration_20260817_060123_add_lead_ip_address.up,
     down: migration_20260817_060123_add_lead_ip_address.down,
-    name: '20260817_060123_add_lead_ip_address'
+    name: '20260817_060123_add_lead_ip_address',
+  },
+  {
+    up: migration_20260819_172840_add_feature_steps_block.up,
+    down: migration_20260819_172840_add_feature_steps_block.down,
+    name: '20260819_172840_add_feature_steps_block'
   },
 ];

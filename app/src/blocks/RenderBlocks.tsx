@@ -9,6 +9,7 @@ import { FAQ } from './components/FAQ'
 import { ImageCarousel } from './components/ImageCarousel'
 import { PromotionGrid } from './components/PromotionGrid'
 import { ProductCarousel } from './components/ProductCarousel'
+import { FeatureSteps } from './components/FeatureSteps'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
@@ -107,6 +108,16 @@ export async function RenderBlocks({
           return <RichTextContent key={i} heading={block.heading} content={block.content} />
         case 'faq':
           return <FAQ key={i} heading={block.heading} items={block.items ?? []} />
+        case 'featureSteps':
+          return (
+            <FeatureSteps
+              key={i}
+              kicker={block.kicker}
+              heading={block.heading}
+              description={block.description}
+              items={block.items ?? []}
+            />
+          )
         default:
           return null
       }
