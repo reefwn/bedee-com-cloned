@@ -320,6 +320,24 @@ export const StepsListBlock: Block = {
   ],
 }
 
+// No source design for this one — first section this session without a
+// pptx slide behind it. Content is real: Compliment for Customer Survey.xlsx
+// (21 genuine customer-survey free-text responses, names already
+// pre-redacted by the source system). Explicit picks (relationship,
+// hasMany), matching ProductCarousel/PromotionGrid's existing "curated,
+// not auto-latest" convention — editors choose which real testimonials
+// represent the brand on the homepage; the full real set lives in the
+// Testimonials collection for reuse elsewhere.
+export const TestimonialGridBlock: Block = {
+  slug: 'testimonialGrid',
+  labels: { singular: 'Testimonial Grid', plural: 'Testimonial Grids' },
+  fields: [
+    { name: 'kicker', type: 'text', localized: true },
+    { name: 'heading', type: 'text', required: true, localized: true },
+    { name: 'testimonials', type: 'relationship', relationTo: 'testimonials', hasMany: true },
+  ],
+}
+
 export const BlocksField = [
   HeroCarouselBlock,
   IconGridBlock,
@@ -336,4 +354,5 @@ export const BlocksField = [
   TrustChecklistBlock,
   PromoStripBlock,
   StepsListBlock,
+  TestimonialGridBlock,
 ]

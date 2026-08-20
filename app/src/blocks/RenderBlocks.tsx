@@ -13,6 +13,7 @@ import { FeatureSteps } from './components/FeatureSteps'
 import { TrustChecklist } from './components/TrustChecklist'
 import { PromoStrip } from './components/PromoStrip'
 import { StepsList } from './components/StepsList'
+import { TestimonialGrid } from './components/TestimonialGrid'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
@@ -167,6 +168,12 @@ export async function RenderBlocks({
               items={block.items ?? []}
             />
           )
+        case 'testimonialGrid': {
+          const testimonials = (block.testimonials ?? []).filter(
+            (t: any): t is object => typeof t === 'object',
+          )
+          return <TestimonialGrid key={i} kicker={block.kicker} heading={block.heading} testimonials={testimonials as any} />
+        }
         default:
           return null
       }

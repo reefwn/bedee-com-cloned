@@ -25,6 +25,8 @@ import * as migration_20260819_174700_feature_steps_icon_no_cta from './20260819
 import * as migration_20260819_180000_feature_steps_variant_and_trust_checklist from './20260819_180000_feature_steps_variant_and_trust_checklist';
 import * as migration_20260820_050000_trust_checklist_cta_variant_and_promo_strip from './20260820_050000_trust_checklist_cta_variant_and_promo_strip';
 import * as migration_20260820_070000_add_steps_list_block from './20260820_070000_add_steps_list_block';
+import * as migration_20260820_072440_add_testimonials_service_type_and_date from './20260820_072440_add_testimonials_service_type_and_date';
+import * as migration_20260820_080133_add_testimonial_grid_block from './20260820_080133_add_testimonial_grid_block';
 
 export const migrations = [
   {
@@ -161,5 +163,15 @@ export const migrations = [
     up: migration_20260820_070000_add_steps_list_block.up,
     down: migration_20260820_070000_add_steps_list_block.down,
     name: '20260820_070000_add_steps_list_block',
+  },
+  {
+    up: migration_20260820_072440_add_testimonials_service_type_and_date.up,
+    down: migration_20260820_072440_add_testimonials_service_type_and_date.down,
+    name: '20260820_072440_add_testimonials_service_type_and_date',
+  },
+  {
+    up: migration_20260820_080133_add_testimonial_grid_block.up,
+    down: migration_20260820_080133_add_testimonial_grid_block.down,
+    name: '20260820_080133_add_testimonial_grid_block'
   },
 ];

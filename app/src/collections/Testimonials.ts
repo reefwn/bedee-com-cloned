@@ -13,5 +13,19 @@ export const Testimonials: CollectionConfig = {
     { name: 'authorPhoto', type: 'upload', relationTo: 'media' },
     { name: 'quote', type: 'textarea', required: true, localized: true },
     { name: 'relatedService', type: 'relationship', relationTo: 'services' },
+    // Real customer-survey data (Compliment for Customer Survey.xlsx) — the
+    // survey's own top-level category (delivery vs teleconsult), kept as-is
+    // rather than re-derived from transaction prefixes some rows disagree
+    // with (e.g. a couple "teleconsult"-coded rows are actually about a
+    // pharmacist) — the source's own label, not our guess.
+    {
+      name: 'serviceType',
+      type: 'select',
+      options: [
+        { label: 'Product & Delivery', value: 'delivery' },
+        { label: 'Teleconsultation / Telepharmacy', value: 'teleconsult' },
+      ],
+    },
+    { name: 'submittedAt', type: 'date', admin: { date: { pickerAppearance: 'dayOnly' } } },
   ],
 }
