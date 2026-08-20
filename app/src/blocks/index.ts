@@ -294,6 +294,32 @@ export const PromoStripBlock: Block = {
   ],
 }
 
+// From revise-website.pptx slide 4 (image32/33.png, full-res) — "HOW IT
+// WORKS". A third distinct list treatment (after TrustChecklist's numbered
+// <ol> and FeatureSteps' icon cards): plain hairline-divided rows, no card
+// bg, no number badge — just a muted digit. image34.png (the real BeDee app
+// screenshot, dual-phone mockup with the site's own accent-blob motif
+// already baked into the asset) sits beside the step rows.
+export const StepsListBlock: Block = {
+  slug: 'stepsList',
+  labels: { singular: 'Steps List', plural: 'Steps Lists' },
+  fields: [
+    { name: 'kicker', type: 'text', localized: true },
+    { name: 'heading', type: 'text', required: true, localized: true },
+    { name: 'body', type: 'textarea', localized: true },
+    { name: 'image', type: 'upload', relationTo: 'media' },
+    {
+      name: 'items',
+      type: 'array',
+      minRows: 1,
+      fields: [
+        { name: 'title', type: 'text', required: true, localized: true },
+        { name: 'description', type: 'textarea', localized: true },
+      ],
+    },
+  ],
+}
+
 export const BlocksField = [
   HeroCarouselBlock,
   IconGridBlock,
@@ -309,4 +335,5 @@ export const BlocksField = [
   FeatureStepsBlock,
   TrustChecklistBlock,
   PromoStripBlock,
+  StepsListBlock,
 ]

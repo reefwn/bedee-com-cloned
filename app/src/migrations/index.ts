@@ -24,6 +24,7 @@ import * as migration_20260819_172840_add_feature_steps_block from './20260819_1
 import * as migration_20260819_174700_feature_steps_icon_no_cta from './20260819_174700_feature_steps_icon_no_cta';
 import * as migration_20260819_180000_feature_steps_variant_and_trust_checklist from './20260819_180000_feature_steps_variant_and_trust_checklist';
 import * as migration_20260820_050000_trust_checklist_cta_variant_and_promo_strip from './20260820_050000_trust_checklist_cta_variant_and_promo_strip';
+import * as migration_20260820_070000_add_steps_list_block from './20260820_070000_add_steps_list_block';
 
 export const migrations = [
   {
@@ -155,5 +156,10 @@ export const migrations = [
     up: migration_20260820_050000_trust_checklist_cta_variant_and_promo_strip.up,
     down: migration_20260820_050000_trust_checklist_cta_variant_and_promo_strip.down,
     name: '20260820_050000_trust_checklist_cta_variant_and_promo_strip',
+  },
+  {
+    up: migration_20260820_070000_add_steps_list_block.up,
+    down: migration_20260820_070000_add_steps_list_block.down,
+    name: '20260820_070000_add_steps_list_block',
   },
 ];

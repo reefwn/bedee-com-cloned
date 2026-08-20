@@ -12,6 +12,7 @@ import { ProductCarousel } from './components/ProductCarousel'
 import { FeatureSteps } from './components/FeatureSteps'
 import { TrustChecklist } from './components/TrustChecklist'
 import { PromoStrip } from './components/PromoStrip'
+import { StepsList } from './components/StepsList'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
@@ -153,6 +154,17 @@ export async function RenderBlocks({
               body={block.body}
               ctaLabel={block.ctaLabel}
               ctaUrl={block.ctaUrl}
+            />
+          )
+        case 'stepsList':
+          return (
+            <StepsList
+              key={i}
+              kicker={block.kicker}
+              heading={block.heading}
+              body={block.body}
+              image={typeof block.image === 'object' ? block.image : null}
+              items={block.items ?? []}
             />
           )
         default:
