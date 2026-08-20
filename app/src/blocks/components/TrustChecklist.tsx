@@ -34,6 +34,9 @@ export function TrustChecklist({
   ctaLabel?: string | null
   ctaUrl?: string | null
 }) {
+  const safeUrl = (url?: string | null) =>
+    url && /^(https?:|mailto:|tel:|\/)/i.test(url) ? url : undefined
+
   return (
     <section className="bg-panel-1 py-16">
       <div className="mx-auto flex max-w-6xl flex-col gap-12 px-6 md:flex-row md:items-center md:px-12">
@@ -77,9 +80,9 @@ export function TrustChecklist({
               ))}
             </ol>
           )}
-          {ctaLabel && ctaUrl && (
+          {ctaLabel && safeUrl(ctaUrl) && (
             <a
-              href={ctaUrl}
+              href={safeUrl(ctaUrl)}
               className="mt-8 inline-block rounded-pill border border-primary px-6 py-3 text-[15px] font-medium text-primary transition-colors hover:bg-primary/5 focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
             >
               {ctaLabel} ↗
