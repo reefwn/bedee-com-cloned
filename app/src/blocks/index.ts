@@ -206,6 +206,15 @@ export const FeatureStepsBlock: Block = {
   slug: 'featureSteps',
   labels: { singular: 'Feature Steps', plural: 'Feature Steps' },
   fields: [
+    {
+      name: 'variant',
+      type: 'select',
+      defaultValue: 'light',
+      options: [
+        { label: 'Light (white bg, navy text) — homepage default', value: 'light' },
+        { label: 'Dark (navy bg, white text)', value: 'dark' },
+      ],
+    },
     { name: 'kicker', type: 'text', localized: true },
     { name: 'heading', type: 'text', required: true, localized: true },
     { name: 'description', type: 'textarea', localized: true },
@@ -222,6 +231,36 @@ export const FeatureStepsBlock: Block = {
   ],
 }
 
+// From revise-website.pptx slide 2 (image20.png, full-res) — "CARE YOU CAN
+// TRUST": kicker + 2-line heading + intro copy on one side, a real team
+// photo with a floating credential badge on the other, then a numbered
+// (order-meaningful, hence <ol> in the component) 3-step process list and
+// a secondary/outline CTA — the real bedee.com site's own secondary-button
+// style (confirmed against the hero's full-res source, image3.png).
+export const TrustChecklistBlock: Block = {
+  slug: 'trustChecklist',
+  labels: { singular: 'Trust Checklist', plural: 'Trust Checklists' },
+  fields: [
+    { name: 'kicker', type: 'text', localized: true },
+    { name: 'heading', type: 'text', required: true, localized: true },
+    { name: 'body', type: 'textarea', localized: true },
+    { name: 'image', type: 'upload', relationTo: 'media', required: true },
+    { name: 'imageBadgeLabel', type: 'text', localized: true },
+    { name: 'imageBadgeSub', type: 'text', localized: true },
+    {
+      name: 'items',
+      type: 'array',
+      minRows: 1,
+      fields: [
+        { name: 'title', type: 'text', required: true, localized: true },
+        { name: 'description', type: 'textarea', localized: true },
+      ],
+    },
+    { name: 'ctaLabel', type: 'text', localized: true },
+    { name: 'ctaUrl', type: 'text' },
+  ],
+}
+
 export const BlocksField = [
   HeroCarouselBlock,
   IconGridBlock,
@@ -235,4 +274,5 @@ export const BlocksField = [
   RichTextContentBlock,
   FAQBlock,
   FeatureStepsBlock,
+  TrustChecklistBlock,
 ]

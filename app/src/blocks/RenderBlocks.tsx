@@ -10,6 +10,7 @@ import { ImageCarousel } from './components/ImageCarousel'
 import { PromotionGrid } from './components/PromotionGrid'
 import { ProductCarousel } from './components/ProductCarousel'
 import { FeatureSteps } from './components/FeatureSteps'
+import { TrustChecklist } from './components/TrustChecklist'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
@@ -115,11 +116,27 @@ export async function RenderBlocks({
               kicker={block.kicker}
               heading={block.heading}
               description={block.description}
+              variant={block.variant}
               items={(block.items ?? []).map((item: any) => ({
                 icon: typeof item.icon === 'object' ? item.icon : { url: null, alt: null },
                 title: item.title,
                 description: item.description,
               }))}
+            />
+          )
+        case 'trustChecklist':
+          return (
+            <TrustChecklist
+              key={i}
+              kicker={block.kicker}
+              heading={block.heading}
+              body={block.body}
+              image={typeof block.image === 'object' ? block.image : { url: null, alt: null }}
+              imageBadgeLabel={block.imageBadgeLabel}
+              imageBadgeSub={block.imageBadgeSub}
+              items={block.items ?? []}
+              ctaLabel={block.ctaLabel}
+              ctaUrl={block.ctaUrl}
             />
           )
         default:
