@@ -11,6 +11,7 @@ import { PromotionGrid } from './components/PromotionGrid'
 import { ProductCarousel } from './components/ProductCarousel'
 import { FeatureSteps } from './components/FeatureSteps'
 import { TrustChecklist } from './components/TrustChecklist'
+import { PromoStrip } from './components/PromoStrip'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
@@ -135,6 +136,21 @@ export async function RenderBlocks({
               imageBadgeLabel={block.imageBadgeLabel}
               imageBadgeSub={block.imageBadgeSub}
               items={block.items ?? []}
+              ctaVariant={block.ctaVariant}
+              ctaLabel={block.ctaLabel}
+              ctaUrl={block.ctaUrl}
+              secondaryCtaLabel={block.secondaryCtaLabel}
+              secondaryCtaUrl={block.secondaryCtaUrl}
+            />
+          )
+        case 'promoStrip':
+          return (
+            <PromoStrip
+              key={i}
+              icon={typeof block.icon === 'object' ? block.icon : null}
+              kicker={block.kicker}
+              heading={block.heading}
+              body={block.body}
               ctaLabel={block.ctaLabel}
               ctaUrl={block.ctaUrl}
             />

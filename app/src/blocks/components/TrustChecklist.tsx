@@ -6,13 +6,16 @@ type Item = {
 }
 
 // From revise-website.pptx slide 2 (image20.png, full-res) — "CARE YOU CAN
-// TRUST". A real photo (not a cutout) gets the same soft-rounded treatment
-// as the hero's earlier boxed-photo iteration, since this section isn't
-// full-bleed — plus a floating credential badge, the one other place
-// besides the hero's hero that has real evidence of a shadowed overlay
-// (see DESIGN.md's persistent-overlay shadow exception). Steps are a real
-// <ol> — order is meaningful (choose → consult → continue care), unlike
-// the icon-grid sections' unordered feature sets.
+// TRUST" — and slide 3 (image29.png) — "ยาครบ จบในครั้งเดียว". A real photo
+// (not a cutout) gets the same soft-rounded treatment as the hero's earlier
+// boxed-photo iteration, since this section isn't full-bleed — plus a
+// floating credential badge, the one other place besides the hero that has
+// real evidence of a shadowed overlay (see DESIGN.md's persistent-overlay
+// shadow exception). Steps are a real <ol> — order is meaningful (choose →
+// consult → continue care), unlike the icon-grid sections' unordered
+// feature sets. ctaVariant differs between the two real instances: "CARE
+// YOU CAN TRUST" ships one outline CTA; the telepharmacy instance pairs a
+// solid primary CTA with a plain-text secondary link.
 export function TrustChecklist({
   kicker,
   heading,
@@ -21,8 +24,11 @@ export function TrustChecklist({
   imageBadgeLabel,
   imageBadgeSub,
   items,
+  ctaVariant = 'outline',
   ctaLabel,
   ctaUrl,
+  secondaryCtaLabel,
+  secondaryCtaUrl,
 }: {
   kicker?: string | null
   heading: string
@@ -31,11 +37,15 @@ export function TrustChecklist({
   imageBadgeLabel?: string | null
   imageBadgeSub?: string | null
   items: Item[]
+  ctaVariant?: 'outline' | 'solid' | null
   ctaLabel?: string | null
   ctaUrl?: string | null
+  secondaryCtaLabel?: string | null
+  secondaryCtaUrl?: string | null
 }) {
   const safeUrl = (url?: string | null) =>
     url && /^(https?:|mailto:|tel:|\/)/i.test(url) ? url : undefined
+  const isSolid = ctaVariant === 'solid'
 
   return (
     <section className="bg-panel-1 py-16">
@@ -80,14 +90,30 @@ export function TrustChecklist({
               ))}
             </ol>
           )}
-          {ctaLabel && safeUrl(ctaUrl) && (
-            <a
-              href={safeUrl(ctaUrl)}
-              className="mt-8 inline-block rounded-pill border border-primary px-6 py-3 text-[15px] font-medium text-primary transition-colors hover:bg-primary/5 focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
-            >
-              {ctaLabel} ↗
-            </a>
-          )}
+          {(ctaLabel && safeUrl(ctaUrl)) || (secondaryCtaLabel && safeUrl(secondaryCtaUrl)) ? (
+            <div className="mt-8 flex flex-wrap items-center gap-6">
+              {ctaLabel && safeUrl(ctaUrl) && (
+                <a
+                  href={safeUrl(ctaUrl)}
+                  className={`inline-block rounded-pill px-6 py-3 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)] ${
+                    isSolid
+                      ? 'bg-primary text-white hover:opacity-90'
+                      : 'border border-primary text-primary hover:bg-primary/5'
+                  }`}
+                >
+                  {ctaLabel} ↗
+                </a>
+              )}
+              {secondaryCtaLabel && safeUrl(secondaryCtaUrl) && (
+                <a
+                  href={safeUrl(secondaryCtaUrl)}
+                  className="border-b-2 border-primary pb-0.5 text-[15px] font-semibold text-primary focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
+                >
+                  {secondaryCtaLabel}
+                </a>
+              )}
+            </div>
+          ) : null}
         </div>
       </div>
     </section>

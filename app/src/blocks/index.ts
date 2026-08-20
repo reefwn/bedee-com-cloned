@@ -256,6 +256,39 @@ export const TrustChecklistBlock: Block = {
         { name: 'description', type: 'textarea', localized: true },
       ],
     },
+    {
+      name: 'ctaVariant',
+      type: 'select',
+      defaultValue: 'outline',
+      options: [
+        { label: 'Outline (white bg, navy border) — "CARE YOU CAN TRUST" default', value: 'outline' },
+        { label: 'Solid (navy bg, white text)', value: 'solid' },
+      ],
+    },
+    { name: 'ctaLabel', type: 'text', localized: true },
+    { name: 'ctaUrl', type: 'text' },
+    // Optional — slide 3's telepharmacy instance of this section pairs a
+    // solid primary CTA with a second plain-text link ("ช้อปสินค้าสุขภาพ");
+    // the "CARE YOU CAN TRUST" instance has neither.
+    { name: 'secondaryCtaLabel', type: 'text', localized: true },
+    { name: 'secondaryCtaUrl', type: 'text' },
+  ],
+}
+
+// From revise-website.pptx slide 3 (image30.png, full-res) — "INSURANCE MADE
+// EASIER". A single-row gradient banner, not the two-column layout every
+// other section here uses. Reuses the hero's own navy->blue gradient token
+// rather than introducing a new one — DESIGN.md reserves gradients for the
+// hero, but this is real evidence of the same token appearing in a second
+// real context, not a new color decision.
+export const PromoStripBlock: Block = {
+  slug: 'promoStrip',
+  labels: { singular: 'Promo Strip', plural: 'Promo Strips' },
+  fields: [
+    { name: 'icon', type: 'upload', relationTo: 'media' },
+    { name: 'kicker', type: 'text', localized: true },
+    { name: 'heading', type: 'text', required: true, localized: true },
+    { name: 'body', type: 'textarea', localized: true },
     { name: 'ctaLabel', type: 'text', localized: true },
     { name: 'ctaUrl', type: 'text' },
   ],
@@ -275,4 +308,5 @@ export const BlocksField = [
   FAQBlock,
   FeatureStepsBlock,
   TrustChecklistBlock,
+  PromoStripBlock,
 ]
