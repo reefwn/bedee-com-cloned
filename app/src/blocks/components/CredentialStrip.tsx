@@ -60,7 +60,7 @@ export function CredentialStrip({
   }
 
   return (
-    <section className="bg-panel-2 py-16">
+    <section className="bg-white py-16">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(credentialJsonLd).replace(/</g, '\\u003c') }}
