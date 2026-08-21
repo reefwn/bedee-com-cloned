@@ -90,7 +90,9 @@ export function TestimonialGrid({
         )}
         <h2 className="mt-2 text-[28px] font-semibold text-primary">{heading}</h2>
         <div className="relative mt-10">
-          <div className={`grid gap-6 text-left ${gridColsClass}`}>
+          {/* px matches the arrow buttons' width below, so the arrows occupy
+              their own reserved gutter instead of sitting on top of a card. */}
+          <div className={`grid gap-6 px-7 text-left md:px-9 ${gridColsClass}`}>
             {visible.map((t, i) => (
               <figure key={start + i} className="flex h-full flex-col bg-panel-1 p-6">
                 <svg
@@ -121,14 +123,14 @@ export function TestimonialGrid({
               <button
                 aria-label="ก่อนหน้า"
                 onClick={() => goTo(page - 1)}
-                className="arrow-hover absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 text-3xl text-primary transition-transform duration-[160ms] ease-out active:scale-[0.97] focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
+                className="arrow-hover absolute left-0 top-1/2 flex h-10 w-7 -translate-y-1/2 items-center justify-center text-3xl text-primary transition-transform duration-[160ms] ease-out active:scale-[0.97] focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)] md:w-9"
               >
                 ‹
               </button>
               <button
                 aria-label="ถัดไป"
                 onClick={() => goTo(page + 1)}
-                className="arrow-hover absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 text-3xl text-primary transition-transform duration-[160ms] ease-out active:scale-[0.97] focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
+                className="arrow-hover absolute right-0 top-1/2 flex h-10 w-7 -translate-y-1/2 items-center justify-center text-3xl text-primary transition-transform duration-[160ms] ease-out active:scale-[0.97] focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)] md:w-9"
               >
                 ›
               </button>
