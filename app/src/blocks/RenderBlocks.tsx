@@ -14,6 +14,7 @@ import { TrustChecklist } from './components/TrustChecklist'
 import { PromoStrip } from './components/PromoStrip'
 import { StepsList } from './components/StepsList'
 import { TestimonialGrid } from './components/TestimonialGrid'
+import { CredentialStrip } from './components/CredentialStrip'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
@@ -173,6 +174,21 @@ export async function RenderBlocks({
             (t: any): t is object => typeof t === 'object',
           )
           return <TestimonialGrid key={i} kicker={block.kicker} heading={block.heading} testimonials={testimonials as any} />
+        }
+        case 'credentialStrip': {
+          const items = (block.items ?? []).map((item: any) => ({
+            image: typeof item.image === 'object' ? item.image : { url: null, alt: null },
+            label: item.label,
+          }))
+          return (
+            <CredentialStrip
+              key={i}
+              kicker={block.kicker}
+              heading={block.heading}
+              body={block.body}
+              items={items}
+            />
+          )
         }
         default:
           return null

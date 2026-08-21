@@ -338,6 +338,29 @@ export const TestimonialGridBlock: Block = {
   ],
 }
 
+// From revise-website.pptx slide 5 (BeDeeCredentials.png, asset-homepage) —
+// the same slide as testimonialGrid, its other half. One-off badge images
+// (not a reusable collection — nothing else on the site needs "credential
+// marks"), so items live inline on the block like FeatureSteps/StepsList do.
+export const CredentialStripBlock: Block = {
+  slug: 'credentialStrip',
+  labels: { singular: 'Credential Strip', plural: 'Credential Strips' },
+  fields: [
+    { name: 'kicker', type: 'text', localized: true },
+    { name: 'heading', type: 'text', required: true, localized: true },
+    { name: 'body', type: 'textarea', localized: true },
+    {
+      name: 'items',
+      type: 'array',
+      minRows: 1,
+      fields: [
+        { name: 'image', type: 'upload', relationTo: 'media', required: true },
+        { name: 'label', type: 'text', required: true, localized: true },
+      ],
+    },
+  ],
+}
+
 export const BlocksField = [
   HeroCarouselBlock,
   IconGridBlock,
@@ -355,4 +378,5 @@ export const BlocksField = [
   PromoStripBlock,
   StepsListBlock,
   TestimonialGridBlock,
+  CredentialStripBlock,
 ]

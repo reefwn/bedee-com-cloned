@@ -27,6 +27,7 @@ import * as migration_20260820_050000_trust_checklist_cta_variant_and_promo_stri
 import * as migration_20260820_070000_add_steps_list_block from './20260820_070000_add_steps_list_block';
 import * as migration_20260820_072440_add_testimonials_service_type_and_date from './20260820_072440_add_testimonials_service_type_and_date';
 import * as migration_20260820_080133_add_testimonial_grid_block from './20260820_080133_add_testimonial_grid_block';
+import * as migration_20260821_065102 from './20260821_065102';
 
 export const migrations = [
   {
@@ -172,6 +173,11 @@ export const migrations = [
   {
     up: migration_20260820_080133_add_testimonial_grid_block.up,
     down: migration_20260820_080133_add_testimonial_grid_block.down,
-    name: '20260820_080133_add_testimonial_grid_block'
+    name: '20260820_080133_add_testimonial_grid_block',
+  },
+  {
+    up: migration_20260821_065102.up,
+    down: migration_20260821_065102.down,
+    name: '20260821_065102'
   },
 ];
