@@ -14,6 +14,8 @@ import { ArticleGrid } from '@/blocks/components/ArticleGrid'
 
 export const dynamic = 'force-dynamic'
 
+const SITE_URL = 'https://bedee-payload.vercel.app'
+
 type Params = { category: string; slug: string }
 
 // Posts.ts validates this shape on write, but a defense-in-depth check at
@@ -111,17 +113,17 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'หน้าแรก', item: '/' },
-      { '@type': 'ListItem', position: 2, name: 'บทความสุขภาพ', item: '/article' },
+      { '@type': 'ListItem', position: 1, name: 'หน้าแรก', item: SITE_URL },
+      { '@type': 'ListItem', position: 2, name: 'บทความสุขภาพ', item: `${SITE_URL}/article` },
       categoryDoc
         ? {
             '@type': 'ListItem',
             position: 3,
             name: categoryDoc.name,
-            item: `/article?category=${categoryDoc.slug}`,
+            item: `${SITE_URL}/article?category=${categoryDoc.slug}`,
           }
         : null,
-      { '@type': 'ListItem', position: categoryDoc ? 4 : 3, name: post.title, item: path },
+      { '@type': 'ListItem', position: categoryDoc ? 4 : 3, name: post.title, item: `${SITE_URL}${path}` },
     ].filter(Boolean),
   }
 
@@ -145,9 +147,17 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
           Last updated: {new Date(post.updatedAt).toLocaleDateString('th-TH')}
         </p>
         {image?.url ? (
-          // The migrated source image dimensions vary, so preserve their natural ratio.
+          // The migrated source image dimensions vary, so preserve their natural
+          // ratio — width/height (not next/image) reserve the correct aspect
+          // ratio up front so the layout doesn't shift once the image loads.
           // eslint-disable-next-line @next/next/no-img-element
-          <img className="my-8 w-full rounded-2xl" src={image.url} alt={image.alt ?? post.title} />
+          <img
+            className="my-8 w-full rounded-2xl"
+            src={image.url}
+            alt={image.alt ?? post.title}
+            width={image.width ?? undefined}
+            height={image.height ?? undefined}
+          />
         ) : null}
         {post.content ? (
           <RichText

@@ -9,6 +9,8 @@ import { ArticleImage } from '@/blocks/components/ArticleImage'
 
 export const dynamic = 'force-dynamic'
 
+const SITE_URL = 'https://bedee-payload.vercel.app'
+
 type SearchParams = { category?: string; page?: string }
 
 // cache() dedupes this against generateMetadata's identical lookup for the
@@ -46,6 +48,10 @@ export async function generateMetadata({
     title,
     description,
     alternates: { canonical: path },
+    // Page 1 of every category has unique, worth-indexing content (own
+    // title/description above); page 2+ is thin — mostly the same layout
+    // with fewer posts left over — so keep it crawlable but out of the index.
+    robots: { index: page === 1, follow: true },
     openGraph: { title, description, type: 'website', url: path },
     twitter: { card: 'summary', title, description },
   }
@@ -82,8 +88,23 @@ export default async function ArticleListPage({
   const activeCategory = activeSlug ? categories.docs.find((c: any) => c.slug === activeSlug) : undefined
   const pageHref = (targetPage: number) => buildPath(activeSlug, targetPage)
 
+  const itemListJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: result.docs.map((post: any, i: number) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: `${SITE_URL}/article/${post.category?.slug}/${post.slug}`,
+      name: post.title,
+    })),
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd).replace(/</g, '\\u003c') }}
+      />
       <SiteHeader />
       <main className="mx-auto max-w-6xl px-6 py-16">
         <h1 className="text-[28px] font-semibold text-primary">บทความสุขภาพ</h1>
@@ -116,7 +137,7 @@ export default async function ArticleListPage({
             <Link key={post.id} href={`/article/${post.category?.slug}/${post.slug}`} className="block">
               <div className="relative aspect-video overflow-hidden bg-gray-100">
                 {post.featuredImage?.url && (
-                  <ArticleImage src={post.featuredImage.url} alt={post.featuredImage.alt || ''} />
+                  <ArticleImage src={post.featuredImage.url} alt={post.featuredImage.alt || post.title} />
                 )}
               </div>
               <h2 className="mt-3 line-clamp-2 font-bold text-primary">{post.title}</h2>
