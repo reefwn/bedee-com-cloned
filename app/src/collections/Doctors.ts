@@ -14,6 +14,7 @@ export const Doctors: CollectionConfig = {
       required: true,
       options: [
         { label: 'Doctor', value: 'doctor' },
+        { label: 'Specialist', value: 'specialist' },
         { label: 'Pharmacist', value: 'pharmacist' },
       ],
     },

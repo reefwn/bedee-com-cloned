@@ -29,6 +29,7 @@ import * as migration_20260820_072440_add_testimonials_service_type_and_date fro
 import * as migration_20260820_080133_add_testimonial_grid_block from './20260820_080133_add_testimonial_grid_block';
 import * as migration_20260821_065102 from './20260821_065102';
 import * as migration_20260821_075201 from './20260821_075201';
+import * as migration_20260821_081904_add_specialist_role from './20260821_081904_add_specialist_role';
 
 export const migrations = [
   {
@@ -184,6 +185,11 @@ export const migrations = [
   {
     up: migration_20260821_075201.up,
     down: migration_20260821_075201.down,
-    name: '20260821_075201'
+    name: '20260821_075201',
+  },
+  {
+    up: migration_20260821_081904_add_specialist_role.up,
+    down: migration_20260821_081904_add_specialist_role.down,
+    name: '20260821_081904_add_specialist_role'
   },
 ];

@@ -3,18 +3,36 @@
 import Image from 'next/image'
 import { useState } from 'react'
 
+type Role = 'doctor' | 'specialist' | 'pharmacist'
+
 type Doctor = {
   id: string
   name: string
-  role: 'doctor' | 'pharmacist'
+  role: Role
   specialty?: string | null
   photo: { url?: string | null }
+}
+
+const TAB_LABEL: Record<Role, string> = {
+  doctor: 'แพทย์ในเครือ',
+  specialist: 'ผู้เชี่ยวชาญในเครือ',
+  pharmacist: 'เภสัชกรในเครือ',
+}
+const EMPTY_MESSAGE: Record<Role, string> = {
+  doctor: 'กำลังปรับปรุงข้อมูลแพทย์ในเครือ',
+  specialist: 'กำลังปรับปรุงข้อมูลผู้เชี่ยวชาญในเครือ',
+  pharmacist: 'กำลังปรับปรุงข้อมูลเภสัชกรในเครือ',
+}
+const SEE_ALL_HREF: Record<Role, string> = {
+  doctor: '/teleconsultation',
+  specialist: '/teleconsultation',
+  pharmacist: '/telepharmacy',
 }
 
 // Section 5 of plans/04-final-prompt.md §3 — state machine: instant dataset swap,
 // NO crossfade (source has none). Data logic: filter by `role`, not two separate widgets.
 export function ExpertTabs({ heading, doctors }: { heading?: string | null; doctors: Doctor[] }) {
-  const [role, setRole] = useState<'doctor' | 'pharmacist'>('doctor')
+  const [role, setRole] = useState<Role>('doctor')
   const visible = doctors?.filter((d) => d.role === role) ?? []
 
   return (
@@ -22,23 +40,18 @@ export function ExpertTabs({ heading, doctors }: { heading?: string | null; doct
       <div className="mx-auto max-w-5xl px-6 text-center">
         {heading && <h2 className="text-[28px] font-semibold text-primary">{heading}</h2>}
         <div className="mt-6 flex justify-center gap-8">
-          <button
-            onClick={() => setRole('doctor')}
-            className={`focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)] ${role === 'doctor' ? 'font-semibold text-secondary' : 'text-ink'}`}
-          >
-            แพทย์ในเครือ
-          </button>
-          <button
-            onClick={() => setRole('pharmacist')}
-            className={`focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)] ${role === 'pharmacist' ? 'font-semibold text-secondary' : 'text-ink'}`}
-          >
-            เภสัชกรในเครือ
-          </button>
+          {(['doctor', 'specialist', 'pharmacist'] as const).map((r) => (
+            <button
+              key={r}
+              onClick={() => setRole(r)}
+              className={`focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)] ${role === r ? 'font-semibold text-secondary' : 'text-ink'}`}
+            >
+              {TAB_LABEL[r]}
+            </button>
+          ))}
         </div>
         {visible.length === 0 ? (
-          <p className="mt-8 text-sm text-muted">
-            {role === 'doctor' ? 'กำลังปรับปรุงข้อมูลแพทย์ในเครือ' : 'กำลังปรับปรุงข้อมูลเภสัชกรในเครือ'}
-          </p>
+          <p className="mt-8 text-sm text-muted">{EMPTY_MESSAGE[role]}</p>
         ) : (
         <div className="mt-8 flex gap-6 overflow-x-auto overflow-y-hidden">
           {visible.map((d) => (
@@ -68,7 +81,7 @@ export function ExpertTabs({ heading, doctors }: { heading?: string | null; doct
         {/* "See all" has no dedicated doctor-directory page yet — route to
             the matching service page, a real destination, instead of "#" */}
         <a
-          href={role === 'doctor' ? '/teleconsultation' : '/telepharmacy'}
+          href={SEE_ALL_HREF[role]}
           className="mt-8 inline-block rounded-pill bg-primary px-6 py-3 text-[15px] font-medium text-white focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
         >
           ดูทั้งหมด ›
