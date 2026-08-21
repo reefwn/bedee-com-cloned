@@ -22,9 +22,14 @@ const safeUrl = (url?: string | null) =>
 // depict, enriched with the real certificate/issuer/date facts transcribed
 // from the source scans (specific verifiable facts are what makes a claim
 // citable to AI search, not the badge name alone). No fabricated ratings.
-// certificateUrl is deliberately optional — no real certificate PDFs exist
-// yet (pending from a teammate), so it renders "coming soon" rather than a
-// dead or fabricated link until one is added.
+// certificateUrl is deliberately optional — renders "coming soon" instead of
+// a dead or fabricated link until a real one exists. Where a certificateUrl
+// points off-domain (e.g. the Pharmacy Council item -> pharmacycouncil.org),
+// that's intentional: an independently-verifiable primary source is a
+// stronger AI-citation signal than a self-hosted copy. A mirror of that PDF
+// lives at /certs/pharmacy-council-announcement-70-2568.pdf as a durable
+// fallback only, in case that old Joomla-style page ever rots — swap the
+// item's certificateUrl to it if pharmacycouncil.org's link breaks.
 export function CredentialStrip({
   kicker,
   heading,
