@@ -66,8 +66,16 @@ const GRID_COLS_CLASS: Record<number, string> = { 5: 'grid-cols-5', 3: 'grid-col
 
 // Section 5 of plans/04-final-prompt.md §3 — state machine: instant dataset swap,
 // NO crossfade (source has none). Data logic: filter by `role`, not two separate widgets.
-export function ExpertTabs({ heading, doctors }: { heading?: string | null; doctors: Doctor[] }) {
-  const [role, setRole] = useState<Role>('doctor')
+export function ExpertTabs({
+  heading,
+  doctors,
+  defaultRole,
+}: {
+  heading?: string | null
+  doctors: Doctor[]
+  defaultRole?: Role | null
+}) {
+  const [role, setRole] = useState<Role>(defaultRole ?? 'doctor')
   const columns = useColumns()
   const [page, setPage] = useState(0)
   const prefersReducedMotion = usePrefersReducedMotion()

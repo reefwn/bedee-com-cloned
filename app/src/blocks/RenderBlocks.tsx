@@ -54,7 +54,14 @@ export async function RenderBlocks({
         case 'logoStrip':
           return <LogoStrip key={i} heading={block.heading} partners={block.partners ?? []} />
         case 'expertTabs':
-          return <ExpertTabs key={i} heading={block.heading} doctors={block.doctors ?? []} />
+          return (
+            <ExpertTabs
+              key={i}
+              heading={block.heading}
+              doctors={block.doctors ?? []}
+              defaultRole={block.defaultRole}
+            />
+          )
         case 'promoBanner':
           return (
             <PromoBanner

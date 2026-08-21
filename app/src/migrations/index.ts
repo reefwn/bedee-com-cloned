@@ -30,6 +30,7 @@ import * as migration_20260820_080133_add_testimonial_grid_block from './2026082
 import * as migration_20260821_065102 from './20260821_065102';
 import * as migration_20260821_075201 from './20260821_075201';
 import * as migration_20260821_081904_add_specialist_role from './20260821_081904_add_specialist_role';
+import * as migration_20260821_092836_add_expert_tabs_default_role from './20260821_092836_add_expert_tabs_default_role';
 
 export const migrations = [
   {
@@ -190,6 +191,11 @@ export const migrations = [
   {
     up: migration_20260821_081904_add_specialist_role.up,
     down: migration_20260821_081904_add_specialist_role.down,
-    name: '20260821_081904_add_specialist_role'
+    name: '20260821_081904_add_specialist_role',
+  },
+  {
+    up: migration_20260821_092836_add_expert_tabs_default_role.up,
+    down: migration_20260821_092836_add_expert_tabs_default_role.down,
+    name: '20260821_092836_add_expert_tabs_default_role'
   },
 ];

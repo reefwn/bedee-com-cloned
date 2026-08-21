@@ -83,6 +83,16 @@ export const ExpertTabsBlock: Block = {
   fields: [
     { name: 'heading', type: 'text', localized: true },
     { name: 'doctors', type: 'relationship', relationTo: 'doctors', hasMany: true },
+    {
+      name: 'defaultRole',
+      type: 'select',
+      defaultValue: 'doctor',
+      options: [
+        { label: 'Doctor', value: 'doctor' },
+        { label: 'Specialist', value: 'specialist' },
+        { label: 'Pharmacist', value: 'pharmacist' },
+      ],
+    },
   ],
 }
 
