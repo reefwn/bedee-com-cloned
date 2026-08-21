@@ -356,6 +356,21 @@ export const CredentialStripBlock: Block = {
       fields: [
         { name: 'image', type: 'upload', relationTo: 'media', required: true },
         { name: 'label', type: 'text', required: true, localized: true },
+        // Real transcribed facts from the certificate itself (for AI-SEO —
+        // specific verifiable numbers/dates are far more citable than a
+        // badge name alone), not the badge image's own alt text.
+        { name: 'issuedBy', type: 'text', localized: true },
+        { name: 'identifier', type: 'text' },
+        { name: 'validFrom', type: 'date', admin: { date: { pickerAppearance: 'dayOnly' } } },
+        { name: 'validUntil', type: 'date', admin: { date: { pickerAppearance: 'dayOnly' } } },
+        // No real certificate file yet (teammate is sourcing it) — leave
+        // empty and the section shows a "coming soon" state rather than a
+        // fabricated or dead link.
+        {
+          name: 'certificateUrl',
+          type: 'text',
+          admin: { description: 'Link to the real certificate PDF once available. Leave empty to show "coming soon".' },
+        },
       ],
     },
   ],

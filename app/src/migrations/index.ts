@@ -28,6 +28,7 @@ import * as migration_20260820_070000_add_steps_list_block from './20260820_0700
 import * as migration_20260820_072440_add_testimonials_service_type_and_date from './20260820_072440_add_testimonials_service_type_and_date';
 import * as migration_20260820_080133_add_testimonial_grid_block from './20260820_080133_add_testimonial_grid_block';
 import * as migration_20260821_065102 from './20260821_065102';
+import * as migration_20260821_075201 from './20260821_075201';
 
 export const migrations = [
   {
@@ -178,6 +179,11 @@ export const migrations = [
   {
     up: migration_20260821_065102.up,
     down: migration_20260821_065102.down,
-    name: '20260821_065102'
+    name: '20260821_065102',
+  },
+  {
+    up: migration_20260821_075201.up,
+    down: migration_20260821_075201.down,
+    name: '20260821_075201'
   },
 ];

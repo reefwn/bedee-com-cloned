@@ -179,6 +179,11 @@ export async function RenderBlocks({
           const items = (block.items ?? []).map((item: any) => ({
             image: typeof item.image === 'object' ? item.image : { url: null, alt: null },
             label: item.label,
+            issuedBy: item.issuedBy,
+            identifier: item.identifier,
+            validFrom: item.validFrom,
+            validUntil: item.validUntil,
+            certificateUrl: item.certificateUrl,
           }))
           return (
             <CredentialStrip
