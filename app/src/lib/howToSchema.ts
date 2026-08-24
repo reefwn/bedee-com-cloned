@@ -1,8 +1,8 @@
 // AI SEO: HowTo schema for any real numbered-step list already present in a
-// page's richTextContent — see ai-seo skill. Generic across pages (not
-// teleconsultation-specific): any page whose content has an <ol> preceded by
-// a heading gets a HowTo block for free, sourced from real migrated copy,
-// never fabricated.
+// page's richTextContent, or in a stepsList block — see ai-seo skill.
+// Generic across pages (not teleconsultation-specific): any page whose
+// content has an <ol> preceded by a heading, or a stepsList block, gets a
+// HowTo block for free, sourced from real migrated copy, never fabricated.
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function textOf(node: any): string {
@@ -22,6 +22,25 @@ export function extractHowToSchemas(layout: any[]): HowToSchema[] {
   const schemas: HowToSchema[] = []
 
   for (const block of layout ?? []) {
+    if (block.blockType === 'stepsList') {
+      const steps = (block.items ?? [])
+        .filter((item: any) => item?.title)
+        .map((item: any, i: number) => ({
+          '@type': 'HowToStep' as const,
+          position: i + 1,
+          text: item.description ? `${item.title}: ${item.description}` : item.title,
+        }))
+      if (steps.length && block.heading) {
+        schemas.push({
+          '@context': 'https://schema.org',
+          '@type': 'HowTo',
+          name: String(block.heading).replace(/\n/g, ' '),
+          step: steps,
+        })
+      }
+      continue
+    }
+
     if (block.blockType !== 'richTextContent') continue
     const children = block.content?.root?.children ?? []
     let precedingHeading = ''

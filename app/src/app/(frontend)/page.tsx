@@ -5,6 +5,7 @@ import config from '@payload-config'
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { SiteHeader } from '@/components/SiteHeader'
 import { SiteFooter } from '@/components/SiteFooter'
+import { extractHowToSchemas } from '@/lib/howToSchema'
 
 // Always reads live from Payload/Postgres — never statically prerendered.
 export const dynamic = 'force-dynamic'
@@ -76,6 +77,9 @@ export default async function HomePage() {
     url: SITE_URL,
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const howToSchemas = extractHowToSchemas((home?.layout ?? []) as any[])
+
   return (
     <>
       <script
@@ -86,6 +90,13 @@ export default async function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd).replace(/</g, '\\u003c') }}
       />
+      {howToSchemas.map((schema, i) => (
+        <script
+          key={`howto-${i}`}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, '\\u003c') }}
+        />
+      ))}
       <SiteHeader />
       {/* Real, stable H1 — decoupled from the hero carousel's rotating slide
       headline (finding #5: H1 was slides[0].headline, so reordering slides
