@@ -70,6 +70,7 @@ export async function RenderBlocks({
               body={block.body}
               image={block.image}
               badgeLabel={block.badgeLabel}
+              variant={block.variant}
               ctaLabel={block.ctaLabel}
               ctaUrl={block.ctaUrl}
               subheading={block.subheading}
@@ -89,7 +90,7 @@ export async function RenderBlocks({
               ? { 'category.slug': { equals: block.categorySlug } }
               : undefined,
           })
-          return <ArticleGrid key={i} heading={block.heading} posts={result.docs as any} />
+          return <ArticleGrid key={i} heading={block.heading} posts={result.docs as any} variant={block.variant} />
         }
         case 'imageCarousel': {
           const images = (block.images ?? []).map((item: any) =>

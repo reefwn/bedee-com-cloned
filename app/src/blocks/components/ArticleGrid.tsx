@@ -11,11 +11,20 @@ type Post = {
 }
 
 // Section 7 of plans/04-final-prompt.md §3 — 3-col grid, 16:9 cards, category badge.
-export function ArticleGrid({ heading, posts }: { heading?: string | null; posts: Post[] }) {
+export function ArticleGrid({
+  heading,
+  posts,
+  variant = 'plain',
+}: {
+  heading?: string | null
+  posts: Post[]
+  variant?: 'tinted' | 'plain' | null
+}) {
   if (!posts?.length) return null
+  const background = variant === 'tinted' ? 'bg-panel-2' : ''
 
   return (
-    <section className="py-16">
+    <section className={`${background} py-16`}>
       <div className="mx-auto max-w-5xl px-6 text-center">
         {heading && <h2 className="text-[28px] font-semibold text-primary">{heading}</h2>}
         <div className="mt-8 grid grid-cols-1 gap-8 text-left md:grid-cols-3">

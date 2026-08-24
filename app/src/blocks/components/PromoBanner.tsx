@@ -8,6 +8,7 @@ export function PromoBanner({
   body,
   image,
   badgeLabel,
+  variant = 'tinted',
   ctaLabel,
   ctaUrl,
   subheading,
@@ -17,13 +18,15 @@ export function PromoBanner({
   body?: string | null
   image?: { url?: string | null; alt?: string | null } | null
   badgeLabel?: string | null
+  variant?: 'tinted' | 'plain' | null
   ctaLabel?: string | null
   ctaUrl?: string | null
   subheading?: string | null
   iconItems?: IconItem[] | null
 }) {
+  const background = variant === 'plain' ? 'bg-white' : 'bg-panel-2'
   return (
-    <section className="bg-panel-2 py-16">
+    <section className={`${background} py-16`}>
       <div className="mx-auto flex max-w-5xl flex-col items-center gap-10 px-6 text-center md:flex-row md:text-left">
         {image?.url && (
           // Root cause of the invisible image: `flex-1` on a flex-col parent

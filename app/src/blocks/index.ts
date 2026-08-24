@@ -104,6 +104,15 @@ export const PromoBannerBlock: Block = {
     { name: 'body', type: 'textarea', localized: true },
     { name: 'image', type: 'upload', relationTo: 'media' },
     { name: 'badgeLabel', type: 'text', localized: true },
+    {
+      name: 'variant',
+      type: 'select',
+      defaultValue: 'tinted',
+      options: [
+        { label: 'Tinted background', value: 'tinted' },
+        { label: 'White background', value: 'plain' },
+      ],
+    },
     { name: 'ctaLabel', type: 'text', localized: true },
     { name: 'ctaUrl', type: 'text' },
     // Optional — e.g. health-mall's own version of this banner has a second
@@ -132,6 +141,15 @@ export const ArticleGridBlock: Block = {
     // behavior. Set to pin a specific category's latest posts instead (e.g.
     // a service page's "related articles" section).
     { name: 'categorySlug', type: 'text' },
+    {
+      name: 'variant',
+      type: 'select',
+      defaultValue: 'plain',
+      options: [
+        { label: 'Tinted background', value: 'tinted' },
+        { label: 'White background', value: 'plain' },
+      ],
+    },
   ],
 }
 
