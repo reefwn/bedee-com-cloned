@@ -10,8 +10,9 @@ import { SiteFooter } from '@/components/SiteFooter'
 export const dynamic = 'force-dynamic'
 
 const SITE_URL = 'https://bedee-payload.vercel.app'
-const TITLE = 'BeDee — แพลตฟอร์มให้บริการด้านสุขภาพ'
-const DESCRIPTION = 'ปรึกษาหมอออนไลน์ ปรึกษาเภสัชกร ส่งยา — Powered by BDMS'
+const TITLE = 'BeDee — ปรึกษาหมอ เภสัชกร ส่งยา ช้อปสุขภาพออนไลน์ | Powered by BDMS'
+const DESCRIPTION =
+  'ปรึกษาหมอและเภสัชกรออนไลน์ พร้อมส่งยาและสินค้าสุขภาพถึงบ้าน ดูแลสุขภาพครบวงจรตลอด 24 ชม. ภายใต้มาตรฐานเครือโรงพยาบาล BDMS'
 
 // cache() dedupes this against generateMetadata's identical lookup for the
 // same request — same reasoning as every other page's getItem/getProduct.

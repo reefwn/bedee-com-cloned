@@ -63,7 +63,7 @@ export function StepsList({
             <div className="relative flex-1">
               <Image
                 src={image.url}
-                alt={image.alt || ''}
+                alt={image.alt || heading}
                 width={640}
                 height={640}
                 className="mx-auto w-full max-w-[420px] object-contain"

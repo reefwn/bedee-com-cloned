@@ -54,7 +54,7 @@ export function TrustChecklist({
           {image?.url && (
             <Image
               src={image.url}
-              alt={image.alt || ''}
+              alt={image.alt || heading}
               width={900}
               height={600}
               className="w-full rounded-[28px] object-cover"

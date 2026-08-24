@@ -1,7 +1,7 @@
 import { cache } from 'react'
 import type { Metadata } from 'next'
 import { draftMode } from 'next/headers'
-import { notFound } from 'next/navigation'
+import { notFound, permanentRedirect } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
@@ -52,6 +52,7 @@ export async function generateMetadata({
   params: Promise<Params>
 }): Promise<Metadata> {
   const { slug } = await params
+  if (slug === 'home') return {}
   const content = await getContent(slug)
   if (!content) return {}
 
@@ -94,6 +95,10 @@ function getImageUrl(content: { type: 'page' | 'service'; doc: any }): string | 
 
 export default async function ContentPage({ params }: { params: Promise<Params> }) {
   const { slug } = await params
+  // The real homepage is served at `/` (src/app/(frontend)/page.tsx) — this
+  // catch-all also matches the "home" pages doc by slug, which duplicated
+  // it at /home with a conflicting self-canonical and a different H1/title.
+  if (slug === 'home') permanentRedirect('/')
   const content = await getContent(slug)
   const { isEnabled: draft } = await draftMode()
 

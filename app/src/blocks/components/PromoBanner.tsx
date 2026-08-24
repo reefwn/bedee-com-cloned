@@ -37,7 +37,7 @@ export function PromoBanner({
           <div className="w-full md:flex-1">
             <Image
               src={image.url}
-              alt={image.alt || ''}
+              alt={image.alt || heading || ''}
               width={640}
               height={654}
               className="max-h-[420px] w-full object-contain"

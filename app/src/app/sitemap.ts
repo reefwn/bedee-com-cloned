@@ -17,10 +17,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     payload.find({ collection: 'news-and-activities', limit: 200, depth: 0 }),
   ])
 
-  const pageEntries = pages.docs.map((page) => ({
-    url: `${SITE_URL}/${page.slug}`,
-    lastModified: page.updatedAt,
-  }))
+  // "home" is served at the site root (already listed below) — the same
+  // pages doc is also reachable at /home via the [slug] catch-all, which
+  // now permanently redirects it back to / rather than serving a duplicate.
+  const pageEntries = pages.docs
+    .filter((page) => page.slug !== 'home')
+    .map((page) => ({
+      url: `${SITE_URL}/${page.slug}`,
+      lastModified: page.updatedAt,
+    }))
 
   const serviceEntries = services.docs.map((service) => ({
     url: `${SITE_URL}/${service.slug}`,

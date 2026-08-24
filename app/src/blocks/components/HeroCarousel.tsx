@@ -88,7 +88,7 @@ export function HeroCarousel({
         <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[58%] md:block" style={fadeToRight}>
           <Image
             src={slide.image.url as string}
-            alt={slide.image.alt || ''}
+            alt={slide.image.alt || slide.headline}
             fill
             priority
             sizes="58vw"
@@ -135,7 +135,7 @@ export function HeroCarousel({
             <div className="relative h-64 w-full overflow-hidden rounded-[28px] md:hidden" style={fadeToBottom}>
               <Image
                 src={slide.image.url as string}
-                alt={slide.image.alt || ''}
+                alt={slide.image.alt || slide.headline}
                 fill
                 priority
                 sizes="90vw"
@@ -147,7 +147,7 @@ export function HeroCarousel({
               {slide.image?.url && (
                 <Image
                   src={slide.image.url}
-                  alt={slide.image.alt || ''}
+                  alt={slide.image.alt || slide.headline}
                   width={640}
                   height={654}
                   className="max-h-[580px] w-full object-contain"

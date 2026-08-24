@@ -75,18 +75,6 @@ export function TestimonialGrid({
 
   if (!testimonials?.length) return null
 
-  // AI-SEO: real Review structured data — reviewBody is the actual customer
-  // quote, no fabricated reviewRating (the source survey's own score column
-  // is empty for these responses, so no real rating exists to report).
-  const reviewJsonLd = testimonials.map((t) => ({
-    '@context': 'https://schema.org',
-    '@type': 'Review',
-    itemReviewed: { '@type': 'Organization', name: 'BeDee' },
-    author: { '@type': 'Person', name: t.authorName },
-    reviewBody: t.quote,
-    ...(t.submittedAt ? { datePublished: t.submittedAt.slice(0, 10) } : {}),
-  }))
-
   const pages: Testimonial[][] = []
   for (let i = 0; i < testimonials.length; i += columns) {
     pages.push(testimonials.slice(i, i + columns))
@@ -97,10 +85,6 @@ export function TestimonialGrid({
 
   return (
     <section className="bg-white py-16">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewJsonLd).replace(/</g, '\\u003c') }}
-      />
       <div className="mx-auto max-w-6xl px-6 text-center md:px-12">
         {kicker && (
           <p className="text-sm font-semibold tracking-wide text-primary">{kicker}</p>
