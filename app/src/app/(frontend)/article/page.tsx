@@ -6,6 +6,7 @@ import config from '@payload-config'
 import { SiteHeader } from '@/components/SiteHeader'
 import { SiteFooter } from '@/components/SiteFooter'
 import { ArticleImage } from '@/blocks/components/ArticleImage'
+import { ArticleBanner } from '@/blocks/components/ArticleBanner'
 
 export const dynamic = 'force-dynamic'
 
@@ -74,8 +75,9 @@ export default async function ArticleListPage({
   // trip costs ~250-400ms of pure cross-Pacific latency. depth:1 (not 2) is
   // also enough — only direct category/featuredImage relations are read,
   // never their own nested relations.
-  const [categories, result] = await Promise.all([
+  const [categories, featured, result] = await Promise.all([
     getCategories(),
+    payload.find({ collection: 'posts', sort: '-publishedAt', depth: 1, limit: 5 }),
     payload.find({
       collection: 'posts',
       sort: '-publishedAt',
@@ -108,6 +110,11 @@ export default async function ArticleListPage({
       <SiteHeader />
       <main className="mx-auto max-w-6xl px-6 py-16">
         <h1 className="text-[28px] font-semibold text-primary">บทความสุขภาพ</h1>
+
+        {/* Banner — auto-rotating carousel of the latest articles, capped narrower than the full container so it reads as a compact highlight strip rather than a dominant hero */}
+        <div className="max-w-md">
+          <ArticleBanner posts={featured.docs as any} />
+        </div>
 
         {/* Category filter — pill list, round = interactive per the Two-Shape Rule */}
         <div className="mt-10 flex flex-wrap gap-3">
