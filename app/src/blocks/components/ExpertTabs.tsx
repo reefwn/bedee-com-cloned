@@ -93,7 +93,7 @@ export function ExpertTabs({
   const goTo = (i: number) => setPage((i + pageCount) % pageCount)
 
   return (
-    <section id="next" className="bg-white py-16">
+    <section id="next" className="bg-panel-1 py-16">
       <div className="mx-auto max-w-5xl px-6 text-center">
         {heading && <h2 className="text-[28px] font-semibold text-primary">{heading}</h2>}
         <div className="mt-6 flex justify-center gap-8">

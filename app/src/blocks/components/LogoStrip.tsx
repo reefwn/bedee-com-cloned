@@ -2,12 +2,12 @@ import Image from 'next/image'
 
 type Partner = { name: string; logo: { url?: string | null }; url?: string | null }
 
-// Section 4 of plans/04-final-prompt.md §3 — background #F4F8FF, H2 color #455FA5.
+// Section 4 of plans/04-final-prompt.md §3 — H2 color #455FA5.
 export function LogoStrip({ heading, partners }: { heading?: string | null; partners: Partner[] }) {
   if (!partners?.length) return null
 
   return (
-    <section className="bg-panel-1 py-16">
+    <section className="bg-white py-16">
       <div className="mx-auto max-w-5xl px-6 text-center">
         {heading && (
           <h2 className="whitespace-pre-line text-2xl font-semibold leading-snug text-tertiary md:text-[28px]">
