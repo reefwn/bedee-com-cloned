@@ -111,10 +111,8 @@ export default async function ArticleListPage({
       <main className="mx-auto max-w-6xl px-6 py-16">
         <h1 className="text-[28px] font-semibold text-primary">บทความสุขภาพ</h1>
 
-        {/* Banner — auto-rotating carousel of the latest articles, framed in a panel so the smaller size reads as a deliberate spotlight module instead of a stray floating thumbnail */}
-        <div className="mx-auto mt-8 max-w-md bg-panel-1 p-4">
-          <ArticleBanner posts={featured.docs as any} />
-        </div>
+        {/* Banner — auto-rotating carousel of the latest articles */}
+        <ArticleBanner posts={featured.docs as any} />
 
         {/* Category filter — pill list, round = interactive per the Two-Shape Rule */}
         <div className="mt-10 flex flex-wrap gap-3">
