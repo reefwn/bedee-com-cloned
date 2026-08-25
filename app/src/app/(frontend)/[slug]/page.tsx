@@ -110,6 +110,9 @@ export default async function ContentPage({ params }: { params: Promise<Params> 
     name: content.doc.title,
     description: content.type === 'page' ? content.doc.seo?.metaDescription ?? undefined : undefined,
     url: `/${slug}`,
+    // AI SEO: freshness signal — AI search weights recency, and undated
+    // content loses to dated content in citation ranking (ai-seo skill).
+    dateModified: content.doc.updatedAt,
     publisher: { '@type': 'Organization', name: 'BeDee' },
   }
   const howToSchemas =

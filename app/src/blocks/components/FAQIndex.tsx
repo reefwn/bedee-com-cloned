@@ -243,34 +243,41 @@ export function FAQIndex({
                   const isOpen = openIds.has(id)
                   return (
                     <div key={item.ii} id={id} className="scroll-mt-24 py-4">
-                      <button
-                        type="button"
-                        id={`${id}-trigger`}
-                        aria-expanded={isOpen}
-                        aria-controls={`${id}-panel`}
-                        onClick={() =>
-                          setOpenIds((prev) => {
-                            const next = new Set(prev)
-                            next.has(id) ? next.delete(id) : next.add(id)
-                            return next
-                          })
-                        }
-                        className={`flex w-full cursor-pointer items-center justify-between gap-4 text-left font-medium text-ink ${FOCUS_RING}`}
-                      >
-                        <span>{item.question}</span>
-                        <svg
-                          aria-hidden="true"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          className={`h-5 w-5 flex-none text-secondary transition-transform ease-out-strong ${
-                            prefersReducedMotion ? 'duration-0' : 'duration-[220ms]'
-                          } ${isOpen ? 'rotate-180' : ''}`}
+                      {/* AI SEO + WAI-ARIA disclosure pattern: the heading
+                          wraps the trigger button (button can't legally
+                          contain a heading) so the question is real document
+                          structure — crawlable outline, not just button
+                          label text. */}
+                      <h3 className="m-0 font-medium text-ink">
+                        <button
+                          type="button"
+                          id={`${id}-trigger`}
+                          aria-expanded={isOpen}
+                          aria-controls={`${id}-panel`}
+                          onClick={() =>
+                            setOpenIds((prev) => {
+                              const next = new Set(prev)
+                              next.has(id) ? next.delete(id) : next.add(id)
+                              return next
+                            })
+                          }
+                          className={`flex w-full cursor-pointer items-center justify-between gap-4 text-left ${FOCUS_RING}`}
                         >
-                          <path strokeLinecap="round" strokeLinejoin="round" d="m6 9 6 6 6-6" />
-                        </svg>
-                      </button>
+                          <span>{item.question}</span>
+                          <svg
+                            aria-hidden="true"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            className={`h-5 w-5 flex-none text-secondary transition-transform ease-out-strong ${
+                              prefersReducedMotion ? 'duration-0' : 'duration-[220ms]'
+                            } ${isOpen ? 'rotate-180' : ''}`}
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="m6 9 6 6 6-6" />
+                          </svg>
+                        </button>
+                      </h3>
                       {/* grid-template-rows 0fr->1fr animates to an intrinsic
                           (not pre-measured) height — the standard zero-JS way
                           to transition height:auto content. */}
