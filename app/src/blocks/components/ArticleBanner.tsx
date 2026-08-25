@@ -53,7 +53,7 @@ export function ArticleBanner({ posts }: { posts: BannerPost[] }) {
   const post = posts[index]
 
   return (
-    <div className="relative mt-8 aspect-video overflow-hidden bg-gray-100">
+    <div className="relative aspect-video overflow-hidden bg-gray-100">
       <Link
         key={index}
         href={`/article/${post.category?.slug}/${post.slug}`}
