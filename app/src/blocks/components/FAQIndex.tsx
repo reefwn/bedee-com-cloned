@@ -189,7 +189,7 @@ export function FAQIndex({
 
       {priorityQuestions?.length > 0 && (
         <div className="mt-10">
-          <h2 className="text-[22px] font-semibold text-primary">คำถามที่พบบ่อยที่สุด</h2>
+          <h2 className="text-[28px] font-semibold text-primary">คำถามที่พบบ่อยที่สุด</h2>
           <ol className="mt-2 divide-y divide-panel-2">
             {priorityQuestions.map((q, i) => {
               const id = itemId(q.categoryIndex, q.itemIndex)
@@ -243,7 +243,7 @@ export function FAQIndex({
         (cat) =>
           cat.items.length > 0 && (
             <div key={cat.ci} id={`cat-${cat.ci}`} className="mt-10 scroll-mt-24">
-              <h2 className="text-[22px] font-semibold text-primary">{cat.name}</h2>
+              <h2 className="text-[28px] font-semibold text-primary">{cat.name}</h2>
               <div className="mt-4 divide-y divide-panel-2">
                 {cat.items.map((item) => {
                   const id = itemId(cat.ci, item.ii)
