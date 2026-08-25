@@ -6,6 +6,7 @@ import { PromoBanner } from './components/PromoBanner'
 import { ArticleGrid } from './components/ArticleGrid'
 import { RichTextContent } from './components/RichTextContent'
 import { FAQ } from './components/FAQ'
+import { FAQIndex } from './components/FAQIndex'
 import { ImageCarousel } from './components/ImageCarousel'
 import { PromotionGrid } from './components/PromotionGrid'
 import { ProductCarousel } from './components/ProductCarousel'
@@ -121,6 +122,19 @@ export async function RenderBlocks({
           return <RichTextContent key={i} heading={block.heading} content={block.content} />
         case 'faq':
           return <FAQ key={i} heading={block.heading} items={block.items ?? []} />
+        case 'faqIndex':
+          return (
+            <FAQIndex
+              key={i}
+              heading={block.heading}
+              intro={block.intro}
+              updatedAt={block.updatedAt}
+              safetyNotice={block.safetyNotice}
+              quickLinks={block.quickLinks ?? []}
+              priorityQuestions={block.priorityQuestions ?? []}
+              categories={block.categories ?? []}
+            />
+          )
         case 'featureSteps':
           return (
             <FeatureSteps

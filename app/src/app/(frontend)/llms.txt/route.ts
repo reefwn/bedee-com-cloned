@@ -48,6 +48,9 @@ export async function GET() {
   lines.push('\n## For businesses')
   lines.push('- [สำหรับองค์กร (corporate employee health benefits)](/corporate)')
 
+  lines.push('\n## FAQ')
+  lines.push('- [คำถามที่พบบ่อย (45 Q&A: teleconsultation, telepharmacy, delivery, insurance, account & security)](/faqs)')
+
   if (posts.docs.length) {
     lines.push('\n## Recent articles')
     for (const post of posts.docs) {

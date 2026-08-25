@@ -404,6 +404,58 @@ export const CredentialStripBlock: Block = {
   ],
 }
 
+// Dedicated block for a full FAQ index page (as opposed to the small
+// per-service FAQBlock above): categorized, searchable, with a curated
+// top-of-page priority list. `categoryIndex`/`itemIndex` on priorityQuestions
+// are positional pointers into `categories`/`categories[].items` (Payload has
+// no way to relate into a nested array item) — editors reordering items must
+// keep these in sync; the component renders a dead (but harmless) anchor if
+// they drift.
+export const FAQIndexBlock: Block = {
+  slug: 'faqIndex',
+  labels: { singular: 'FAQ Index', plural: 'FAQ Indexes' },
+  fields: [
+    { name: 'heading', type: 'text', required: true, localized: true },
+    { name: 'intro', type: 'textarea', localized: true },
+    { name: 'updatedAt', type: 'date', admin: { date: { pickerAppearance: 'dayOnly' } } },
+    { name: 'safetyNotice', type: 'textarea', localized: true },
+    {
+      name: 'quickLinks',
+      type: 'array',
+      fields: [
+        { name: 'label', type: 'text', required: true, localized: true },
+        { name: 'url', type: 'text', required: true },
+      ],
+    },
+    {
+      name: 'priorityQuestions',
+      type: 'array',
+      fields: [
+        { name: 'label', type: 'text', required: true, localized: true },
+        { name: 'categoryIndex', type: 'number', required: true },
+        { name: 'itemIndex', type: 'number', required: true },
+      ],
+    },
+    {
+      name: 'categories',
+      type: 'array',
+      minRows: 1,
+      fields: [
+        { name: 'name', type: 'text', required: true, localized: true },
+        {
+          name: 'items',
+          type: 'array',
+          minRows: 1,
+          fields: [
+            { name: 'question', type: 'text', required: true, localized: true },
+            { name: 'answer', type: 'textarea', required: true, localized: true },
+          ],
+        },
+      ],
+    },
+  ],
+}
+
 export const BlocksField = [
   HeroCarouselBlock,
   IconGridBlock,
@@ -416,6 +468,7 @@ export const BlocksField = [
   ProductCarouselBlock,
   RichTextContentBlock,
   FAQBlock,
+  FAQIndexBlock,
   FeatureStepsBlock,
   TrustChecklistBlock,
   PromoStripBlock,
