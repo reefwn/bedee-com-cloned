@@ -284,7 +284,7 @@ export function FAQIndex({
                         style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}
                       >
                         <div className="overflow-hidden">
-                          <p className="pt-3 leading-7 text-ink">{item.answer}</p>
+                          <p className="pt-3 leading-7 text-muted">{item.answer}</p>
                         </div>
                       </div>
                     </div>
