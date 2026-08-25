@@ -33,6 +33,7 @@ import * as migration_20260821_081904_add_specialist_role from './20260821_08190
 import * as migration_20260821_092836_add_expert_tabs_default_role from './20260821_092836_add_expert_tabs_default_role';
 import * as migration_20260824_173315_add_promo_banner_article_grid_variant from './20260824_173315_add_promo_banner_article_grid_variant';
 import * as migration_20260825_162729_add_faq_index_block from './20260825_162729_add_faq_index_block';
+import * as migration_20260825_232901_add_faq_item_steps from './20260825_232901_add_faq_item_steps';
 
 export const migrations = [
   {
@@ -208,6 +209,11 @@ export const migrations = [
   {
     up: migration_20260825_162729_add_faq_index_block.up,
     down: migration_20260825_162729_add_faq_index_block.down,
-    name: '20260825_162729_add_faq_index_block'
+    name: '20260825_162729_add_faq_index_block',
+  },
+  {
+    up: migration_20260825_232901_add_faq_item_steps.up,
+    down: migration_20260825_232901_add_faq_item_steps.down,
+    name: '20260825_232901_add_faq_item_steps'
   },
 ];

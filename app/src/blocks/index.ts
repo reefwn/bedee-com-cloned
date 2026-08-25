@@ -449,6 +449,13 @@ export const FAQIndexBlock: Block = {
           fields: [
             { name: 'question', type: 'text', required: true, localized: true },
             { name: 'answer', type: 'textarea', required: true, localized: true },
+            // AI SEO: optional ordered breakdown for procedural answers —
+            // numbered lists beat prose for "how do I..." extraction. When
+            // set, this replaces `answer` in both the rendered UI and the
+            // FAQPage schema text (never both, so visible content and
+            // structured data can't diverge); `answer` stays populated as
+            // the plain-prose original either way.
+            { name: 'steps', type: 'text', hasMany: true, localized: true },
           ],
         },
       ],

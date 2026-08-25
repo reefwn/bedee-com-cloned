@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useMemo, useState, type MouseEvent } from 'react'
 
-type FAQIndexItem = { question: string; answer: string }
+type FAQIndexItem = { question: string; answer: string; steps?: string[] | null }
 type FAQIndexCategory = { name: string; items: FAQIndexItem[] }
 type PriorityQuestion = { label: string; categoryIndex: number; itemIndex: number }
 type QuickLink = { label: string; url: string }
@@ -11,6 +11,13 @@ const FOCUS_RING = 'focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3
 
 function itemId(categoryIndex: number, itemIndex: number) {
   return `faq-${categoryIndex}-${itemIndex}`
+}
+
+// The FAQPage schema text for a step item must match what's actually
+// rendered (a numbered list), not the plain-prose `answer` it was split
+// from — otherwise visible content and structured data diverge.
+function answerText(item: FAQIndexItem) {
+  return item.steps?.length ? item.steps.map((step, i) => `${i + 1}. ${step}`).join(' ') : item.answer
 }
 
 // Matches ExpertTabs' local convention (no shared hook in this codebase).
@@ -62,7 +69,7 @@ export function FAQIndex({
         cat.items.map((item) => ({
           '@type': 'Question',
           name: item.question,
-          acceptedAnswer: { '@type': 'Answer', text: item.answer },
+          acceptedAnswer: { '@type': 'Answer', text: answerText(item) },
         })),
       ),
     }),
@@ -78,7 +85,7 @@ export function FAQIndex({
         (item) =>
           !normalizedQuery ||
           item.question.toLowerCase().includes(normalizedQuery) ||
-          item.answer.toLowerCase().includes(normalizedQuery),
+          answerText(item).toLowerCase().includes(normalizedQuery),
       ),
   }))
   const hasResults = filteredCategories.some((cat) => cat.items.length > 0)
@@ -291,7 +298,15 @@ export function FAQIndex({
                         style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}
                       >
                         <div className="overflow-hidden">
-                          <p className="pt-3 leading-7 text-muted">{item.answer}</p>
+                          {item.steps?.length ? (
+                            <ol className="mt-3 list-decimal space-y-2 pl-5 leading-7 text-muted">
+                              {item.steps.map((step, si) => (
+                                <li key={si}>{step}</li>
+                              ))}
+                            </ol>
+                          ) : (
+                            <p className="pt-3 leading-7 text-muted">{item.answer}</p>
+                          )}
                         </div>
                       </div>
                     </div>
