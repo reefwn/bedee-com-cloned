@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useId, useMemo, useState } from 'react'
+import { useEffect, useId, useMemo, useState, type MouseEvent } from 'react'
 
 type FAQIndexItem = { question: string; answer: string }
 type FAQIndexCategory = { name: string; items: FAQIndexItem[] }
@@ -11,6 +11,19 @@ const FOCUS_RING = 'focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3
 
 function itemId(categoryIndex: number, itemIndex: number) {
   return `faq-${categoryIndex}-${itemIndex}`
+}
+
+// Matches ExpertTabs' local convention (no shared hook in this codebase).
+function usePrefersReducedMotion() {
+  const [reduced, setReduced] = useState(false)
+  useEffect(() => {
+    const query = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setReduced(query.matches)
+    const listener = (e: MediaQueryListEvent) => setReduced(e.matches)
+    query.addEventListener('change', listener)
+    return () => query.removeEventListener('change', listener)
+  }, [])
+  return reduced
 }
 
 // AI SEO: FAQPage schema is built from the same `categories` data the page
@@ -36,8 +49,10 @@ export function FAQIndex({
   categories: FAQIndexCategory[]
 }) {
   const [query, setQuery] = useState('')
+  const [openIds, setOpenIds] = useState<Set<string>>(new Set())
   const searchId = useId()
   const normalizedQuery = query.trim().toLowerCase()
+  const prefersReducedMotion = usePrefersReducedMotion()
 
   const jsonLd = useMemo(
     () => ({
@@ -68,22 +83,40 @@ export function FAQIndex({
   }))
   const hasResults = filteredCategories.some((cat) => cat.items.length > 0)
 
-  // Plain `<a href="#faq-x-y">` scrolls to the target natively, but browsers
-  // don't auto-open a closed <details> just because it's the scroll target —
-  // that only happens for the browser's own find-in-page, not fragment nav.
+  const scrollToId = (id: string) => {
+    const el = document.getElementById(id)
+    if (!el) return
+    // A hard jump reads as broken teleportation on a long list page — smooth
+    // scroll makes the destination legible as "we moved you", not a cut.
+    el.scrollIntoView({ block: 'start', behavior: prefersReducedMotion ? 'auto' : 'smooth' })
+  }
+
+  // Direct loads/back-forward with a #faq-x-y hash still need to open +
+  // scroll to the target — a plain anchor scrolls but never opens a closed
+  // item on its own.
   useEffect(() => {
     const openFromHash = () => {
       const id = window.location.hash.slice(1)
-      const el = id && document.getElementById(id)
-      if (el instanceof HTMLDetailsElement) {
-        el.open = true
-        requestAnimationFrame(() => el.scrollIntoView({ block: 'start' }))
-      }
+      if (!id) return
+      if (id.startsWith('faq-')) setOpenIds((prev) => new Set(prev).add(id))
+      requestAnimationFrame(() => scrollToId(id))
     }
     openFromHash()
     window.addEventListener('hashchange', openFromHash)
     return () => window.removeEventListener('hashchange', openFromHash)
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [prefersReducedMotion])
+
+  // In-page jump links (priority list, category nav, the insurance quick
+  // link): intercept so the scroll can be smooth and, for question links,
+  // the target opens before we scroll to it — the default click already
+  // jumps instantly and never opens a closed item.
+  const handleJumpClick = (e: MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault()
+    if (id.startsWith('faq-')) setOpenIds((prev) => new Set(prev).add(id))
+    window.history.pushState(null, '', `#${id}`)
+    requestAnimationFrame(() => scrollToId(id))
+  }
 
   return (
     <section className="mx-auto max-w-5xl px-6 py-12">
@@ -131,15 +164,19 @@ export function FAQIndex({
 
       {quickLinks?.length > 0 && (
         <nav aria-label="ลิงก์ด่วน" className="mt-6 flex flex-wrap gap-2">
-          {quickLinks.map((link, i) => (
-            <a
-              key={i}
-              href={link.url}
-              className={`rounded-pill bg-panel-1 px-4 py-2 text-sm font-medium text-primary transition-opacity hover:opacity-80 ${FOCUS_RING}`}
-            >
-              {link.label}
-            </a>
-          ))}
+          {quickLinks.map((link, i) => {
+            const anchorId = link.url.startsWith('#') ? link.url.slice(1) : null
+            return (
+              <a
+                key={i}
+                href={link.url}
+                onClick={anchorId ? (e) => handleJumpClick(e, anchorId) : undefined}
+                className={`rounded-pill bg-panel-1 px-4 py-2 text-sm font-medium text-primary transition-opacity hover:opacity-80 ${FOCUS_RING}`}
+              >
+                {link.label}
+              </a>
+            )
+          })}
         </nav>
       )}
 
@@ -147,17 +184,21 @@ export function FAQIndex({
         <div className="mt-10">
           <h2 className="text-[22px] font-semibold text-primary">คำถามที่พบบ่อยที่สุด</h2>
           <ol className="mt-2 divide-y divide-panel-2">
-            {priorityQuestions.map((q, i) => (
-              <li key={i}>
-                <a
-                  href={`#${itemId(q.categoryIndex, q.itemIndex)}`}
-                  className={`flex items-baseline gap-4 py-3 text-ink hover:text-secondary ${FOCUS_RING}`}
-                >
-                  <span className="w-6 flex-none text-sm text-muted">{i + 1}</span>
-                  <span className="font-medium">{q.label}</span>
-                </a>
-              </li>
-            ))}
+            {priorityQuestions.map((q, i) => {
+              const id = itemId(q.categoryIndex, q.itemIndex)
+              return (
+                <li key={i}>
+                  <a
+                    href={`#${id}`}
+                    onClick={(e) => handleJumpClick(e, id)}
+                    className={`flex items-baseline gap-4 py-3 text-ink hover:text-secondary ${FOCUS_RING}`}
+                  >
+                    <span className="w-6 flex-none text-sm text-muted">{i + 1}</span>
+                    <span className="font-medium">{q.label}</span>
+                  </a>
+                </li>
+              )
+            })}
           </ol>
         </div>
       )}
@@ -182,6 +223,7 @@ export function FAQIndex({
             <a
               key={ci}
               href={`#cat-${ci}`}
+              onClick={(e) => handleJumpClick(e, `cat-${ci}`)}
               className={`rounded-pill bg-panel-2 px-4 py-2 text-sm font-medium text-ink hover:text-secondary ${FOCUS_RING}`}
             >
               {cat.name}
@@ -196,30 +238,58 @@ export function FAQIndex({
             <div key={cat.ci} id={`cat-${cat.ci}`} className="mt-10 scroll-mt-24">
               <h2 className="text-[22px] font-semibold text-primary">{cat.name}</h2>
               <div className="mt-4 divide-y divide-panel-2">
-                {cat.items.map((item) => (
-                  <details
-                    key={item.ii}
-                    id={itemId(cat.ci, item.ii)}
-                    className="group scroll-mt-24 py-4"
-                  >
-                    <summary
-                      className={`flex cursor-pointer list-none items-center justify-between gap-4 text-left font-medium text-ink [&::-webkit-details-marker]:hidden ${FOCUS_RING}`}
-                    >
-                      <span>{item.question}</span>
-                      <svg
-                        aria-hidden="true"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        className="h-5 w-5 flex-none text-secondary transition-transform duration-150 group-open:rotate-180"
+                {cat.items.map((item) => {
+                  const id = itemId(cat.ci, item.ii)
+                  const isOpen = openIds.has(id)
+                  return (
+                    <div key={item.ii} id={id} className="scroll-mt-24 py-4">
+                      <button
+                        type="button"
+                        id={`${id}-trigger`}
+                        aria-expanded={isOpen}
+                        aria-controls={`${id}-panel`}
+                        onClick={() =>
+                          setOpenIds((prev) => {
+                            const next = new Set(prev)
+                            next.has(id) ? next.delete(id) : next.add(id)
+                            return next
+                          })
+                        }
+                        className={`flex w-full cursor-pointer items-center justify-between gap-4 text-left font-medium text-ink ${FOCUS_RING}`}
                       >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="m6 9 6 6 6-6" />
-                      </svg>
-                    </summary>
-                    <p className="mt-3 leading-7 text-ink">{item.answer}</p>
-                  </details>
-                ))}
+                        <span>{item.question}</span>
+                        <svg
+                          aria-hidden="true"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          className={`h-5 w-5 flex-none text-secondary transition-transform ease-out-strong ${
+                            prefersReducedMotion ? 'duration-0' : 'duration-[220ms]'
+                          } ${isOpen ? 'rotate-180' : ''}`}
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" d="m6 9 6 6 6-6" />
+                        </svg>
+                      </button>
+                      {/* grid-template-rows 0fr->1fr animates to an intrinsic
+                          (not pre-measured) height — the standard zero-JS way
+                          to transition height:auto content. */}
+                      <div
+                        id={`${id}-panel`}
+                        role="region"
+                        aria-labelledby={`${id}-trigger`}
+                        className={`grid transition-[grid-template-rows] ease-out-strong ${
+                          prefersReducedMotion ? 'duration-0' : 'duration-[280ms]'
+                        }`}
+                        style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}
+                      >
+                        <div className="overflow-hidden">
+                          <p className="pt-3 leading-7 text-ink">{item.answer}</p>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })}
               </div>
             </div>
           ),
