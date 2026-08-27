@@ -8,6 +8,7 @@ import { SiteFooter } from '@/components/SiteFooter'
 import { HeroCarousel } from '@/blocks/components/HeroCarousel'
 import { LogoStrip } from '@/blocks/components/LogoStrip'
 import { CorporateInquiryForm } from '@/components/CorporateInquiryForm'
+import { ContactBeDeeButton } from '@/components/ContactBeDeeButton'
 
 export const dynamic = 'force-dynamic'
 
@@ -210,12 +211,9 @@ export default async function CorporatePage() {
               </li>
             </ul>
             <p className="mt-4 text-muted">สอบถามแพ็กเกจ Mental Health เพิ่มเติม คลิก</p>
-            <a
-              href="#contact-us"
-              className="mt-4 inline-block rounded-pill bg-primary px-6 py-3 text-[15px] font-medium text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
-            >
+            <ContactBeDeeButton className="mt-4 inline-block rounded-pill bg-primary px-6 py-3 text-[15px] font-medium text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]">
               ติดต่อ BeDee
-            </a>
+            </ContactBeDeeButton>
           </div>
         </div>
       </section>
@@ -231,12 +229,9 @@ export default async function CorporatePage() {
             </div>
           ))}
         </div>
-        <a
-          href="#contact-us"
-          className="mt-10 inline-block rounded-pill bg-primary px-6 py-3 text-[15px] font-medium text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]"
-        >
+        <ContactBeDeeButton className="mt-10 inline-block rounded-pill bg-primary px-6 py-3 text-[15px] font-medium text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(49,125,245,0.4)]">
           ติดต่อ BeDee
-        </a>
+        </ContactBeDeeButton>
       </section>
 
       <LogoStrip partners={partners.docs as any} />
